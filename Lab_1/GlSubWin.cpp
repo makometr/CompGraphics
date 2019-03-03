@@ -74,11 +74,6 @@ void GlSubWin::resize(int X,int Y,int W,int H) {
     redraw();
 }
 
-void GlSubWin::setPrimitiveType_CB(Fl_Widget *w, void* appWindowPtr){
-    Fl_Choice* widget = dynamic_cast<Fl_Choice*>(w);
-    AppWindow* app_win = static_cast<AppWindow*>(appWindowPtr);
-    assert(widget != nullptr);
-    assert(app_win != nullptr);
+void GlSubWin::setPrimitiveType(PrimitiveType type){
 
-    std::cout << "Value: " << widget->value() << "\n";
 }

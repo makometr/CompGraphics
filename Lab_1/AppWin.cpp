@@ -11,18 +11,31 @@ AppWindow::AppWindow(int W,int H,const char*L)
     box_upper->labelsize(22);
 
     choice = new Fl_Choice(glSubWin->w() + 40, 37, 180, 25);
-    choice->add("GL_POINTS",         "q", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_LINES",          "w", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_LINE_STRIP",     "e", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_LINE_LOOP",      "r", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_TRIANGLES",      "t", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_TRIANGLE_STRIP", "a", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_TRIANGLE_FAN",   "s", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("QUADS",             "d", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_QUAD_STRIP",     "f", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
-    choice->add("GL_POLYGON",        "g", GlSubWin::setPrimitiveType_CB, (void*)glSubWin);
+    choice->add("GL_POINTS",         "q", changePrimitive_CB, (void*)this);
+    choice->add("GL_LINES",          "w", changePrimitive_CB, (void*)this);
+    choice->add("GL_LINE_STRIP",     "e", changePrimitive_CB, (void*)this);
+    choice->add("GL_LINE_LOOP",      "r", changePrimitive_CB, (void*)this);
+    choice->add("GL_TRIANGLES",      "t", changePrimitive_CB, (void*)this);
+    choice->add("GL_TRIANGLE_STRIP", "a", changePrimitive_CB, (void*)this);
+    choice->add("GL_TRIANGLE_FAN",   "s", changePrimitive_CB, (void*)this);
+    choice->add("QUADS",             "d", changePrimitive_CB, (void*)this);
+    choice->add("GL_QUAD_STRIP",     "f", changePrimitive_CB, (void*)this);
+    choice->add("GL_POLYGON",        "g", changePrimitive_CB, (void*)this);
     choice->value(0);
     
 
     end();
+}
+
+void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
+    Fl_Choice* widget = dynamic_cast<Fl_Choice*>(w);
+    AppWindow* app_win = static_cast<AppWindow*>(appWinPtr);
+    assert(widget != nullptr);
+    assert(app_win != nullptr);
+
+    std::cout << "Value: " << widget->value() << "\n";
+}
+
+void AppWindow::changePrimitive(PrimitiveType type){
+    glSubWin->setPrimitiveType(type);
 }

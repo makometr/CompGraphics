@@ -10,7 +10,6 @@ public:
     GlSubWin(int X,int Y,int W,int H,const char*L=0);
 
     void setPrimitiveType(PrimitiveType type);
-    static void setPrimitiveType_CB(Fl_Widget *widget, void* glWindowPtr);
     // void setPrimitiveType
 
 private:

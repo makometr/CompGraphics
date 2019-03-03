@@ -10,4 +10,7 @@ private:
 
 public:
     AppWindow(int W,int H,const char*L=0);
+    
+    static void changePrimitive_CB(Fl_Widget* w, void* ptrAppWin);
+    void changePrimitive(PrimitiveType type);
 };
