@@ -1,4 +1,5 @@
 #include "GlSubWin.hpp"
+#include "AppWin.hpp"
 
 GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     : Fl_Gl_Window(X,Y,W,H,L)
@@ -22,6 +23,7 @@ void GlSubWin::draw() {
     }
     int left, right, top, bottom;
     // GLint Width = 512, Height = 512;
+    int CubeSize = 100;
     left  = (w() - CubeSize) / 2;
     right = left + CubeSize;
     bottom = (h() - CubeSize) / 2;
@@ -70,4 +72,13 @@ void GlSubWin::resize(int X,int Y,int W,int H) {
     Fl_Gl_Window::resize(X,Y,W,H);
     FixViewport(W,H);
     redraw();
+}
+
+void GlSubWin::setPrimitiveType_CB(Fl_Widget *w, void* appWindowPtr){
+    Fl_Choice* widget = dynamic_cast<Fl_Choice*>(w);
+    AppWindow* app_win = static_cast<AppWindow*>(appWindowPtr);
+    assert(widget != nullptr);
+    assert(app_win != nullptr);
+
+    std::cout << "Value: " << widget->value() << "\n";
 }

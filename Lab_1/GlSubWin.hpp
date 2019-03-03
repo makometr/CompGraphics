@@ -1,12 +1,17 @@
 #pragma once
+#include "GlSubWin.hpp"
 #include "libs.hpp"
 
 class GlSubWin : public Fl_Gl_Window {
 private:
-    int CubeSize = 200;
+    PrimitiveType type = PrimitiveType::POINTS;
 
 public:
     GlSubWin(int X,int Y,int W,int H,const char*L=0);
+
+    void setPrimitiveType(PrimitiveType type);
+    static void setPrimitiveType_CB(Fl_Widget *widget, void* glWindowPtr);
+    // void setPrimitiveType
 
 private:
     void FixViewport(int W,int H);// FIX OPENGL VIEWPORT Do this on init or when window's size is changed
