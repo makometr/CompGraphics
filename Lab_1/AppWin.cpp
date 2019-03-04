@@ -55,14 +55,14 @@ void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
 }
 
 void AppWindow::changePrimitive(PrimitiveType type){
-    makeCurrentWidgetsUnvisiable();
+    makeCurrentWidgetsInvisiable();
     setCurrentPrimitiveType(type);
     makeCurrentWidgetsVisiable();
 
     glSubWin->setPrimitiveType(type);
 }
 
-void AppWindow::makeCurrentWidgetsUnvisiable(){
+void AppWindow::makeCurrentWidgetsInvisiable(){
     primitiveTypeStates.at(static_cast<int>(currentType)).hideWidgets();
 }
 

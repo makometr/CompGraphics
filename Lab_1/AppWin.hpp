@@ -51,7 +51,7 @@ public:
     void changePrimitive(PrimitiveType type);
 
 private:
-    void makeCurrentWidgetsUnvisiable();
+    void makeCurrentWidgetsInvisiable();
     void setCurrentPrimitiveType(PrimitiveType type);
     void makeCurrentWidgetsVisiable();
 };
