@@ -12,6 +12,11 @@
 #include <FL/Fl_Pixmap.H>
 #include <FL/Fl_Box.H>
 #include <iostream>
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Int_Input.H>
+#include <FL/Fl_Slider.H>
+#include <stdio.h>
 #include <assert.h>
 
 enum class PrimitiveType : int

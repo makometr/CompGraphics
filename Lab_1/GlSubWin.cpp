@@ -75,5 +75,6 @@ void GlSubWin::resize(int X,int Y,int W,int H) {
 }
 
 void GlSubWin::setPrimitiveType(PrimitiveType type){
-
+    this->type = type;
+    // call func to draw
 }

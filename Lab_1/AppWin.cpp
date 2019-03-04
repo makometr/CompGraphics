@@ -22,6 +22,10 @@ AppWindow::AppWindow(int W,int H,const char*L)
     choice->add("GL_QUAD_STRIP",     "f", changePrimitive_CB, (void*)this);
     choice->add("GL_POLYGON",        "g", changePrimitive_CB, (void*)this);
     choice->value(0);
+
+    si = new SliderInput(glSubWin->w() + 40, 100, 180, 25,"Slider Input");
+    si->bounds(1,100);       // set min/max for slider
+    si->value(50);           // set initial value
     
 
     end();

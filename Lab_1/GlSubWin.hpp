@@ -16,4 +16,6 @@ private:
     void FixViewport(int W,int H);// FIX OPENGL VIEWPORT Do this on init or when window's size is changed
     void draw(); // DRAW METHOD
     void resize(int X,int Y,int W,int H);// HANDLE WINDOW RESIZING
+
+    void draw_POINTS();
 };
