@@ -18,6 +18,8 @@
 #include <FL/Fl_Slider.H>
 #include <stdio.h>
 #include <assert.h>
+#include <vector>
+#include <memory>
 
 constexpr size_t StatesNumber = 10;
 

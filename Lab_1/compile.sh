@@ -1,1 +1,1 @@
-g++ main.cpp AppWin.cpp GlSubWin.cpp SliderInput.cpp -o Lab1.exe -I/C:/fltk-1.3.5rc2 -L/C:/fltk-1.3.5rc2/lib -lfltk -lfltk_gl -lfltk_forms -lopengl32 -lgdi32 -lglew32 -lole32 -luuid -lcomctl32 -g
+g++ main.cpp AppWin.cpp GlSubWin.cpp SliderInput.cpp States.cpp -o Lab1.exe -I/C:/fltk-1.3.5rc2 -L/C:/fltk-1.3.5rc2/lib -lfltk -lfltk_gl -lfltk_forms -lopengl32 -lgdi32 -lglew32 -lole32 -luuid -lcomctl32 -g
