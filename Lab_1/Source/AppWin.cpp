@@ -24,22 +24,18 @@ AppWindow::AppWindow(int W,int H,const char*L)
     choice->add("GL_QUAD_STRIP",     "f", changePrimitive_CB, (void*)this);
     choice->add("GL_POLYGON",        "g", changePrimitive_CB, (void*)this);
     choice->value(0);
-
     State* statePtr = nullptr;
+
     // Create widgets for 0-state: POINT
     statePtr = new statePoints();
-    // primitiveTypeStates.push_back(statePtr);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
-    // choice_placamentType_1->type(FL_VERT_FILL_SLIDER);
-    // choice_placamentType_1->color(FL_INDIANRED, FL_RED);
 
     // Create widgets for 1-state: LINE
     statePtr = new stateLines();
-    // primitiveTypeStates.push_back(statePtr);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
-    primitiveTypeStates.at(1).get()->hideWidgets();
 
     end();
+    makeCurrentWidgetsVisiable();
 }
 
 void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
@@ -70,20 +66,6 @@ void AppWindow::setCurrentPrimitiveType(PrimitiveType type){
 
 void AppWindow::makeCurrentWidgetsVisiable(){
     primitiveTypeStates.at(static_cast<int>(currentType)).get()->showWidgets();
-}
-
-// ----- States -------
-
-void State::hideWidgets(){
-    for (auto &widget : widgets)
-        widget->hide();
-}
-
-void State::showWidgets(){
-    for (auto &widget : widgets)
-        widget->show();
-}
-
-const State* State::getState(){
-    return this;
+    auto newHeight = primitiveTypeStates.at(static_cast<int>(currentType)).get()->getNeededParentBoxHeight();
+    box_upper->resize(box_upper->x(), box_upper->y(), box_upper->w(), newHeight);
 }

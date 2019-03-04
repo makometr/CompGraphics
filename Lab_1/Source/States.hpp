@@ -5,13 +5,14 @@
 class State {
 protected:
     std::vector<Fl_Widget*> widgets;
+    size_t parentBoxHeight = 300; // default number, should be rewritten in derived classes
     
 public:
     State() = default;
+    size_t getNeededParentBoxHeight();
     virtual void hideWidgets();
     virtual void showWidgets();
     virtual const State* getState();
-    // virtual size_t getNeededParentBoxHeight();
 };
 
 

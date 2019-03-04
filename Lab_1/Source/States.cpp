@@ -1,6 +1,27 @@
 #include "States.hpp"
 
+// ----- State ---------------------------------------------------------
+void State::hideWidgets(){
+    for (auto &widget : widgets)
+        widget->hide();
+}
+
+void State::showWidgets(){
+    for (auto &widget : widgets)
+        widget->show();
+}
+
+const State* State::getState(){
+    return this;
+}
+
+size_t State::getNeededParentBoxHeight(){
+    return parentBoxHeight;
+}
+
+// ----- statePoints --------------------------------------------------
 statePoints::statePoints() : State() {
+    State::parentBoxHeight = 250;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
@@ -61,6 +82,8 @@ statePoints::statePoints() : State() {
     auto button_regenerate = new Fl_Button(500+60, 210, 140, 30, "Перегенерировать");
     // todo callback
     widgets.push_back(button_regenerate);
+
+    hideWidgets();
 }
 
 void statePoints::callColorChooser_CB(Fl_Widget* w, void* statePtr){
@@ -111,4 +134,6 @@ stateLines::stateLines() : State() {
     si_pointsNumber->bounds(1, 1000);
     si_pointsNumber->value(50);
     widgets.push_back(si_pointsNumber);
+
+    hideWidgets();
 }
