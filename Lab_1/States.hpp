@@ -13,12 +13,23 @@ public:
     virtual const State* getState();
 };
 
+
+
 class statePoints final : public State {
+enum class PointPlacement : int {
+    circle = 0,
+    rect = 1,
+    normal = 2,
+    uniform = 3
+};
 private:
+    PointPlacement placement;
+    Fl_Color bkgColor = FL_GRAY;
 
 public:
     statePoints();
-    Fl_Color bkgColor = FL_GRAY;
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
 
 private:
     static void callColorChooser_CB(Fl_Widget* w, void* data);
