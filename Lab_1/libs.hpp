@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+constexpr size_t StatesNumber = 10;
+
 enum class PrimitiveType : int
 {
     POINTS         = 0,
