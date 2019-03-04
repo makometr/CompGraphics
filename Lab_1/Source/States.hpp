@@ -25,14 +25,20 @@ enum class PointPlacement : int {
 private:
     PointPlacement placement;
     Fl_Color bkgColor = FL_GRAY;
+    size_t pointsNumber = 1;
 
 public:
     statePoints();
+
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
+    
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
 
 private:
     static void callColorChooser_CB(Fl_Widget* w, void* data);
+    // static 
 };
 
 class stateLines final  : public State {

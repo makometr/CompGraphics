@@ -4,6 +4,15 @@ statePoints::statePoints() : State() {
     auto si_pointsNumber = new SliderInput(500 + 40, 90, 180, 25, "Кол-во точек:");
     si_pointsNumber->bounds(1, 1000);
     si_pointsNumber->value(50);
+    si_pointsNumber->callback([](Fl_Widget* w, void* statePtr){
+        SliderInput* si = dynamic_cast<SliderInput*>(w);
+        statePoints* state = static_cast<statePoints*>(statePtr);
+        assert(si != nullptr);
+        assert(state != nullptr);
+        std::cout << "Points: " << state->getPointsNumber() << "\n";
+        state->setPointsNumber(si->value());
+        std::cout << "Points: " << state->getPointsNumber() << "\n";
+    }, (void*)this);
     widgets.push_back(si_pointsNumber);
 
     auto label_choice = new Fl_Box(500 + 30, 122, 200, 30, "Тип размещения:");
@@ -22,6 +31,7 @@ statePoints::statePoints() : State() {
 
     auto button_choose_color = new Fl_Button(500+60, 175, 140, 30, "Задать цвет фона");
     button_choose_color->callback(callColorChooser_CB, (void*)this);
+    widgets.push_back(button_choose_color);
 
     // auto color_chooser = new Fl_Color_Chooser(500+40, 200, 180, 200);
 }
@@ -36,12 +46,21 @@ void statePoints::callColorChooser_CB(Fl_Widget* w, void* statePtr){
     // std::cout << "After: " << state->bkgColor << "\n";
 }
 
+
 void statePoints::setBkgColor(Fl_Color color){
     bkgColor = color;
 }
 
 Fl_Color statePoints::getBkgColor() const {
     return bkgColor;
+}
+
+void statePoints::setPointsNumber(size_t newNumber) {
+    pointsNumber = newNumber;
+}
+
+size_t statePoints::getPointsNumber() const {
+    return pointsNumber;
 }
 
 
