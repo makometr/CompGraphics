@@ -25,21 +25,19 @@ AppWindow::AppWindow(int W,int H,const char*L)
     choice->add("GL_POLYGON",        "g", changePrimitive_CB, (void*)this);
     choice->value(0);
 
+    State* statePtr = nullptr;
     // Create widgets for 0-state: POINT
-    si_pointsNumber_1 = new SliderInput(glSubWin->w() + 40, 100, 180, 25, "Points number:");
-    si_pointsNumber_1->bounds(1, 1000);
-    si_pointsNumber_1->value(50);
-    // todo other...
-    primitiveTypeStates.push_back({si_pointsNumber_1});
-
+    statePtr = new statePoints();
+    // primitiveTypeStates.push_back(statePtr);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+    // choice_placamentType_1->type(FL_VERT_FILL_SLIDER);
+    // choice_placamentType_1->color(FL_INDIANRED, FL_RED);
 
     // Create widgets for 1-state: LINE
-    si_pointsNumber_2 = new SliderInput(glSubWin->w() + 40, 100, 180, 25, "Lines number:");
-    si_pointsNumber_2->bounds(1, 1000);
-    si_pointsNumber_2->value(50);
-    // todo other...
-    primitiveTypeStates.push_back({si_pointsNumber_2});
-    primitiveTypeStates.at(1).hideWidgets();
+    statePtr = new stateLines();
+    // primitiveTypeStates.push_back(statePtr);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+    primitiveTypeStates.at(1).get()->hideWidgets();
 
     end();
 }
@@ -63,7 +61,7 @@ void AppWindow::changePrimitive(PrimitiveType type){
 }
 
 void AppWindow::makeCurrentWidgetsInvisiable(){
-    primitiveTypeStates.at(static_cast<int>(currentType)).hideWidgets();
+    primitiveTypeStates.at(static_cast<int>(currentType)).get()->hideWidgets();
 }
 
 void AppWindow::setCurrentPrimitiveType(PrimitiveType type){
@@ -71,7 +69,7 @@ void AppWindow::setCurrentPrimitiveType(PrimitiveType type){
 }
 
 void AppWindow::makeCurrentWidgetsVisiable(){
-    primitiveTypeStates.at(static_cast<int>(currentType)).showWidgets();    
+    primitiveTypeStates.at(static_cast<int>(currentType)).get()->showWidgets();
 }
 
 // ----- States -------
