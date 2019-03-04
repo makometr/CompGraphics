@@ -37,3 +37,10 @@ enum class PrimitiveType : int
     QUAD_STRIP     = 8,
     POLYGON        = 9
 };
+
+enum class PointPlacement : int {
+    circle = 0,
+    rect = 1,
+    normal = 2,
+    uniform = 3
+};
