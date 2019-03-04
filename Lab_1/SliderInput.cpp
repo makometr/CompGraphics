@@ -3,6 +3,7 @@
 SliderInput::SliderInput(int x, int y, int w, int h, const char *l=0)
     : Fl_Group(x,y,w,h,l)
 {
+    Fl_Group::labelsize(16);
     int in_w = 40;
     input  = new Fl_Int_Input(x, y, in_w, h);
     input->callback(Input_CB, (void*)this);

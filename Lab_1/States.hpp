@@ -18,6 +18,10 @@ private:
 
 public:
     statePoints();
+    Fl_Color bkgColor = FL_GRAY;
+
+private:
+    static void callColorChooser_CB(Fl_Widget* w, void* data);
 };
 
 class stateLines final  : public State {
