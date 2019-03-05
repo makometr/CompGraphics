@@ -1,9 +1,14 @@
 #include "States.hpp"
+#include "AppWin.hpp"
 
 // ----- State ---------------------------------------------------------
 void State::hideWidgets(){
     for (auto &widget : widgets)
         widget->hide();
+}
+
+void State::callUpdateGraphics(bool regenerate){
+    appWinPtr->update(regenerate);
 }
 
 void State::showWidgets(){
@@ -20,7 +25,7 @@ size_t State::getNeededParentBoxHeight(){
 }
 
 // ----- statePoints --------------------------------------------------
-statePoints::statePoints() : State() {
+statePoints::statePoints(AppWindow* ptr) : State(ptr) {
     State::parentBoxHeight = 240;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
@@ -35,12 +40,14 @@ statePoints::statePoints() : State() {
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 1000);
     slider_number->value(100);
+    auto appPtr = State::appWinPtr;
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
         assert(ch != nullptr);
         assert(state != nullptr);
         state->setPointsNumber((int)ch->value());
+        state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(slider_number);
 
@@ -71,6 +78,7 @@ statePoints::statePoints() : State() {
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
         }
+        state->callUpdateGraphics(true);
         
     }, (void*)this);
     widgets.push_back(choice_placamentType);
@@ -80,14 +88,19 @@ statePoints::statePoints() : State() {
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
-        assert(bt != nullptr);
-        assert(state != nullptr);
+        assert(bt != nullptr); assert(state != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
+        state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(button_choose_color);
 
     auto button_regenerate = new Fl_Button(500+60, 210, 140, 30, "Перегенерировать");
-    // TODO callback
+    button_regenerate->callback([](Fl_Widget* w, void* appWinPtr){
+        Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
+        AppWindow* appWin = static_cast<AppWindow*>(appWinPtr);
+        assert(bt != nullptr); assert(appWin != nullptr);
+        appWin->update(true);
+    }, (void*)button_regenerate->parent());
     widgets.push_back(button_regenerate);
 
     hideWidgets();
@@ -104,12 +117,7 @@ PointPlacement statePoints::getPlacementType() const { return placement; }
 
 
 
-
-
-
-
-
-stateLines::stateLines() : State() {
+stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     State::parentBoxHeight = 290;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
@@ -130,6 +138,7 @@ stateLines::stateLines() : State() {
         assert(ch != nullptr);
         assert(state != nullptr);
         state->setPointsNumber((int)ch->value());
+        state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(slider_number);
 
@@ -158,6 +167,7 @@ stateLines::stateLines() : State() {
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
         }
+        state->callUpdateGraphics(true);
         
     }, (void*)this);
     widgets.push_back(choice_length);
@@ -189,6 +199,7 @@ stateLines::stateLines() : State() {
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
         }
+        state->callUpdateGraphics(true);
         
     }, (void*)this);
     widgets.push_back(choice_color);
@@ -201,11 +212,17 @@ stateLines::stateLines() : State() {
         assert(bt != nullptr);
         assert(state != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
+        state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(button_choose_color);
 
     auto button_regenerate = new Fl_Button(500+60, 260, 140, 30, "Перегенерировать");
-    // TODO callback
+    button_regenerate->callback([](Fl_Widget* w, void* appWinPtr){
+        Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
+        AppWindow* appWin = static_cast<AppWindow*>(appWinPtr);
+        assert(bt != nullptr); assert(appWin != nullptr);
+        appWin->update(true);
+    }, (void*)button_regenerate->parent());
     widgets.push_back(button_regenerate);
 
     hideWidgets();

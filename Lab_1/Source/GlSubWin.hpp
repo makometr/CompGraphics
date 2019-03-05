@@ -1,8 +1,10 @@
 #pragma once
-#include "GlSubWin.hpp"
-#include "libs.hpp"
 #include "States.hpp"
+#include "libs.hpp"
 #include "Painters.hpp"
+
+class IPainter;
+class State;
 
 class GlSubWin : public Fl_Gl_Window {
 private:

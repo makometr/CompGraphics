@@ -1,15 +1,20 @@
 #pragma once
+#include "AppWin.hpp"
 #include "libs.hpp"
 #include "SliderInput.hpp"
+
+class AppWindow;
 
 class State {
 protected:
     std::vector<Fl_Widget*> widgets;
     size_t parentBoxHeight = 300; // default number, should be rewritten in derived classes
+    AppWindow *appWinPtr = nullptr;
     
 public:
-    State() = default;
+    State(AppWindow* ptr) : appWinPtr(ptr) { };
     size_t getNeededParentBoxHeight();
+    void callUpdateGraphics(bool);
     virtual void hideWidgets();
     virtual void showWidgets();
     virtual const State* getState();
@@ -24,7 +29,7 @@ private:
     Fl_Color bkgColor = FL_GRAY;
 
 public:
-    statePoints();
+    statePoints(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
@@ -46,7 +51,7 @@ private:
     LineColor linesColor = LineColor::random;
 
 public:
-    stateLines();
+    stateLines(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
@@ -71,7 +76,7 @@ private:
     LineColor stripsColor = LineColor::random;
 
 public:
-    stateLineStrips();
+    stateLineStrips(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
@@ -96,7 +101,7 @@ private:
     LineColor linesColor = LineColor::random;
 
 public:
-    stateLineLoop();
+    stateLineLoop(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;

@@ -33,8 +33,8 @@ void GlSubWin::draw() {
     bottom = (h() - CubeSize) / 2;
     top = bottom + CubeSize;
 
-    glClearColor(0, 0, 0.5f, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // glClearColor(0, 0, 0.5f, 1);
+    // glClear(GL_COLOR_BUFFER_BIT);
     glPolygonMode(GL_QUADS, GL_POINT);
 
     

@@ -2,7 +2,10 @@
 #include "libs.hpp"
 #include "GlSubWin.hpp"
 #include "SliderInput.hpp"
+
+class GlSubWin;
 #include "States.hpp"
+class State;
 
 class AppWindow : public Fl_Window {
 private:
@@ -18,6 +21,7 @@ public:
 
     static void changePrimitive_CB(Fl_Widget* w, void* ptrAppWin);
     void changePrimitive(PrimitiveType type);
+    void update(bool regenerate);
 
 private:
     void makeCurrentWidgetsInvisiable();

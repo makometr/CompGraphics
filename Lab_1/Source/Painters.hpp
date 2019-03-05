@@ -1,6 +1,8 @@
 #pragma once
-#include "libs.hpp"
 #include "States.hpp"
+#include "libs.hpp"
+
+class State;
 
 class IPainter {
 private:

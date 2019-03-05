@@ -1,6 +1,6 @@
 #include "libs.hpp"
-#include "AppWin.hpp"
 #include "GlSubWin.hpp"
+#include "AppWin.hpp"
 
 int main() {
     AppWindow win(750, 520, "OpenGL Test App");

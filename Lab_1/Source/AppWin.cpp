@@ -27,11 +27,11 @@ AppWindow::AppWindow(int W,int H,const char*L)
     State* statePtr = nullptr;
 
     // Create widgets for 0-state: POINT
-    statePtr = new statePoints();
+    statePtr = new statePoints(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     // Create widgets for 1-state: LINE
-    statePtr = new stateLines();
+    statePtr = new stateLines(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     end();
@@ -53,6 +53,10 @@ void AppWindow::changePrimitive(PrimitiveType type){
     makeCurrentWidgetsVisiable();
 
     glSubWin->drawPrimitive(type, primitiveTypeStates.at(static_cast<int>(currentType)).get());
+}
+
+void AppWindow::update(bool regenerate){
+    glSubWin->drawPrimitive(currentType, primitiveTypeStates.at(static_cast<int>(currentType)).get(), regenerate);
 }
 
 void AppWindow::makeCurrentWidgetsInvisiable(){
