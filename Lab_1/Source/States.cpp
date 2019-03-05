@@ -91,35 +91,17 @@ void statePoints::callColorChooser_CB(Fl_Widget* w, void* statePtr){
     statePoints* state = static_cast<statePoints*>(statePtr);
     assert(bt != nullptr);
     assert(state != nullptr);
-    // std::cout << "Before: " << state->bkgColor << "\n";
     state->bkgColor = fl_show_colormap(state->bkgColor); // wtf?
-    // std::cout << "After: " << state->bkgColor << "\n";
 }
 
 
-void statePoints::setBkgColor(Fl_Color color){
-    bkgColor = color;
-}
+void statePoints::setBkgColor(Fl_Color color){ bkgColor = color; }
+void statePoints::setPointsNumber(size_t newNumber) { pointsNumber = newNumber; }
+void statePoints::setPlacementType(PointPlacement newType){ placement = newType; }
 
-Fl_Color statePoints::getBkgColor() const {
-    return bkgColor;
-}
-
-void statePoints::setPointsNumber(size_t newNumber) {
-    pointsNumber = newNumber;
-}
-
-size_t statePoints::getPointsNumber() const {
-    return pointsNumber;
-}
-
-void statePoints::setPlacementType(PointPlacement newType){
-    placement = newType;
-}
-
-PointPlacement statePoints::getPlacementType() const {
-    return placement;
-}
+Fl_Color statePoints::getBkgColor() const { return bkgColor; }
+size_t statePoints::getPointsNumber() const { return pointsNumber; }
+PointPlacement statePoints::getPlacementType() const { return placement; }
 
 
 
@@ -130,10 +112,99 @@ PointPlacement statePoints::getPlacementType() const {
 
 
 stateLines::stateLines() : State() {
-    auto si_pointsNumber = new SliderInput(500 + 40, 100, 180, 25, "Lines number:");
-    si_pointsNumber->bounds(1, 1000);
-    si_pointsNumber->value(50);
-    widgets.push_back(si_pointsNumber);
+    State::parentBoxHeight = 250;
+    // numbers
+    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
+    label_number->box(FL_NO_BOX);
+    label_number->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    label_number->labelsize(16);
+    widgets.push_back(label_number);
+    // +
+    auto slider_number = new Fl_Value_Slider(500 + 40, 90, 180, 25);
+    slider_number->step((int)1);
+    slider_number->align(FL_ALIGN_LEFT);
+    slider_number->type(FL_HOR_SLIDER);
+    slider_number->bounds(1, 1000);
+    slider_number->value(50);
+    slider_number->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
+        stateLines* state = static_cast<stateLines*>(statePtr);
+        assert(ch != nullptr);
+        assert(state != nullptr);
+        state->setPointsNumber((int)ch->value());
+    }, (void*)this);
+    widgets.push_back(slider_number);
+
+    // length
+    auto label_length = new Fl_Box(500 + 30, 122, 200, 30, "Средняя длина:");
+    label_length->box(FL_NO_BOX);
+    label_length->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    label_length->labelsize(16);
+    widgets.push_back(label_length);
+    // +
+    auto choice_length = new Fl_Choice(500 + 40, 140, 180, 25);
+    choice_length->add("Малая");
+    choice_length->add("Средняя");
+    choice_length->add("Большая");
+    choice_length->value(0);
+    choice_length->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
+        stateLines* state = static_cast<stateLines*>(statePtr);
+        assert(ch != nullptr);
+        assert(state != nullptr);
+        switch (ch->value()){
+            case 0: state->setLength(LineLength::small); break;
+            case 1: state->setLength(LineLength::middle); break;
+            case 2: state->setLength(LineLength::large); break;
+            default:
+                assert("Incorrect value in switch statement!\n" == nullptr);
+                break;
+        }
+        
+    }, (void*)this);
+    widgets.push_back(choice_length);
+
+    // color
+    auto label_color = new Fl_Box(500 + 30, 162, 200, 30, "Цвет:");
+    label_color->box(FL_NO_BOX);
+    label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    label_color->labelsize(16);
+    widgets.push_back(label_color);
+    // +
+    auto choice_color = new Fl_Choice(500 + 40, 180, 180, 25);
+    choice_color->add("Случайный");
+    choice_color->add("Красный");
+    choice_color->add("Зелёный");
+    choice_color->add("Синий");
+    choice_color->value(0);
+    choice_color->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
+        stateLines* state = static_cast<stateLines*>(statePtr);
+        assert(ch != nullptr);
+        assert(state != nullptr);
+        switch (ch->value()){
+            case 0: state->setLineColor(LineColor::random); break;
+            case 1: state->setLineColor(LineColor::red); break;
+            case 2: state->setLineColor(LineColor::green); break;
+            case 3: state->setLineColor(LineColor::blue); break;
+            default:
+                assert("Incorrect value in switch statement!\n" == nullptr);
+                break;
+        }
+        
+    }, (void*)this);
+    widgets.push_back(choice_color);
 
     hideWidgets();
 }
+
+
+void stateLines::setPointsNumber(size_t newNumber){ linesNumber = newNumber; }
+void stateLines::setLength(LineLength newLength){ length = newLength; }
+void stateLines::setBkgColor(Fl_Color color){ bkgColor = color; }
+void stateLines::setLineColor(LineColor newColor){ linesColor = newColor; }
+
+size_t stateLines::getPointsNumber() const { return linesNumber; }
+LineLength stateLines::getLength() const { return length; }
+Fl_Color stateLines::getBkgColor() const { return bkgColor; }
+LineColor stateLines::getLineColor() const { return linesColor; }

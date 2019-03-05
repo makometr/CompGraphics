@@ -39,8 +39,21 @@ enum class PrimitiveType : int
 };
 
 enum class PointPlacement : int {
-    circle = 0,
-    rect = 1,
-    normal = 2,
+    circle  = 0,
+    rect    = 1,
+    normal  = 2,
     uniform = 3
+};
+
+enum class LineLength : int {
+    small = 0,
+    middle = 1,
+    large = 2
+};
+
+enum class LineColor : int {
+    random = 0,
+    red = 1,
+    green = 2,
+    blue = 3,
 };
