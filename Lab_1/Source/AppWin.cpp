@@ -35,7 +35,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     end();
-    makeCurrentWidgetsVisiable();
+    changePrimitive(currentType);
 }
 
 void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
@@ -43,7 +43,6 @@ void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
     AppWindow* app_win = static_cast<AppWindow*>(appWinPtr);
     assert(widget != nullptr);
     assert(app_win != nullptr);
-    std::cout << "Value: " << widget->value() << "\n";
 
     app_win->changePrimitive(static_cast<PrimitiveType>(widget->value()));
 }
@@ -53,7 +52,7 @@ void AppWindow::changePrimitive(PrimitiveType type){
     setCurrentPrimitiveType(type);
     makeCurrentWidgetsVisiable();
 
-    glSubWin->setPrimitiveType(type);
+    glSubWin->drawPrimitive(type, primitiveTypeStates.at(static_cast<int>(currentType)).get());
 }
 
 void AppWindow::makeCurrentWidgetsInvisiable(){
