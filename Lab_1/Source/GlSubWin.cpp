@@ -50,30 +50,6 @@ void GlSubWin::draw() {
     // glClear(GL_COLOR_BUFFER_BIT);
 
     // glEnable(GL_BLEND);
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA); // OPACITY MODE
-
-    // glBegin(GL_QUADS);
-    //     glColor4f(1.0f,0.0f,1.0f, 0.6f);
-    //     glVertex2f(left,bottom);
-    //     glColor4f(0.0f,1.0f,0.0f, 0.6f);
-    //     // glColor3ub(0,255,0);
-    //     glVertex2f(left,top);
-    //     glColor4f(1.0f,1.0f,0.0f, 0.6f);
-    //     glVertex2f(right,top);
-    //     glColor4f(0.0f,0.0f,1.0f, 0.6f);
-    //     glVertex2f(right,bottom);
-    // glEnd();
-    // glBegin(GL_QUADS);
-    //     glColor4f(1.0f,0.0f,1.0f, 0.6f);
-    //     glVertex2f(20,30);
-    //     glColor4f(0.0f,1.0f,0.0f, 0.6f);
-    //     // glColor3ub(0,255,0);
-    //     glVertex2f(20,40);
-    //     glColor4f(1.0f,1.0f,0.0f, 0.6f);
-    //     glVertex2f(40,40);
-    //     glColor4f(0.0f,0.0f,1.0f, 0.6f);
-    //     glVertex2f(40,30);
-    // glEnd();
     glBegin(GL_TRIANGLES);
         glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
         glVertex2f(left,top);
@@ -114,24 +90,3 @@ void GlSubWin::draw_LINES(const State* const state, bool isRegenerate){
 
 
 
-
-
-void PointPainter::operator()(State* statePtr, bool redraw){
-    std::cout << "Draw point (gl func)\n";
-}
-
-void LinePainter::operator()(State* statePtr, bool redraw){
-    std::cout << "Draw line (gl func)\n";
-
-    glBegin(GL_QUADS);
-        glColor4f(1.0f,0.0f,1.0f, 0.6f);
-        glVertex2f(20,30);
-        glColor4f(0.0f,1.0f,0.0f, 0.6f);
-        // glColor3ub(0,255,0);
-        glVertex2f(20,40);
-        glColor4f(1.0f,1.0f,0.0f, 0.6f);
-        glVertex2f(40,40);
-        glColor4f(0.0f,0.0f,1.0f, 0.6f);
-        glVertex2f(40,30);
-    glEnd();
-}
