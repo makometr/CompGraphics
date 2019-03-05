@@ -212,12 +212,12 @@ stateLines::stateLines() : State() {
 }
 
 
-void stateLines::setPointsNumber(size_t newNumber){ linesNumber = newNumber; }
+void stateLines::setPointsNumber(size_t newNumber){ pointsNumber = newNumber; }
 void stateLines::setLength(LineLength newLength){ length = newLength; }
 void stateLines::setBkgColor(Fl_Color color){ bkgColor = color; }
 void stateLines::setLineColor(LineColor newColor){ linesColor = newColor; }
 
-size_t stateLines::getPointsNumber() const { return linesNumber; }
+size_t stateLines::getPointsNumber() const { return pointsNumber; }
 LineLength stateLines::getLength() const { return length; }
 Fl_Color stateLines::getBkgColor() const { return bkgColor; }
 LineColor stateLines::getLineColor() const { return linesColor; }

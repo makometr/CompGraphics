@@ -36,15 +36,67 @@ public:
     Fl_Color getBkgColor() const;
 };
 
-class stateLines final  : public State {
+
+
+class stateLines final : public State {
 private:
-    size_t linesNumber = 50;
+    size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
     LineColor linesColor = LineColor::random;
 
 public:
     stateLines();
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+
+class stateLineStrips final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor stripsColor = LineColor::random;
+
+public:
+    stateLineStrips();
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+
+class stateLineLoop final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateLineLoop();
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
