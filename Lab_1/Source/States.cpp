@@ -21,7 +21,7 @@ size_t State::getNeededParentBoxHeight(){
 
 // ----- statePoints --------------------------------------------------
 statePoints::statePoints() : State() {
-    State::parentBoxHeight = 250;
+    State::parentBoxHeight = 240;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
@@ -75,18 +75,19 @@ statePoints::statePoints() : State() {
     }, (void*)this);
     widgets.push_back(choice_placamentType);
 
+    // bkg color
     auto button_choose_color = new Fl_Button(500+60, 175, 140, 30, "Задать цвет фона");
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
         assert(bt != nullptr);
         assert(state != nullptr);
-        state->bkgColor = fl_show_colormap(state->bkgColor); // wtf?
+        state->setBkgColor(fl_show_colormap(state->getBkgColor()));
     }, (void*)this);
     widgets.push_back(button_choose_color);
 
     auto button_regenerate = new Fl_Button(500+60, 210, 140, 30, "Перегенерировать");
-    // todo callback
+    // TODO callback
     widgets.push_back(button_regenerate);
 
     hideWidgets();
@@ -109,7 +110,7 @@ PointPlacement statePoints::getPlacementType() const { return placement; }
 
 
 stateLines::stateLines() : State() {
-    State::parentBoxHeight = 250;
+    State::parentBoxHeight = 290;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
     label_number->box(FL_NO_BOX);
@@ -161,14 +162,14 @@ stateLines::stateLines() : State() {
     }, (void*)this);
     widgets.push_back(choice_length);
 
-    // color
-    auto label_color = new Fl_Box(500 + 30, 162, 200, 30, "Цвет:");
+    // color lines
+    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет линий:");
     label_color->box(FL_NO_BOX);
     label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color->labelsize(16);
     widgets.push_back(label_color);
     // +
-    auto choice_color = new Fl_Choice(500 + 40, 180, 180, 25);
+    auto choice_color = new Fl_Choice(500 + 40, 190, 180, 25);
     choice_color->add("Случайный");
     choice_color->add("Красный");
     choice_color->add("Зелёный");
@@ -191,6 +192,21 @@ stateLines::stateLines() : State() {
         
     }, (void*)this);
     widgets.push_back(choice_color);
+
+    // bkg color
+    auto button_choose_color = new Fl_Button(500+60, 225, 140, 30, "Задать цвет фона");
+    button_choose_color->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
+        statePoints* state = static_cast<statePoints*>(statePtr);
+        assert(bt != nullptr);
+        assert(state != nullptr);
+        state->setBkgColor(fl_show_colormap(state->getBkgColor()));
+    }, (void*)this);
+    widgets.push_back(button_choose_color);
+
+    auto button_regenerate = new Fl_Button(500+60, 260, 140, 30, "Перегенерировать");
+    // TODO callback
+    widgets.push_back(button_regenerate);
 
     hideWidgets();
 }
