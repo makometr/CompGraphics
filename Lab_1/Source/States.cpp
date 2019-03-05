@@ -76,7 +76,13 @@ statePoints::statePoints() : State() {
     widgets.push_back(choice_placamentType);
 
     auto button_choose_color = new Fl_Button(500+60, 175, 140, 30, "Задать цвет фона");
-    button_choose_color->callback(callColorChooser_CB, (void*)this);
+    button_choose_color->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
+        statePoints* state = static_cast<statePoints*>(statePtr);
+        assert(bt != nullptr);
+        assert(state != nullptr);
+        state->bkgColor = fl_show_colormap(state->bkgColor); // wtf?
+    }, (void*)this);
     widgets.push_back(button_choose_color);
 
     auto button_regenerate = new Fl_Button(500+60, 210, 140, 30, "Перегенерировать");
@@ -85,15 +91,6 @@ statePoints::statePoints() : State() {
 
     hideWidgets();
 }
-
-void statePoints::callColorChooser_CB(Fl_Widget* w, void* statePtr){
-    Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
-    statePoints* state = static_cast<statePoints*>(statePtr);
-    assert(bt != nullptr);
-    assert(state != nullptr);
-    state->bkgColor = fl_show_colormap(state->bkgColor); // wtf?
-}
-
 
 void statePoints::setBkgColor(Fl_Color color){ bkgColor = color; }
 void statePoints::setPointsNumber(size_t newNumber) { pointsNumber = newNumber; }

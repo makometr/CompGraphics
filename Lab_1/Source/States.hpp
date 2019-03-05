@@ -34,11 +34,6 @@ public:
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
-
-
-private:
-    static void callColorChooser_CB(Fl_Widget* w, void* data);
-    // static 
 };
 
 class stateLines final  : public State {
