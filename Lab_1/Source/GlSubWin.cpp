@@ -67,26 +67,9 @@ void GlSubWin::resize(int X,int Y,int W,int H) {
     redraw();
 }
 
-void GlSubWin::setPrimitiveType(PrimitiveType type){
-    this->type = type;
-    // call func to draw
-}
-
 void GlSubWin::drawPrimitive(PrimitiveType newType, State* state, bool isRegenerate){
     if ((int)type != (int)newType) isRegenerate = true;
     type = newType;
     curStatePtr = state;
     redraw();
 }
-
-void GlSubWin::draw_POINTS(const State* const state, bool isRegenerate){
-    std::cout << "Draw: point" << (int)type << "\n";
-}
-
-void GlSubWin::draw_LINES(const State* const state, bool isRegenerate){
-    std::cout << "Draw: lines" << (int)type << "\n";
-}
-
-
-
-
