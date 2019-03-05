@@ -21,6 +21,9 @@
 #include <assert.h>
 #include <vector>
 #include <memory>
+#include <tuple>
+
+using RGB = std::tuple<unsigned, unsigned, unsigned>;
 
 constexpr size_t StatesNumber = 10;
 

@@ -40,7 +40,6 @@ statePoints::statePoints(AppWindow* ptr) : State(ptr) {
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 1000);
     slider_number->value(100);
-    auto appPtr = State::appWinPtr;
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);

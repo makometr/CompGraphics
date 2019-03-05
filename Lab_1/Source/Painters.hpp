@@ -10,6 +10,8 @@ private:
 public:
     IPainter() = default;
     virtual void operator()(State* statePtr, bool redraw) = 0;
+protected:
+    static RGB Fl_Color_To_RGB(Fl_Color color);
 };
 
 class PointPainter : public IPainter {
