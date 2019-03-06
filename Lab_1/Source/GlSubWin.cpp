@@ -39,7 +39,6 @@ void GlSubWin::draw() {
 
     
 
-    painters.at(static_cast<int>(type))->operator()(curStatePtr, shouldRedraw);
     
     // glEnable(GL_ALPHA_TEST);
     // glAlphaFunc(GL_LESS, 0.81);
@@ -50,15 +49,22 @@ void GlSubWin::draw() {
     // glClear(GL_COLOR_BUFFER_BIT);
 
     // glEnable(GL_BLEND);
+    painters.at(static_cast<int>(type))->operator()(curStatePtr, shouldRedraw);
+    glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
+    glBegin(GL_LINES);
+        glVertex2f(0,0);
+        glVertex2f(250,250);
+    glEnd();
+
     glBegin(GL_TRIANGLES);
-        glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
         glVertex2f(left,top);
         glVertex2f(right+10,top+10);
         glVertex2f(right,bottom);
     glEnd();
-    glDisable(GL_ALPHA_TEST);
-    glDisable(GL_SCISSOR_TEST);
-    glDisable(GL_BLEND);
+
+    // glDisable(GL_ALPHA_TEST);
+    // glDisable(GL_SCISSOR_TEST);
+    // glDisable(GL_BLEND);
 }
 
 void GlSubWin::resize(int X,int Y,int W,int H) {
