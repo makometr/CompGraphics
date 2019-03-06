@@ -82,9 +82,33 @@ void PointPainter::operator()(State* statePtr, bool redraw){
             }
         }
             break;
-        case PointPlacement::normal:
+        case PointPlacement::normal: {
+            glColor3f(0.0f, 1.0f, 0.0f);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::normal_distribution<> dis{250, 80};
+            glBegin(GL_POINTS);
+            for (size_t i = 0; i < number; i++){
+                auto x = dis(gen);
+                auto y = dis(gen);
+                glVertex2d(x, y);
+            }
+            glEnd();
+        }
             break;
-        case PointPlacement::uniform:
+        case PointPlacement::uniform: {
+            glColor3f(0.0f, 1.0f, 0.0f);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_real_distribution<> dis(0, 500);
+            glBegin(GL_POINTS);
+            for (size_t i = 0; i < number; i++){
+                auto x = dis(gen);
+                auto y = dis(gen);
+                glVertex2d(x, y);
+            }
+            glEnd();
+        }
             break;
         default:
             break;
