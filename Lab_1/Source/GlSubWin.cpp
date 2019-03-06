@@ -25,13 +25,13 @@ void GlSubWin::draw() {
         FixViewport(w(), h());
     }
 
-    int left, right, top, bottom;
-    // GLint Width = 512, Height = 512;
-    int CubeSize = 100;
-    left  = (w() - CubeSize) / 2;
-    right = left + CubeSize;
-    bottom = (h() - CubeSize) / 2;
-    top = bottom + CubeSize;
+    // int left, right, top, bottom;
+    // // GLint Width = 512, Height = 512;
+    // int CubeSize = 100;
+    // left  = (w() - CubeSize) / 2;
+    // right = left + CubeSize;
+    // bottom = (h() - CubeSize) / 2;
+    // top = bottom + CubeSize;
 
     // glClearColor(0, 0, 0.5f, 1);
     // glClear(GL_COLOR_BUFFER_BIT);

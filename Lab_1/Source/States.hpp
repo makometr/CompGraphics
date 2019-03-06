@@ -115,3 +115,147 @@ public:
     void setLineColor(LineColor newColor);
     LineColor getLineColor() const;
 };
+
+
+class stateTriangles final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateTriangles(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+class stateTriangleStrip final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateTriangleStrip(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+class stateTriangleFan final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateTriangleFan(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+
+class stateQuads final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateQuads(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+class stateQuadsStrip final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    stateQuadsStrip(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};
+
+
+class statePolygon final : public State {
+private:
+    size_t pointsNumber = 50;
+    LineLength length = LineLength::small;
+    Fl_Color bkgColor = FL_GRAY;
+    LineColor linesColor = LineColor::random;
+
+public:
+    statePolygon(AppWindow* ptr);
+
+    void setPointsNumber(size_t newNumber);
+    size_t getPointsNumber() const;
+
+    void setLength(LineLength newType);
+    LineLength getLength() const;
+    
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+
+    void setLineColor(LineColor newColor);
+    LineColor getLineColor() const;
+};

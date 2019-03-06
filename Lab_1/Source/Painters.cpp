@@ -5,7 +5,7 @@ RGB IPainter::Fl_Color_To_RGB(Fl_Color color) {
     unsigned r = rgb>> 24 & 255;
     unsigned g = rgb>> 16 & 255;
     unsigned b = rgb>> 8 & 255;
-    std:: cout << "Color after conversation: "  << r << " " << g << " " << b << " " << "\n";
+    // std:: cout << "Color after conversation: "  << r << " " << g << " " << b << " " << "\n";
     return {r,g,b};
 }
 
@@ -123,6 +123,9 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
     glClearColor(r/255, g/255, b/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // size_t number = state->getPointsNumber();
+    // for (size_t i = 0; i < number; i++)
 
     glBegin(GL_QUADS);
         glColor4f(1.0f,0.0f,1.0f, 0.6f);
