@@ -24,39 +24,63 @@ void PointPainter::operator()(State* statePtr, bool redraw){
 
     size_t number = state->getPointsNumber();
     std::cout << "NOW :" << number << "\n";
-    std::vector <std::pair<GLdouble, GLdouble>> points;
-    points.reserve(number);
+    GLdouble center_x = 500 / 2;
+    GLdouble center_y = 500 / 2;
     PointPlacement placement = state->getPlacementType();
     switch (placement){
         case PointPlacement::circle: {
             GLdouble r = 200;
-            GLdouble center_x = 500 / 2;
-            GLdouble center_y = 500 / 2;
             // // std::random_device rd;  //Will be used to obtain a seed for the random number engine
             // // std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
             // std::default_random_engine gen;
             // // std::uniform_real_distribution<> dis(0.0, 360.0);
             // std::normal_distribution<> dis{120, 20};
-            for (size_t n = 0; n < number; ++n) {
-                // GLdouble angle = dis(gen);
-                GLdouble angle = std::rand() % 360;
-                auto x = r * std::cos(angle);
-                auto y = r * std::sin(angle);
-                points.push_back({x,y});
-            }
 
             glBegin(GL_POINTS);
                 glColor3f(0.0f, 1.0f, 0.0f); 
-                for (const auto &point : points){
-                    glVertex2d(point.first + center_x, point.second + center_y);
-                    std::cout << point.first + center_x << " " << point.second + center_y << "\n";
-                }
+                for (size_t n = 0; n < number; ++n) {
+                    // GLdouble angle = dis(gen);
+                    GLdouble angle = (std::rand() % 3600) / 10;
+                    auto x = r * std::cos(angle) + center_x;
+                    auto y = r * std::sin(angle) + center_y;
+                    glVertex2d(x, y);
+            }
             glEnd();
-
-
             break;
         }
-        case PointPlacement::rect:
+        case PointPlacement::rect: {
+            GLdouble edge = 200;
+            glColor3f(0.0f, 1.0f, 0.0f);
+            for (size_t i = 0; i < number; i++){
+                int side = rand() % 4;
+                GLdouble pos = (std::rand() % (int)edge) - edge / 2;
+                int y = center_x;
+                int x = center_y;
+                switch (side) {
+                    case 0:
+                        x += edge / 2;
+                        y += pos;
+                        break;
+                    case 2:
+                        x -= edge / 2;
+                        y += pos;
+                        break;
+                    case 1:
+                        x += pos;
+                        y += edge / 2;
+                        break;
+                    case 3:
+                        x += pos;                        
+                        y -= edge / 2;
+                        break;
+                    default:
+                        break;
+                }
+                glBegin(GL_POINTS);
+                    glVertex2d(x, y);
+                glEnd();
+            }
+        }
             break;
         case PointPlacement::normal:
             break;
