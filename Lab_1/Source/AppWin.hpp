@@ -1,7 +1,6 @@
 #pragma once
 #include "libs.hpp"
 #include "GlSubWin.hpp"
-#include "SliderInput.hpp"
 
 class GlSubWin;
 #include "States.hpp"

@@ -17,7 +17,7 @@ void PointPainter::operator()(State* statePtr, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
     assert(state != nullptr);
 
-    // background
+    // background TODO invert color of points
     auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
     glClearColor(r/255, g/255, b/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -30,12 +30,6 @@ void PointPainter::operator()(State* statePtr, bool redraw){
     switch (placement){
         case PointPlacement::circle: {
             GLdouble r = 200;
-            // // std::random_device rd;  //Will be used to obtain a seed for the random number engine
-            // // std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-            // std::default_random_engine gen;
-            // // std::uniform_real_distribution<> dis(0.0, 360.0);
-            // std::normal_distribution<> dis{120, 20};
-
             glBegin(GL_POINTS);
                 glColor3f(0.0f, 1.0f, 0.0f); 
                 for (size_t n = 0; n < number; ++n) {
@@ -203,7 +197,6 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
     }
 
     size_t number = state->getPointsNumber();
-    // number % 2 == 1 ? number-- : number;
     glBegin(GL_LINE_STRIP);
     auto prev_x = std::rand() % 500;
     auto prev_y = std::rand() % 500;

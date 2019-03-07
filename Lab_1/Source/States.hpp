@@ -1,7 +1,6 @@
 #pragma once
 #include "AppWin.hpp"
 #include "libs.hpp"
-#include "SliderInput.hpp"
 
 class AppWindow;
 
