@@ -10,6 +10,7 @@ private:
     // vars
 public:
     IPainter() = default;
+    virtual ~IPainter() = default;
     virtual void operator()(State* statePtr, bool redraw) = 0;
 protected:
     static RGB Fl_Color_To_RGB(Fl_Color color);

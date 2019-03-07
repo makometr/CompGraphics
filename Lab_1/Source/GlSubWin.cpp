@@ -20,6 +20,11 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     std::cout << "H: " << h() << "\n";
 }
 
+GlSubWin::~GlSubWin(){
+    for (auto &painter : painters)
+        delete painter;
+}
+
 void GlSubWin::FixViewport(int W,int H) {
     glLoadIdentity();
     glViewport(0,0,W,H);

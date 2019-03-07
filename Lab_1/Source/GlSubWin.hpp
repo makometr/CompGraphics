@@ -15,6 +15,7 @@ private:
 
 public:
     GlSubWin(int X,int Y,int W,int H,const char*L=0);
+    virtual ~GlSubWin();
     void drawPrimitive(PrimitiveType type, State* state, bool isRegenerate = false);
 
 private:
