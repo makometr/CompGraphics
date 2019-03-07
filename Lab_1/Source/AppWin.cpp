@@ -38,7 +38,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     statePtr = new stateLineStrips(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
-    std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";
+    // std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";
 
     end();
     changePrimitive(currentType);

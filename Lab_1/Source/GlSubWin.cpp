@@ -50,7 +50,7 @@ void GlSubWin::draw() {
     // glClear(GL_COLOR_BUFFER_BIT);
 
     // glEnable(GL_BLEND);
-    std::cout << "size of painters: " << painters.size() << "\n";
+    // std::cout << "size of painters: " << painters.size() << "\n";
     painters.at(static_cast<int>(type))->operator()(curStatePtr, shouldRedraw);
     // glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
     // glBegin(GL_LINES);

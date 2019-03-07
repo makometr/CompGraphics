@@ -203,18 +203,18 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
     }
 
     size_t number = state->getPointsNumber();
-    number % 2 == 1 ? number-- : number;
+    // number % 2 == 1 ? number-- : number;
     glBegin(GL_LINE_STRIP);
-    while (number > 0){
-            auto x_1 = std::rand() % 500;
-            auto y_1 = std::rand() % 500;
-            // auto x_1 = 250;
-            // auto y_1 = 250;
-            glVertex2d(x_1, y_1);
-            auto x_2 = (std::rand() % length) - length / 2 + x_1;
-            auto y_2 = (std::rand() % length) - length / 2 + y_1;
-            glVertex2d(x_2, y_2);
-        number -= 2;
+    auto prev_x = std::rand() % 500;
+    auto prev_y = std::rand() % 500;
+    glVertex2d(prev_x, prev_y);
+    while (number > 1){
+            auto new_x = std::abs((std::rand() % length) - length / 2 + prev_x);
+            auto new_y = std::abs((std::rand() % length) - length / 2 + prev_y);
+            prev_x = new_x;
+            prev_y = new_y;
+            glVertex2d(new_x, new_y);
+        number -= 1;
     }
     glEnd();
 }
