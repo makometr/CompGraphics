@@ -117,6 +117,7 @@ public:
 };
 
 
+
 class stateTriangles final : public State {
 private:
     size_t pointsNumber = 50;
@@ -141,6 +142,7 @@ public:
 };
 
 
+
 class stateTriangleStrip final : public State {
 private:
     size_t pointsNumber = 50;
@@ -163,6 +165,8 @@ public:
     void setLineColor(LineColor newColor);
     LineColor getLineColor() const;
 };
+
+
 
 class stateTriangleFan final : public State {
 private:

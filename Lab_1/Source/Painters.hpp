@@ -31,3 +31,10 @@ public:
     LinePainter() = default;
     virtual void operator()(State* statePtr, bool redraw) override;
 };
+
+class LineStripPainter : public IPainter {
+private:
+public:
+    LineStripPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};

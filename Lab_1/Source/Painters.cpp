@@ -154,6 +154,58 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     number % 2 == 1 ? number-- : number;
     while (number > 0){
         glBegin(GL_LINES);
+            // auto x_1 = std::rand() % 500;
+            // auto y_1 = std::rand() % 500;
+            auto x_1 = 250;
+            auto y_1 = 250;
+            glVertex2d(x_1, y_1);
+            auto x_2 = (std::rand() % length) - length / 2 + x_1;
+            auto y_2 = (std::rand() % length) - length / 2 + y_1;
+            glVertex2d(x_2, y_2);
+        glEnd();
+        number -= 2;
+    }
+}
+
+void LineStripPainter::operator()(State* statePtr, bool redraw){
+    stateLineStrips* state = dynamic_cast<stateLineStrips*>(statePtr);
+    assert(state != nullptr);
+
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // length
+    LineLength choosedLength = state->getLength();
+    int length = 0;
+    switch (choosedLength){
+        case LineLength::small:  length = 150; break;
+        case LineLength::middle: length = 300; break;
+        case LineLength::large:  length = 400; break;
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+
+    //color
+    LineColor choosedColor = state->getLineColor();
+    switch (choosedColor){
+        case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
+        case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
+        case LineColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case LineColor::random: {
+            auto r = static_cast<float>(std::rand() % 256) / 256;
+            auto g = static_cast<float>(std::rand() % 256) / 256;
+            auto b = static_cast<float>(std::rand() % 256) / 256;
+            glColor3f(r,g,b); 
+            break;
+        }
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+
+    size_t number = state->getPointsNumber();
+    number % 2 == 1 ? number-- : number;
+    glBegin(GL_LINE_STRIP);
+    while (number > 0){
             auto x_1 = std::rand() % 500;
             auto y_1 = std::rand() % 500;
             // auto x_1 = 250;
@@ -162,7 +214,7 @@ void LinePainter::operator()(State* statePtr, bool redraw){
             auto x_2 = (std::rand() % length) - length / 2 + x_1;
             auto y_2 = (std::rand() % length) - length / 2 + y_1;
             glVertex2d(x_2, y_2);
-        glEnd();
         number -= 2;
     }
+    glEnd();
 }

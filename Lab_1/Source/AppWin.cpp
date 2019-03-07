@@ -34,6 +34,12 @@ AppWindow::AppWindow(int W,int H,const char*L)
     statePtr = new stateLines(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
+    // Create widgets for 2-state: LINESTRIPS
+    statePtr = new stateLineStrips(this);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+
+    std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";
+
     end();
     changePrimitive(currentType);
 }
@@ -43,7 +49,7 @@ void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
     AppWindow* app_win = static_cast<AppWindow*>(appWinPtr);
     assert(widget != nullptr);
     assert(app_win != nullptr);
-
+    std::cout << "Menu changed: " << widget->value() << "\n";
     app_win->changePrimitive(static_cast<PrimitiveType>(widget->value()));
 }
 
@@ -51,7 +57,6 @@ void AppWindow::changePrimitive(PrimitiveType type){
     makeCurrentWidgetsInvisiable();
     setCurrentPrimitiveType(type);
     makeCurrentWidgetsVisiable();
-
     glSubWin->drawPrimitive(type, primitiveTypeStates.at(static_cast<int>(currentType)).get());
 }
 

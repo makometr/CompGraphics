@@ -7,6 +7,7 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     end();
     painters.push_back(new PointPainter{});
     painters.push_back(new LinePainter{});
+    painters.push_back(new LineStripPainter{});
     // TODO push other painters
     std::cout << "W: " << w() << "\n";
     std::cout << "H: " << h() << "\n";
@@ -49,6 +50,7 @@ void GlSubWin::draw() {
     // glClear(GL_COLOR_BUFFER_BIT);
 
     // glEnable(GL_BLEND);
+    std::cout << "size of painters: " << painters.size() << "\n";
     painters.at(static_cast<int>(type))->operator()(curStatePtr, shouldRedraw);
     // glColor4f(1.0f, 0.0f, 0.0f, 0.8f);
     // glBegin(GL_LINES);
