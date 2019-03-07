@@ -119,7 +119,7 @@ PointPlacement statePoints::getPlacementType() const { return placement; }
 stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     State::parentBoxHeight = 290;
     // numbers
-    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
+    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
     label_number->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_number->labelsize(16);
@@ -172,7 +172,7 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_length);
 
     // color lines
-    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет линий:");
+    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет точек:");
     label_color->box(FL_NO_BOX);
     label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color->labelsize(16);
@@ -243,7 +243,7 @@ LineColor stateLines::getLineColor() const { return linesColor; }
 stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
     State::parentBoxHeight = 290;
     // numbers
-    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
+    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
     label_number->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_number->labelsize(16);
@@ -296,7 +296,7 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_length);
 
     // color lines
-    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет линий:");
+    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет точек:");
     label_color->box(FL_NO_BOX);
     label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color->labelsize(16);
@@ -367,7 +367,7 @@ LineColor stateLineStrips::getLineColor() const { return stripsColor; }
 stateLineLoop::stateLineLoop(AppWindow* ptr) : State(ptr) {
     State::parentBoxHeight = 290;
     // numbers
-    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество линий:");
+    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
     label_number->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_number->labelsize(16);
@@ -420,7 +420,7 @@ stateLineLoop::stateLineLoop(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_length);
 
     // color lines
-    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет линий:");
+    auto label_color = new Fl_Box(500 + 30, 170, 200, 30, "Цвет точек:");
     label_color->box(FL_NO_BOX);
     label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color->labelsize(16);

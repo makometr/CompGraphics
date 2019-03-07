@@ -122,9 +122,9 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     LineLength choosedLength = state->getLength();
     int length = 0;
     switch (choosedLength){
-        case LineLength::small:  length = 150; break;
-        case LineLength::middle: length = 300; break;
-        case LineLength::large:  length = 400; break;
+        case LineLength::small:  length = 200; break;
+        case LineLength::middle: length = 350; break;
+        case LineLength::large:  length = 500; break;
         default: assert("Invalid switch statement!\n" == nullptr);
     }
 
