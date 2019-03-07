@@ -30,12 +30,16 @@ AppWindow::AppWindow(int W,int H,const char*L)
     statePtr = new statePoints(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
-    // Create widgets for 1-state: LINE
+    // Create widgets for 1-state: LINES
     statePtr = new stateLines(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
-    // Create widgets for 2-state: LINESTRIPS
+    // Create widgets for 2-state: LINE_STRIP
     statePtr = new stateLineStrips(this);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+
+    // Create widgets for 3-state: LINE_LOOP
+    statePtr = new stateLineLoop(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     // std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";

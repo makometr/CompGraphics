@@ -114,8 +114,8 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     assert(state != nullptr);
 
     // bkg color
-    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
-    glClearColor(r/255, g/255, b/255, 1);
+    auto [r_part,g_part,b_part] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r_part/255, g_part/255, b_part/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
     // length
@@ -129,16 +129,18 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     }
 
     //color
+    float r = 0;
+    float g = 0;
+    float b = 0;
     LineColor choosedColor = state->getLineColor();
     switch (choosedColor){
-        case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case LineColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case LineColor::red:    r = 1; break;
+        case LineColor::green:  g = 1; break;
+        case LineColor::blue:   b = 1; break;
         case LineColor::random: {
-            auto r = static_cast<float>(std::rand() % 256) / 256;
-            auto g = static_cast<float>(std::rand() % 256) / 256;
-            auto b = static_cast<float>(std::rand() % 256) / 256;
-            glColor3f(r,g,b); 
+            r = static_cast<float>(std::rand() % 256) / 256;
+            g = static_cast<float>(std::rand() % 256) / 256;
+            b = static_cast<float>(std::rand() % 256) / 256;
             break;
         }
         default: assert("Invalid switch statement!\n" == nullptr);
@@ -148,8 +150,12 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     number % 2 == 1 ? number-- : number;
     while (number > 0){
         glBegin(GL_LINES);
-            // auto x_1 = std::rand() % 500;
-            // auto y_1 = std::rand() % 500;
+            if (choosedColor == LineColor::random){
+                r = static_cast<float>(std::rand() % 256) / 256;
+                g = static_cast<float>(std::rand() % 256) / 256;
+                b = static_cast<float>(std::rand() % 256) / 256;
+            }
+            glColor3f(r,g,b); 
             auto x_1 = 250;
             auto y_1 = 250;
             glVertex2d(x_1, y_1);
@@ -182,6 +188,58 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
 
     //color
     LineColor choosedColor = state->getLineColor();
+    switch (choosedColor){
+        case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
+        case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
+        case LineColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case LineColor::random: {
+            auto r = static_cast<float>(std::rand() % 256) / 256;
+            auto g = static_cast<float>(std::rand() % 256) / 256;
+            auto b = static_cast<float>(std::rand() % 256) / 256;
+            glColor3f(r,g,b); 
+            break;
+        }
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+
+    size_t number = state->getPointsNumber();
+    glBegin(GL_LINE_STRIP);
+    auto prev_x = std::rand() % 500;
+    auto prev_y = std::rand() % 500;
+    glVertex2d(prev_x, prev_y);
+    while (number > 1){
+            auto new_x = std::abs((std::rand() % length) - length / 2 + prev_x);
+            auto new_y = std::abs((std::rand() % length) - length / 2 + prev_y);
+            prev_x = new_x;
+            prev_y = new_y;
+            glVertex2d(new_x, new_y);
+        number -= 1;
+    }
+    glEnd();
+}
+
+
+void LineLoopPainter::operator()(State* statePtr, bool redraw){
+    stateLineLoop* state = dynamic_cast<stateLineLoop*>(statePtr);
+    assert(state != nullptr);
+
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // length
+    LineLength choosedLength = state->getLength();
+    int length = 0;
+    switch (choosedLength){
+        case LineLength::small:  length = 150; break;
+        case LineLength::middle: length = 300; break;
+        case LineLength::large:  length = 400; break;
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+
+    //color
+    LineColor choosedColor = state->getLoopColor();
     switch (choosedColor){
         case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
         case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;

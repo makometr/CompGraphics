@@ -8,6 +8,7 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     painters.push_back(new PointPainter{});
     painters.push_back(new LinePainter{});
     painters.push_back(new LineStripPainter{});
+    painters.push_back(new LineLoopPainter{});
     // TODO push other painters
     std::cout << "W: " << w() << "\n";
     std::cout << "H: " << h() << "\n";
