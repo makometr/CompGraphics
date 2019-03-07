@@ -26,22 +26,55 @@ public:
 };
 
 class LinePainter : public IPainter {
-private:
 public:
     LinePainter() = default;
     virtual void operator()(State* statePtr, bool redraw) override;
 };
 
 class LineStripPainter : public IPainter {
-private:
 public:
     LineStripPainter() = default;
     virtual void operator()(State* statePtr, bool redraw) override;
 };
 
 class LineLoopPainter : public IPainter {
-private:
 public:
     LineLoopPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class TrianglesPainter : public IPainter {
+public:
+    TrianglesPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class TriangleStripPainter : public IPainter {
+public:
+    TriangleStripPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class TriangleFanPainter : public IPainter {
+public:
+    TriangleFanPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class QuadsPainter : public IPainter {
+public:
+    QuadsPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class QuadStripPainter : public IPainter {
+public:
+    QuadStripPainter() = default;
+    virtual void operator()(State* statePtr, bool redraw) override;
+};
+
+class PolygonPainter : public IPainter {
+public:
+    PolygonPainter() = default;
     virtual void operator()(State* statePtr, bool redraw) override;
 };

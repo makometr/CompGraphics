@@ -269,3 +269,28 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
     }
     glEnd();
 }
+
+
+void TrianglesPainter::operator()(State* statePtr, bool redraw){
+
+}
+
+void TriangleStripPainter::operator()(State* statePtr, bool redraw){
+
+}
+
+void TriangleFanPainter::operator()(State* statePtr, bool redraw){
+
+}
+
+void QuadsPainter::operator()(State* statePtr, bool redraw){
+
+}
+
+void QuadStripPainter::operator()(State* statePtr, bool redraw){
+
+}
+
+void PolygonPainter::operator()(State* statePtr, bool redraw){
+
+}

@@ -25,7 +25,7 @@
 
 using RGB = std::tuple<unsigned, unsigned, unsigned>;
 
-constexpr size_t StatesNumber = 10;
+constexpr size_t PrimitivesNumber = 10;
 
 enum class PrimitiveType : int
 {

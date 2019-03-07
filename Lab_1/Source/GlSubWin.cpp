@@ -5,11 +5,17 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     : Fl_Gl_Window(X,Y,W,H,L)
 {
     end();
+    painters.reserve(PrimitivesNumber);
     painters.push_back(new PointPainter{});
     painters.push_back(new LinePainter{});
     painters.push_back(new LineStripPainter{});
     painters.push_back(new LineLoopPainter{});
-    // TODO push other painters
+    painters.push_back(new TrianglesPainter{});
+    painters.push_back(new TriangleStripPainter{});
+    painters.push_back(new TriangleFanPainter{});
+    painters.push_back(new QuadsPainter{});
+    painters.push_back(new QuadStripPainter{});
+    painters.push_back(new PolygonPainter{});
     std::cout << "W: " << w() << "\n";
     std::cout << "H: " << h() << "\n";
 }
