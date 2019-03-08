@@ -136,9 +136,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setElemColor(ElemColor color_1, ElemColor color_2, ElemColor color_3);
-    void setElemColor(TripleColors tripleCol);
-    ElemColor getElemColor() const;
+    void setTripleColor(TripleColors tripleCol);
+    TripleColors getTripleElemColor() const;
 };
 
 

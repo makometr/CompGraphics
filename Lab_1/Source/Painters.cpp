@@ -272,7 +272,11 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
 
 
 void TrianglesPainter::operator()(State* statePtr, bool redraw){
+    stateTriangles* state = dynamic_cast<stateTriangles*>(statePtr);
+    assert(state != nullptr);  
 
+    auto [color_1, color_2, color_3] = state->getTripleElemColor();
+    std::cout << (int)color_1 << " " << (int)color_2 << " " << (int)color_3 << "\n";
 }
 
 void TriangleStripPainter::operator()(State* statePtr, bool redraw){

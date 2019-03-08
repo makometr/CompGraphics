@@ -1,7 +1,6 @@
 #include "States.hpp"
 #include "../AppWin.hpp"
 
-// ----- State ---------------------------------------------------------
 void State::hideWidgets(){
     for (auto &widget : widgets)
         widget->hide();

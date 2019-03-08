@@ -51,7 +51,6 @@ stateLineLoop::stateLineLoop(AppWindow* ptr) : State(ptr) {
                 break;
         }
         state->callUpdateGraphics(true);
-        
     }, (void*)this);
     widgets.push_back(choice_length);
 
