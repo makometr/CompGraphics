@@ -120,7 +120,6 @@ public:
 class stateTriangles final : public State {
 private:
     size_t pointsNumber = 50;
-    LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
     TripleColors colors;
 
@@ -129,9 +128,6 @@ public:
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
-
-    void setLength(LineLength newType);
-    LineLength getLength() const;
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;

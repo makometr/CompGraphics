@@ -244,8 +244,24 @@ void TrianglesPainter::operator()(State* statePtr, bool redraw){
     stateTriangles* state = dynamic_cast<stateTriangles*>(statePtr);
     assert(state != nullptr);  
 
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     auto [color_1, color_2, color_3] = state->getTripleElemColor();
-    std::cout << (int)color_1 << " " << (int)color_2 << " " << (int)color_3 << "\n";
+    size_t number = state->getPointsNumber();
+    glBegin(GL_TRIANGLES);
+    for (size_t i = 0; i < number; i++){
+             if (i % 3 == 0) applyColor(color_1);
+        else if (i % 3 == 1) applyColor(color_2);
+        else if (i % 3 == 2) applyColor(color_3);
+
+        auto x = std::rand() % 500;
+        auto y = std::rand() % 500;
+        glVertex2f(x,y);
+    }
+    glEnd();
 }
 
 void TriangleStripPainter::operator()(State* statePtr, bool redraw){

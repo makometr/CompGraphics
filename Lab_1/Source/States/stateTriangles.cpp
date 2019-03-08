@@ -1,7 +1,7 @@
 #include "States.hpp"
 
 stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
-    State::parentBoxHeight = 386;
+    State::parentBoxHeight = 338;
     // numbers
     auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
     label_number->box(FL_NO_BOX);
@@ -25,43 +25,14 @@ stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
     }, (void*)this);
     widgets.push_back(slider_number);
 
-    // length
-    auto label_length = new Fl_Box(500 + 30, 122, 200, 30, "Средний размер:");
-    label_length->box(FL_NO_BOX);
-    label_length->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
-    label_length->labelsize(16);
-    widgets.push_back(label_length);
-    // +
-    auto choice_length = new Fl_Choice(500 + 40, 140, 180, 25);
-    choice_length->add("Небольшой");
-    choice_length->add("Средний");
-    choice_length->add("Крупный");
-    choice_length->value(0);
-    choice_length->callback([](Fl_Widget* w, void* statePtr){
-        Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
-        stateTriangles* state = static_cast<stateTriangles*>(statePtr);
-        assert(ch != nullptr);
-        assert(state != nullptr);
-        switch (ch->value()){
-            case 0: state->setLength(LineLength::small); break;
-            case 1: state->setLength(LineLength::middle); break;
-            case 2: state->setLength(LineLength::large); break;
-            default:
-                assert("Incorrect value in switch statement!\n" == nullptr);
-                break;
-        }
-        state->callUpdateGraphics(true);
-    }, (void*)this);
-    widgets.push_back(choice_length);
-
     // color edge_1
-    auto label_color_1 = new Fl_Box(500 + 30, 170, 200, 30, "Цвет вершины 1:");
+    auto label_color_1 = new Fl_Box(500 + 30, 122, 200, 30, "Цвет вершины 1:");
     label_color_1->box(FL_NO_BOX);
     label_color_1->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color_1->labelsize(16);
     widgets.push_back(label_color_1);
     // +
-    auto choice_color_1 = new Fl_Choice(500 + 40, 190, 180, 25);
+    auto choice_color_1 = new Fl_Choice(500 + 40, 140, 180, 25);
     choice_color_1->add("Случайный");
     choice_color_1->add("Красный");
     choice_color_1->add("Зелёный");
@@ -88,13 +59,13 @@ stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_color_1);
 
     // color edge_2
-    auto label_color_2 = new Fl_Box(500 + 30, 218, 200, 30, "Цвет вершины 2:");
+    auto label_color_2 = new Fl_Box(500 + 30, 170, 200, 30, "Цвет вершины 2:");
     label_color_2->box(FL_NO_BOX);
     label_color_2->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color_2->labelsize(16);
     widgets.push_back(label_color_2);
     // +
-    auto choice_color_2 = new Fl_Choice(500 + 40, 238, 180, 25);
+    auto choice_color_2 = new Fl_Choice(500 + 40, 190, 180, 25);
     choice_color_2->add("Случайный");
     choice_color_2->add("Красный");
     choice_color_2->add("Зелёный");
@@ -121,13 +92,13 @@ stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_color_2);
 
     // color edge_3
-    auto label_color_3 = new Fl_Box(500 + 30, 266, 200, 30, "Цвет вершины 3:");
+    auto label_color_3 = new Fl_Box(500 + 30, 218, 200, 30, "Цвет вершины 3:");
     label_color_3->box(FL_NO_BOX);
     label_color_3->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color_3->labelsize(16);
     widgets.push_back(label_color_3);
     // +
-    auto choice_color_3 = new Fl_Choice(500 + 40, 286, 180, 25);
+    auto choice_color_3 = new Fl_Choice(500 + 40, 238, 180, 25);
     choice_color_3->add("Случайный");
     choice_color_3->add("Красный");
     choice_color_3->add("Зелёный");
@@ -154,7 +125,7 @@ stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
     widgets.push_back(choice_color_3);
 
     // bkg color
-    auto button_choose_color = new Fl_Button(500+60, 321, 140, 30, "Задать цвет фона");
+    auto button_choose_color = new Fl_Button(500+60, 273, 140, 30, "Задать цвет фона");
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
@@ -165,7 +136,7 @@ stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
     }, (void*)this);
     widgets.push_back(button_choose_color);
 
-    auto button_regenerate = new Fl_Button(500+60, 356, 140, 30, "Перегенерировать");
+    auto button_regenerate = new Fl_Button(500+60, 308, 140, 30, "Перегенерировать");
     button_regenerate->callback([](Fl_Widget* w, void* appWinPtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         AppWindow* appWin = static_cast<AppWindow*>(appWinPtr);
@@ -183,10 +154,6 @@ void stateTriangles::setPointsNumber(size_t newNumber){
     pointsNumber = newNumber;
 }
 
-void stateTriangles::setLength(LineLength newLength){
-    length = newLength;
-}
-
 void stateTriangles::setBkgColor(Fl_Color color){
     bkgColor = color;
 }
@@ -199,10 +166,6 @@ void stateTriangles::setTripleColor(TripleColors tripleCol){
 // -------------------- get --------------------
 size_t stateTriangles::getPointsNumber() const {
     return pointsNumber;
-}
-
-LineLength stateTriangles::getLength() const {
-    return length;
 }
 
 Fl_Color stateTriangles::getBkgColor() const {
