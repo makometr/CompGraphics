@@ -182,25 +182,21 @@ public:
 
 class stateQuads final : public State {
 private:
-    size_t pointsNumber = 50;
-    LineLength length = LineLength::small;
+    size_t pointsNumber = 40;
     Fl_Color bkgColor = FL_GRAY;
-    ElemColor linesColor = ElemColor::random;
+    TetradColors colors;
 
 public:
     stateQuads(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
-
-    void setLength(LineLength newType);
-    LineLength getLength() const;
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setElemColor(ElemColor newColor);
-    ElemColor getElemColor() const;
+    void setTetradColor(TetradColors newColor);
+    TetradColors getTetradColor() const; 
 };
 
 

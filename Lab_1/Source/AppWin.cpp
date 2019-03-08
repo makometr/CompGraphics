@@ -54,6 +54,10 @@ AppWindow::AppWindow(int W,int H,const char*L)
     statePtr = new stateTriangleFan(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
+    // Create widgets for 7-state: TRIANGLE_QUADS
+    statePtr = new stateQuads(this);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+
     // std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";
 
     end();
