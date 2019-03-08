@@ -36,6 +36,37 @@ int IPainter::getSignVertex(Coord c_1, Coord c_2, Coord c_3){
     return iRetVal;
 }
 
+bool IPainter::isConvex(const std::vector<Coord> &array){
+    bool bRetVal = false;
+    int signPrime = 0;
+    int iVertexCount = array.size();
+    // взять первый ненулевой знак, если 0 - вернуть false
+    int i = 0;  // vertex 'iterator'
+    for ( ; i < iVertexCount; ++i) {
+        // getSignVertex(vertex[i], vertex[i+1], vertex[i+2]) ; n+2=2
+        // нет оператора присваивания: xxx = pVertex[i] ,
+        // выдержка: Vertex &  operator[] (unsigned int index)
+        //           sf::Vertex::Vertex  ( const Vector2f &  thePosition )
+        signPrime = IPainter::getSignVertex(  array[i],
+                                    array[(i+1)%iVertexCount],
+                                    array[(i+2)%iVertexCount]);
+        if (signPrime != 0) break;
+    } // for
+    if (signPrime == 0) return bRetVal;  // линия
+    // сравниваем остальные знаки с образцом
+    for ( ; i < iVertexCount; ++i) {
+        int signNext = getSignVertex(array[i],
+                                     array[(i+1)%iVertexCount],
+                                     array[(i+2)%iVertexCount]);
+        // если знаки разные
+        if ( (signNext != signPrime) & (signNext != 0) ) {
+            return bRetVal;
+        } // if
+    }
+    bRetVal = true;
+    return bRetVal;
+}
+
 void PointPainter::operator()(State* statePtr, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
     assert(state != nullptr);
@@ -382,18 +413,19 @@ void PolygonPainter::operator()(State* statePtr, bool redraw){
     glClearColor(r/255, g/255, b/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // auto [color_1, color_2, color_3, color_4] = state->getTetradColor();
-    size_t number = state->getPointsNumber();
-    glBegin(GL_POLYGON);
-    for (size_t i = 0; i < number; i++){
-        //      if (i % 4 == 0) applyColor(color_1);
-        // else if (i % 4 == 1) applyColor(color_2);
-        // else if (i % 4 == 2) applyColor(color_3);
-        // else if (i % 4 == 3) applyColor(color_4);
+    ElemColor color = state->getElemColor();
+    size_t pointsNumber = state->getPointsNumber();
+    GLdouble circleInterval = 360 / pointsNumber;
+    GLdouble begin = 0;
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+    glBegin(GL_POLYGON);
+    for (size_t i = 0; i < pointsNumber; i++){
+        GLdouble angle = (GLdouble)(std::rand() % (int)circleInterval * 10) / 10 + begin;
+        GLdouble x = (GLdouble)(std::rand() % 200 + 50) * std::cos(angle) + 250;
+        GLdouble y = (GLdouble)(std::rand() % 200 + 50) * std::sin(angle) + 250;
+        applyColor(color);
         glVertex2f(x,y);
+        begin += circleInterval;
     }
     glEnd();
 }

@@ -222,8 +222,7 @@ public:
 
 class statePolygon final : public State {
 private:
-    size_t pointsNumber = 40;
-    size_t vertexNumber = 4;
+    size_t pointsNumber = 4;
     Fl_Color bkgColor = FL_GRAY;
     ElemColor color = ElemColor::random;
 
@@ -232,9 +231,6 @@ public:
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
-
-    void setVertexNumber(size_t newNumber);
-    size_t getVertexNumber() const;
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;

@@ -16,6 +16,7 @@ protected:
     static RGB Fl_Color_To_RGB(Fl_Color color);
     static void applyColor(ElemColor color);
     static int getSignVertex(Coord c_1, Coord c_2, Coord c_3);
+    static bool isConvex(const std::vector<Coord> &array);
 };
 
 class PointPainter : public IPainter {
