@@ -141,24 +141,20 @@ public:
 class stateTriangleStrip final : public State {
 private:
     size_t pointsNumber = 50;
-    LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    ElemColor linesColor = ElemColor::random;
+    TripleColors colors;
 
 public:
     stateTriangleStrip(AppWindow* ptr);
 
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
-
-    void setLength(LineLength newType);
-    LineLength getLength() const;
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setElemColor(ElemColor newColor);
-    ElemColor getElemColor() const;
+    void setTripleColor(TripleColors tripleCol);
+    TripleColors getTripleElemColor() const;
 };
 
 
