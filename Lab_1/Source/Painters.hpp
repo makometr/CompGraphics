@@ -14,6 +14,7 @@ public:
     virtual void operator()(State* statePtr, bool redraw) = 0;
 protected:
     static RGB Fl_Color_To_RGB(Fl_Color color);
+    static void applyColor(ElemColor color);
 };
 
 class PointPainter : public IPainter {

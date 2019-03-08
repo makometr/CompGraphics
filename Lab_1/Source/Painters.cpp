@@ -9,9 +9,21 @@ RGB IPainter::Fl_Color_To_RGB(Fl_Color color) {
     return {r,g,b};
 }
 
-// PointPainter::PointPainter() : IPainter(), dis(0,360), gen(rd) {
-//     // gen.seed(rd);   
-// }
+void IPainter::applyColor(ElemColor color){
+    switch (color){
+        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
+        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
+        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case ElemColor::random: {
+            auto r = static_cast<float>(std::rand() % 256) / 256;
+            auto g = static_cast<float>(std::rand() % 256) / 256;
+            auto b = static_cast<float>(std::rand() % 256) / 256;
+            glColor3f(r,g,b); 
+            break;
+        }
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+}
 
 void PointPainter::operator()(State* statePtr, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
@@ -129,33 +141,14 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     }
 
     //color
-    float r = 0;
-    float g = 0;
-    float b = 0;
     ElemColor choosedColor = state->getElemColor();
-    switch (choosedColor){
-        case ElemColor::red:    r = 1; break;
-        case ElemColor::green:  g = 1; break;
-        case ElemColor::blue:   b = 1; break;
-        case ElemColor::random: {
-            r = static_cast<float>(std::rand() % 256) / 256;
-            g = static_cast<float>(std::rand() % 256) / 256;
-            b = static_cast<float>(std::rand() % 256) / 256;
-            break;
-        }
-        default: assert("Invalid switch statement!\n" == nullptr);
-    }
+    applyColor(choosedColor);
 
     size_t number = state->getPointsNumber();
     number % 2 == 1 ? number-- : number;
     while (number > 0){
         glBegin(GL_LINES);
-            if (choosedColor == ElemColor::random){
-                r = static_cast<float>(std::rand() % 256) / 256;
-                g = static_cast<float>(std::rand() % 256) / 256;
-                b = static_cast<float>(std::rand() % 256) / 256;
-            }
-            glColor3f(r,g,b); 
+            if (choosedColor == ElemColor::random) applyColor(choosedColor);
             auto x_1 = 250;
             auto y_1 = 250;
             glVertex2d(x_1, y_1);
@@ -188,19 +181,7 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
 
     //color
     ElemColor choosedColor = state->getElemColor();
-    switch (choosedColor){
-        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
-        case ElemColor::random: {
-            auto r = static_cast<float>(std::rand() % 256) / 256;
-            auto g = static_cast<float>(std::rand() % 256) / 256;
-            auto b = static_cast<float>(std::rand() % 256) / 256;
-            glColor3f(r,g,b); 
-            break;
-        }
-        default: assert("Invalid switch statement!\n" == nullptr);
-    }
+    applyColor(choosedColor);
 
     size_t number = state->getPointsNumber();
     glBegin(GL_LINE_STRIP);
@@ -240,19 +221,7 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
 
     //color
     ElemColor choosedColor = state->getLoopColor();
-    switch (choosedColor){
-        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
-        case ElemColor::random: {
-            auto r = static_cast<float>(std::rand() % 256) / 256;
-            auto g = static_cast<float>(std::rand() % 256) / 256;
-            auto b = static_cast<float>(std::rand() % 256) / 256;
-            glColor3f(r,g,b); 
-            break;
-        }
-        default: assert("Invalid switch statement!\n" == nullptr);
-    }
+    applyColor(choosedColor);
 
     size_t number = state->getPointsNumber();
     glBegin(GL_LINE_STRIP);
