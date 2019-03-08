@@ -24,6 +24,7 @@ public:
 
 private:
     void makeCurrentWidgetsInvisiable();
+    void makeAllWidgetsInvisible();
     void setCurrentPrimitiveType(PrimitiveType type);
     void makeCurrentWidgetsVisiable();
 };

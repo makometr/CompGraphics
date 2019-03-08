@@ -25,48 +25,6 @@ void IPainter::applyColor(ElemColor color){
     }
 }
 
-int IPainter::getSignVertex(Coord c_1, Coord c_2, Coord c_3){
-    float fArea = ( (c_2.first - c_1.first)*
-                    (c_3.second - c_1.second) -
-                    (c_3.first - c_1.first)*
-                    (c_2.second - c_1.second) );
-    int iRetVal = 0;
-    if (fArea == 0) return iRetVal;
-    iRetVal  = (fArea > 0) ? 1 : -1;
-    return iRetVal;
-}
-
-bool IPainter::isConvex(const std::vector<Coord> &array){
-    bool bRetVal = false;
-    int signPrime = 0;
-    int iVertexCount = array.size();
-    // взять первый ненулевой знак, если 0 - вернуть false
-    int i = 0;  // vertex 'iterator'
-    for ( ; i < iVertexCount; ++i) {
-        // getSignVertex(vertex[i], vertex[i+1], vertex[i+2]) ; n+2=2
-        // нет оператора присваивания: xxx = pVertex[i] ,
-        // выдержка: Vertex &  operator[] (unsigned int index)
-        //           sf::Vertex::Vertex  ( const Vector2f &  thePosition )
-        signPrime = IPainter::getSignVertex(  array[i],
-                                    array[(i+1)%iVertexCount],
-                                    array[(i+2)%iVertexCount]);
-        if (signPrime != 0) break;
-    } // for
-    if (signPrime == 0) return bRetVal;  // линия
-    // сравниваем остальные знаки с образцом
-    for ( ; i < iVertexCount; ++i) {
-        int signNext = getSignVertex(array[i],
-                                     array[(i+1)%iVertexCount],
-                                     array[(i+2)%iVertexCount]);
-        // если знаки разные
-        if ( (signNext != signPrime) & (signNext != 0) ) {
-            return bRetVal;
-        } // if
-    }
-    bRetVal = true;
-    return bRetVal;
-}
-
 void PointPainter::operator()(State* statePtr, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
     assert(state != nullptr);
@@ -77,7 +35,6 @@ void PointPainter::operator()(State* statePtr, bool redraw){
     glClear(GL_COLOR_BUFFER_BIT);
 
     size_t number = state->getPointsNumber();
-    std::cout << "NOW :" << number << "\n";
     GLdouble center_x = 500 / 2;
     GLdouble center_y = 500 / 2;
     PointPlacement placement = state->getPlacementType();

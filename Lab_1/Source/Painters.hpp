@@ -6,8 +6,6 @@
 class State;
 
 class IPainter {
-private:
-    // vars
 public:
     IPainter() = default;
     virtual ~IPainter() = default;
@@ -15,15 +13,9 @@ public:
 protected:
     static RGB Fl_Color_To_RGB(Fl_Color color);
     static void applyColor(ElemColor color);
-    static int getSignVertex(Coord c_1, Coord c_2, Coord c_3);
-    static bool isConvex(const std::vector<Coord> &array);
 };
 
 class PointPainter : public IPainter {
-private:
-    // std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    // std::uniform_real_distribution<> dis;
-    // std::mt19937 gen;
 public:
     PointPainter() = default;
     virtual void operator()(State* statePtr, bool redraw) override;

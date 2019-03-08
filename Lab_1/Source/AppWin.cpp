@@ -65,10 +65,8 @@ AppWindow::AppWindow(int W,int H,const char*L)
     // Create widgets for 9-state: POLYGON
     statePtr = new statePolygon(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
-
-    // std::cout << "Size of array: " << primitiveTypeStates.size() << "\n";
-
     end();
+
     changePrimitive(currentType);
 }
 
@@ -76,8 +74,6 @@ void AppWindow::changePrimitive_CB(Fl_Widget* w, void* appWinPtr){
     Fl_Choice* widget = dynamic_cast<Fl_Choice*>(w);
     AppWindow* app_win = static_cast<AppWindow*>(appWinPtr);
     assert(widget != nullptr);
-    assert(app_win != nullptr);
-    std::cout << "Menu changed: " << widget->value() << "\n";
     app_win->changePrimitive(static_cast<PrimitiveType>(widget->value()));
 }
 
@@ -93,7 +89,12 @@ void AppWindow::update(bool regenerate){
 }
 
 void AppWindow::makeCurrentWidgetsInvisiable(){
-    primitiveTypeStates.at(static_cast<int>(currentType)).get()->hideWidgets();
+    primitiveTypeStates.at(static_cast<int>(currentType))->hideWidgets();
+}
+
+void AppWindow::makeAllWidgetsInvisible(){
+    for (auto &state : primitiveTypeStates)
+        state->hideWidgets();
 }
 
 void AppWindow::setCurrentPrimitiveType(PrimitiveType type){
