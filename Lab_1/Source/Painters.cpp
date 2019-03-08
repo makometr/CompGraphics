@@ -338,7 +338,28 @@ void QuadsPainter::operator()(State* statePtr, bool redraw){
 }
 
 void QuadStripPainter::operator()(State* statePtr, bool redraw){
+    stateQuadsStrip* state = dynamic_cast<stateQuadsStrip*>(statePtr);
+    assert(state != nullptr);  
 
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    auto [color_1, color_2, color_3, color_4] = state->getTetradColor();
+    size_t number = state->getPointsNumber();
+    glBegin(GL_QUADS);
+    for (size_t i = 0; i < number; i++){
+             if (i % 4 == 0) applyColor(color_1);
+        else if (i % 4 == 1) applyColor(color_2);
+        else if (i % 4 == 2) applyColor(color_3);
+        else if (i % 4 == 3) applyColor(color_4);
+
+        auto x = std::rand() % 500;
+        auto y = std::rand() % 500;
+        glVertex2f(x,y);
+    }
+    glEnd();
 }
 
 void PolygonPainter::operator()(State* statePtr, bool redraw){
