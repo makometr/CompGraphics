@@ -222,10 +222,10 @@ public:
 
 class statePolygon final : public State {
 private:
-    size_t pointsNumber = 50;
-    LineLength length = LineLength::small;
+    size_t pointsNumber = 40;
+    size_t vertexNumber = 4;
     Fl_Color bkgColor = FL_GRAY;
-    ElemColor linesColor = ElemColor::random;
+    ElemColor color = ElemColor::random;
 
 public:
     statePolygon(AppWindow* ptr);
@@ -233,12 +233,12 @@ public:
     void setPointsNumber(size_t newNumber);
     size_t getPointsNumber() const;
 
-    void setLength(LineLength newType);
-    LineLength getLength() const;
+    void setVertexNumber(size_t newNumber);
+    size_t getVertexNumber() const;
     
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
     void setElemColor(ElemColor newColor);
-    ElemColor getElemColor() const;
+    ElemColor getElemColor() const; 
 };

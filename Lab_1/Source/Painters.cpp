@@ -25,6 +25,17 @@ void IPainter::applyColor(ElemColor color){
     }
 }
 
+int IPainter::getSignVertex(Coord c_1, Coord c_2, Coord c_3){
+    float fArea = ( (c_2.first - c_1.first)*
+                    (c_3.second - c_1.second) -
+                    (c_3.first - c_1.first)*
+                    (c_2.second - c_1.second) );
+    int iRetVal = 0;
+    if (fArea == 0) return iRetVal;
+    iRetVal  = (fArea > 0) ? 1 : -1;
+    return iRetVal;
+}
+
 void PointPainter::operator()(State* statePtr, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
     assert(state != nullptr);
@@ -348,7 +359,7 @@ void QuadStripPainter::operator()(State* statePtr, bool redraw){
 
     auto [color_1, color_2, color_3, color_4] = state->getTetradColor();
     size_t number = state->getPointsNumber();
-    glBegin(GL_QUADS);
+    glBegin(GL_QUAD_STRIP);
     for (size_t i = 0; i < number; i++){
              if (i % 4 == 0) applyColor(color_1);
         else if (i % 4 == 1) applyColor(color_2);
@@ -363,5 +374,26 @@ void QuadStripPainter::operator()(State* statePtr, bool redraw){
 }
 
 void PolygonPainter::operator()(State* statePtr, bool redraw){
+    statePolygon* state = dynamic_cast<statePolygon*>(statePtr);
+    assert(state != nullptr);  
 
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // auto [color_1, color_2, color_3, color_4] = state->getTetradColor();
+    size_t number = state->getPointsNumber();
+    glBegin(GL_POLYGON);
+    for (size_t i = 0; i < number; i++){
+        //      if (i % 4 == 0) applyColor(color_1);
+        // else if (i % 4 == 1) applyColor(color_2);
+        // else if (i % 4 == 2) applyColor(color_3);
+        // else if (i % 4 == 3) applyColor(color_4);
+
+        auto x = std::rand() % 500;
+        auto y = std::rand() % 500;
+        glVertex2f(x,y);
+    }
+    glEnd();
 }

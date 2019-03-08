@@ -33,6 +33,7 @@ enum class ElemColor : int {
 using RGB = std::tuple<unsigned, unsigned, unsigned>;
 using TripleColors = std::tuple<ElemColor, ElemColor, ElemColor>;
 using TetradColors = std::tuple<ElemColor, ElemColor, ElemColor, ElemColor>;
+using Coord = std::pair<GLdouble, GLdouble>;
 
 constexpr size_t PrimitivesNumber = 10;
 
