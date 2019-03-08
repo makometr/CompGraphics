@@ -19,7 +19,6 @@ statePolygon::statePolygon(AppWindow* ptr) : State(ptr) {
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         state->setPointsNumber((int)ch->value());
         state->callUpdateGraphics(true);
     }, (void*)this);
@@ -42,7 +41,7 @@ statePolygon::statePolygon(AppWindow* ptr) : State(ptr) {
     choice_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         statePolygon* state = static_cast<statePolygon*>(statePtr);
-        assert(ch != nullptr); assert(state != nullptr);
+        assert(ch != nullptr);
         switch (ch->value()){
             case 0: state->setElemColor(ElemColor::random); break;
             case 1: state->setElemColor(ElemColor::red); break;
@@ -59,7 +58,7 @@ statePolygon::statePolygon(AppWindow* ptr) : State(ptr) {
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         statePolygon* state = static_cast<statePolygon*>(statePtr);
-        assert(bt != nullptr); assert(state != nullptr);
+        assert(bt != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
         state->callUpdateGraphics(true); // max loh
     }, (void*)this);

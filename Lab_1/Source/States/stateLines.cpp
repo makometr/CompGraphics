@@ -14,7 +14,7 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     slider_number->align(FL_ALIGN_LEFT);
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 1000);
-    slider_number->value(50);
+    slider_number->value(pointsNumber);
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         stateLines* state = static_cast<stateLines*>(statePtr);
@@ -91,9 +91,8 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     auto button_choose_color = new Fl_Button(500+60, 225, 140, 30, "Задать цвет фона");
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
-        statePoints* state = static_cast<statePoints*>(statePtr);
+        stateLines* state = static_cast<stateLines*>(statePtr);
         assert(bt != nullptr);
-        assert(state != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
         state->callUpdateGraphics(true);
     }, (void*)this);
@@ -103,7 +102,7 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
     button_regenerate->callback([](Fl_Widget* w, void* appWinPtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         AppWindow* appWin = static_cast<AppWindow*>(appWinPtr);
-        assert(bt != nullptr); assert(appWin != nullptr);
+        assert(bt != nullptr);
         appWin->update(true);
     }, (void*)button_regenerate->parent());
     widgets.push_back(button_regenerate);

@@ -14,12 +14,11 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
     slider_number->align(FL_ALIGN_LEFT);
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 1000);
-    slider_number->value(50);
+    slider_number->value(pointsNumber);
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         stateLineStrips* state = static_cast<stateLineStrips*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         state->setPointsNumber((int)ch->value());
         state->callUpdateGraphics(true);
     }, (void*)this);
@@ -41,7 +40,6 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateLineStrips* state = static_cast<stateLineStrips*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         switch (ch->value()){
             case 0: state->setLength(LineLength::small); break;
             case 1: state->setLength(LineLength::middle); break;
@@ -72,7 +70,6 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateLineStrips* state = static_cast<stateLineStrips*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         switch (ch->value()){
             case 0: state->setElemColor(ElemColor::random); break;
             case 1: state->setElemColor(ElemColor::red); break;
@@ -91,9 +88,8 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
     auto button_choose_color = new Fl_Button(500+60, 225, 140, 30, "Задать цвет фона");
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
-        statePoints* state = static_cast<statePoints*>(statePtr);
+        stateLineStrips* state = static_cast<stateLineStrips*>(statePtr);
         assert(bt != nullptr);
-        assert(state != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
         state->callUpdateGraphics(true);
     }, (void*)this);

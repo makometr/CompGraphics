@@ -119,7 +119,7 @@ public:
 
 class stateTriangles final : public State {
 private:
-    size_t pointsNumber = 50;
+    size_t pointsNumber = 9;
     Fl_Color bkgColor = FL_GRAY;
     TripleColors colors;
 
@@ -140,7 +140,7 @@ public:
 
 class stateTriangleStrip final : public State {
 private:
-    size_t pointsNumber = 50;
+    size_t pointsNumber = 9;
     Fl_Color bkgColor = FL_GRAY;
     TripleColors colors;
 
@@ -161,7 +161,7 @@ public:
 
 class stateTriangleFan final : public State {
 private:
-    size_t pointsNumber = 50;
+    size_t pointsNumber = 9;
     Fl_Color bkgColor = FL_GRAY;
     TripleColors colors;
 

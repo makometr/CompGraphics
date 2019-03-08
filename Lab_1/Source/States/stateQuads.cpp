@@ -14,12 +14,11 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
     slider_number->align(FL_ALIGN_LEFT);
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 60);
-    slider_number->value(9);
+    slider_number->value(pointsNumber);
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         state->setPointsNumber((int)ch->value());
         state->callUpdateGraphics(true);
     }, (void*)this);
@@ -42,7 +41,6 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateQuads* state = static_cast<stateQuads*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         auto currColor = state->getTetradColor();
         switch (ch->value()){
             case 0: std::get<0>(currColor) = ElemColor::random; break;
@@ -75,7 +73,6 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateQuads* state = static_cast<stateQuads*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         auto currColor = state->getTetradColor();
         switch (ch->value()){
             case 0: std::get<1>(currColor) = ElemColor::random; break;
@@ -108,7 +105,6 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateQuads* state = static_cast<stateQuads*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         auto currColor = state->getTetradColor();
         switch (ch->value()){
             case 0: std::get<2>(currColor) = ElemColor::random; break;
@@ -141,7 +137,6 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         stateQuads* state = static_cast<stateQuads*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         auto currColor = state->getTetradColor();
         switch (ch->value()){
             case 0: std::get<3>(currColor) = ElemColor::random; break;
@@ -161,9 +156,8 @@ stateQuads::stateQuads(AppWindow* ptr) : State(ptr) {
     auto button_choose_color = new Fl_Button(500+60, 321, 140, 30, "Задать цвет фона");
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
-        statePoints* state = static_cast<statePoints*>(statePtr);
+        stateQuads* state = static_cast<stateQuads*>(statePtr);
         assert(bt != nullptr);
-        assert(state != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
         state->callUpdateGraphics(true);
     }, (void*)this);

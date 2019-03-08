@@ -15,7 +15,7 @@ statePoints::statePoints(AppWindow* ptr) : State(ptr) {
     slider_number->align(FL_ALIGN_LEFT);
     slider_number->type(FL_HOR_SLIDER);
     slider_number->bounds(1, 1000);
-    slider_number->value(100);
+    slider_number->value(pointsNumber);
     slider_number->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
@@ -43,7 +43,6 @@ statePoints::statePoints(AppWindow* ptr) : State(ptr) {
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
         assert(ch != nullptr);
-        assert(state != nullptr);
         switch (ch->value()){
             case 0: state->setPlacementType(PointPlacement::circle); break;
             case 1: state->setPlacementType(PointPlacement::rect); break;
@@ -63,7 +62,7 @@ statePoints::statePoints(AppWindow* ptr) : State(ptr) {
     button_choose_color->callback([](Fl_Widget* w, void* statePtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         statePoints* state = static_cast<statePoints*>(statePtr);
-        assert(bt != nullptr); assert(state != nullptr);
+        assert(bt != nullptr);
         state->setBkgColor(fl_show_colormap(state->getBkgColor()));
         state->callUpdateGraphics(true);
     }, (void*)this);
@@ -73,7 +72,7 @@ statePoints::statePoints(AppWindow* ptr) : State(ptr) {
     button_regenerate->callback([](Fl_Widget* w, void* appWinPtr){
         Fl_Button* bt = dynamic_cast<Fl_Button*>(w);
         AppWindow* appWin = static_cast<AppWindow*>(appWinPtr);
-        assert(bt != nullptr); assert(appWin != nullptr);
+        assert(bt != nullptr);
         appWin->update(true);
     }, (void*)button_regenerate->parent());
     widgets.push_back(button_regenerate);
