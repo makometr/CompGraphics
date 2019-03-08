@@ -1,5 +1,5 @@
 #include "States.hpp"
-#include "AppWin.hpp"
+#include "../AppWin.hpp"
 
 // ----- State ---------------------------------------------------------
 void State::hideWidgets(){

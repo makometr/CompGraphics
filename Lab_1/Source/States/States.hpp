@@ -1,6 +1,6 @@
 #pragma once
-#include "AppWin.hpp"
-#include "libs.hpp"
+#include "../AppWin.hpp"
+#include "../libs.hpp"
 
 class AppWindow;
 

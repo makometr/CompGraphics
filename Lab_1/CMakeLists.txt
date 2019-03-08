@@ -13,6 +13,9 @@ link_directories(/C:/fltk-1.3.5rc2/lib)
 file(GLOB Lab1_SRC
 	./Source/*.cpp
 )
+file(GLOB Lab1_SRC_State
+	./Source/States/*.cpp
+)
 
 find_package(OpenGL 3.3 REQUIRED)
 	include_directories(${OPENGL_INCLUDE_DIRS})
@@ -23,7 +26,7 @@ find_package(GLEW REQUIRED)
 find_package(FLTK REQUIRED)
 	include_directories(${FLTK_INCLUDE_DIRS})
 	link_libraries(${FLTK_LIBRARIES})
-
-add_executable(Lab1 ${Lab1_SRC})
+ 
+add_executable(Lab1 ${Lab1_SRC} ${Lab1_SRC_State})
 #target_link_libraries(Lab1 fltk fltk_gl fltk_forms opengl32 gdi32 ole32 uuid comctl32)
 target_link_libraries(Lab1)

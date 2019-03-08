@@ -3,7 +3,7 @@
 #include "GlSubWin.hpp"
 
 class GlSubWin;
-#include "States.hpp"
+#include "States/States.hpp"
 class State;
 
 class AppWindow : public Fl_Window {
