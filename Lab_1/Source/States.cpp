@@ -190,10 +190,10 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
         assert(ch != nullptr);
         assert(state != nullptr);
         switch (ch->value()){
-            case 0: state->setLineColor(LineColor::random); break;
-            case 1: state->setLineColor(LineColor::red); break;
-            case 2: state->setLineColor(LineColor::green); break;
-            case 3: state->setLineColor(LineColor::blue); break;
+            case 0: state->setElemColor(ElemColor::random); break;
+            case 1: state->setElemColor(ElemColor::red); break;
+            case 2: state->setElemColor(ElemColor::green); break;
+            case 3: state->setElemColor(ElemColor::blue); break;
             default:
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
@@ -230,12 +230,12 @@ stateLines::stateLines(AppWindow* ptr) : State(ptr) {
 void stateLines::setPointsNumber(size_t newNumber){ pointsNumber = newNumber; }
 void stateLines::setLength(LineLength newLength){ length = newLength; }
 void stateLines::setBkgColor(Fl_Color color){ bkgColor = color; }
-void stateLines::setLineColor(LineColor newColor){ linesColor = newColor; }
+void stateLines::setElemColor(ElemColor newColor){ linesColor = newColor; }
 
 size_t stateLines::getPointsNumber() const { return pointsNumber; }
 LineLength stateLines::getLength() const { return length; }
 Fl_Color stateLines::getBkgColor() const { return bkgColor; }
-LineColor stateLines::getLineColor() const { return linesColor; }
+ElemColor stateLines::getElemColor() const { return linesColor; }
 
 
 
@@ -314,10 +314,10 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
         assert(ch != nullptr);
         assert(state != nullptr);
         switch (ch->value()){
-            case 0: state->setLineColor(LineColor::random); break;
-            case 1: state->setLineColor(LineColor::red); break;
-            case 2: state->setLineColor(LineColor::green); break;
-            case 3: state->setLineColor(LineColor::blue); break;
+            case 0: state->setElemColor(ElemColor::random); break;
+            case 1: state->setElemColor(ElemColor::red); break;
+            case 2: state->setElemColor(ElemColor::green); break;
+            case 3: state->setElemColor(ElemColor::blue); break;
             default:
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
@@ -354,12 +354,12 @@ stateLineStrips::stateLineStrips(AppWindow* ptr) : State(ptr) {
 void stateLineStrips::setPointsNumber(size_t newNumber){ pointsNumber = newNumber; }
 void stateLineStrips::setLength(LineLength newLength){ length = newLength; }
 void stateLineStrips::setBkgColor(Fl_Color color){ bkgColor = color; }
-void stateLineStrips::setLineColor(LineColor newColor){ stripsColor = newColor; }
+void stateLineStrips::setElemColor(ElemColor newColor){ stripsColor = newColor; }
 
 size_t stateLineStrips::getPointsNumber() const { return pointsNumber; }
 LineLength stateLineStrips::getLength() const { return length; }
 Fl_Color stateLineStrips::getBkgColor() const { return bkgColor; }
-LineColor stateLineStrips::getLineColor() const { return stripsColor; }
+ElemColor stateLineStrips::getElemColor() const { return stripsColor; }
 
 
 
@@ -438,10 +438,10 @@ stateLineLoop::stateLineLoop(AppWindow* ptr) : State(ptr) {
         assert(ch != nullptr);
         assert(state != nullptr);
         switch (ch->value()){
-            case 0: state->setLoopColor(LineColor::random); break;
-            case 1: state->setLoopColor(LineColor::red); break;
-            case 2: state->setLoopColor(LineColor::green); break;
-            case 3: state->setLoopColor(LineColor::blue); break;
+            case 0: state->setLoopColor(ElemColor::random); break;
+            case 1: state->setLoopColor(ElemColor::red); break;
+            case 2: state->setLoopColor(ElemColor::green); break;
+            case 3: state->setLoopColor(ElemColor::blue); break;
             default:
                 assert("Incorrect value in switch statement!\n" == nullptr);
                 break;
@@ -478,9 +478,25 @@ stateLineLoop::stateLineLoop(AppWindow* ptr) : State(ptr) {
 void stateLineLoop::setPointsNumber(size_t newNumber){ pointsNumber = newNumber; }
 void stateLineLoop::setLength(LineLength newLength){ length = newLength; }
 void stateLineLoop::setBkgColor(Fl_Color color){ bkgColor = color; }
-void stateLineLoop::setLoopColor(LineColor newColor){ loopColor = newColor; }
+void stateLineLoop::setLoopColor(ElemColor newColor){ loopColor = newColor; }
 
 size_t stateLineLoop::getPointsNumber() const { return pointsNumber; }
 LineLength stateLineLoop::getLength() const { return length; }
 Fl_Color stateLineLoop::getBkgColor() const { return bkgColor; }
-LineColor stateLineLoop::getLoopColor() const { return loopColor; }
+ElemColor stateLineLoop::getLoopColor() const { return loopColor; }
+
+
+stateTriangles::stateTriangles(AppWindow* ptr) : State(ptr) {
+    
+}
+
+void stateTriangles::setPointsNumber(size_t newNumber){ pointsNumber = newNumber; }
+void stateTriangles::setLength(LineLength newLength){ length = newLength; }
+void stateTriangles::setBkgColor(Fl_Color color){ bkgColor = color; }
+void stateTriangles::setElemColor(ElemColor color_1, ElemColor color_2, ElemColor color_3){};
+void stateTriangles::setElemColor(TripleColors tripleCol){};
+
+size_t stateTriangles::getPointsNumber() const { return pointsNumber; }
+LineLength stateTriangles::getLength() const { return length; }
+Fl_Color stateTriangles::getBkgColor() const { return bkgColor; }
+ElemColor stateTriangles::getElemColor() const{};

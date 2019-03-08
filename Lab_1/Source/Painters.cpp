@@ -132,12 +132,12 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     float r = 0;
     float g = 0;
     float b = 0;
-    LineColor choosedColor = state->getLineColor();
+    ElemColor choosedColor = state->getElemColor();
     switch (choosedColor){
-        case LineColor::red:    r = 1; break;
-        case LineColor::green:  g = 1; break;
-        case LineColor::blue:   b = 1; break;
-        case LineColor::random: {
+        case ElemColor::red:    r = 1; break;
+        case ElemColor::green:  g = 1; break;
+        case ElemColor::blue:   b = 1; break;
+        case ElemColor::random: {
             r = static_cast<float>(std::rand() % 256) / 256;
             g = static_cast<float>(std::rand() % 256) / 256;
             b = static_cast<float>(std::rand() % 256) / 256;
@@ -150,7 +150,7 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     number % 2 == 1 ? number-- : number;
     while (number > 0){
         glBegin(GL_LINES);
-            if (choosedColor == LineColor::random){
+            if (choosedColor == ElemColor::random){
                 r = static_cast<float>(std::rand() % 256) / 256;
                 g = static_cast<float>(std::rand() % 256) / 256;
                 b = static_cast<float>(std::rand() % 256) / 256;
@@ -187,12 +187,12 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
     }
 
     //color
-    LineColor choosedColor = state->getLineColor();
+    ElemColor choosedColor = state->getElemColor();
     switch (choosedColor){
-        case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case LineColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
-        case LineColor::random: {
+        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
+        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
+        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case ElemColor::random: {
             auto r = static_cast<float>(std::rand() % 256) / 256;
             auto g = static_cast<float>(std::rand() % 256) / 256;
             auto b = static_cast<float>(std::rand() % 256) / 256;
@@ -239,12 +239,12 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
     }
 
     //color
-    LineColor choosedColor = state->getLoopColor();
+    ElemColor choosedColor = state->getLoopColor();
     switch (choosedColor){
-        case LineColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case LineColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case LineColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
-        case LineColor::random: {
+        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
+        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
+        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case ElemColor::random: {
             auto r = static_cast<float>(std::rand() % 256) / 256;
             auto g = static_cast<float>(std::rand() % 256) / 256;
             auto b = static_cast<float>(std::rand() % 256) / 256;

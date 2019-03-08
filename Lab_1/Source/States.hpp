@@ -47,7 +47,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     stateLines(AppWindow* ptr);
@@ -61,8 +61,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -72,7 +72,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor stripsColor = LineColor::random;
+    ElemColor stripsColor = ElemColor::random;
 
 public:
     stateLineStrips(AppWindow* ptr);
@@ -86,8 +86,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -97,7 +97,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor loopColor = LineColor::random;
+    ElemColor loopColor = ElemColor::random;
 
 public:
     stateLineLoop(AppWindow* ptr);
@@ -111,8 +111,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLoopColor(LineColor newColor);
-    LineColor getLoopColor() const;
+    void setLoopColor(ElemColor newColor);
+    ElemColor getLoopColor() const;
 };
 
 
@@ -122,7 +122,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    TripleColors colors;
 
 public:
     stateTriangles(AppWindow* ptr);
@@ -136,8 +136,9 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor color_1, ElemColor color_2, ElemColor color_3);
+    void setElemColor(TripleColors tripleCol);
+    ElemColor getElemColor() const;
 };
 
 
@@ -147,7 +148,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     stateTriangleStrip(AppWindow* ptr);
@@ -161,8 +162,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -172,7 +173,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     stateTriangleFan(AppWindow* ptr);
@@ -186,8 +187,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -197,7 +198,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     stateQuads(AppWindow* ptr);
@@ -211,8 +212,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -221,7 +222,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     stateQuadsStrip(AppWindow* ptr);
@@ -235,8 +236,8 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };
 
 
@@ -245,7 +246,7 @@ private:
     size_t pointsNumber = 50;
     LineLength length = LineLength::small;
     Fl_Color bkgColor = FL_GRAY;
-    LineColor linesColor = LineColor::random;
+    ElemColor linesColor = ElemColor::random;
 
 public:
     statePolygon(AppWindow* ptr);
@@ -259,6 +260,6 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 
-    void setLineColor(LineColor newColor);
-    LineColor getLineColor() const;
+    void setElemColor(ElemColor newColor);
+    ElemColor getElemColor() const;
 };

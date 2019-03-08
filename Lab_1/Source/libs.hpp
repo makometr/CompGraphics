@@ -23,7 +23,15 @@
 #include <memory>
 #include <tuple>
 
+enum class ElemColor : int {
+    random = 0,
+    red = 1,
+    green = 2,
+    blue = 3,
+};
+
 using RGB = std::tuple<unsigned, unsigned, unsigned>;
+using TripleColors = std::tuple<ElemColor, ElemColor, ElemColor>;
 
 constexpr size_t PrimitivesNumber = 10;
 
@@ -54,9 +62,3 @@ enum class LineLength : int {
     large = 2
 };
 
-enum class LineColor : int {
-    random = 0,
-    red = 1,
-    green = 2,
-    blue = 3,
-};
