@@ -6,7 +6,7 @@
 int main() {
     std::srand(std::time(NULL));
     AppWindow win(750, 520, "Computer graphics. Lab 1");
-    win.resizable(win);
+    // win.resizable(win);
     win.show();
     return(Fl::run());
 }
