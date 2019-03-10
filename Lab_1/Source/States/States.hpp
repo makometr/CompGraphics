@@ -296,6 +296,9 @@ public:
     void setParameter(AlphaParameter newParam);
     AlphaParameter getParameter() const;
 
+    void setAlpha(int newAlpha);
+    int getAlpha() const ;
+
     void setUpperColor(ElemColor newUpperColor);
     ElemColor getUpperColor() const;
 

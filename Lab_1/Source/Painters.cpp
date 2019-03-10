@@ -389,10 +389,6 @@ void PolygonPainter::operator()(State* statePtr, int winWidth, int winHeight, bo
 void ScissorPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateScissor* state = dynamic_cast<stateScissor*>(statePtr);
     assert(state != nullptr);
-    // if (State::isScissorTestEnabled() == false)
-    //     glEnable(GL_SCISSOR_TEST);
-    // State::setScissorTest(true);
-    
 
     // bkg color
     glClearColor(0, 0, 0, 1);
@@ -421,13 +417,13 @@ void ScissorPainter::operator()(State* statePtr, int winWidth, int winHeight, bo
 }
 
 void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
-    // // alp* state = dynamic_cast<alp*>(statePtr);
-    // // assert(state != nullptr);  
+    stateAlpha* state = dynamic_cast<stateAlpha*>(statePtr);
+    assert(state != nullptr);
 
     // bkg color
-    // auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
-    // glClearColor(r/255, g/255, b/255, 0.3);
-    // glClear(GL_COLOR_BUFFER_BIT);
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable( GL_BLEND );

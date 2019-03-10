@@ -18,6 +18,7 @@
 #include <FL/fl_show_colormap.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Check_Button.H>
+#include <FL/fl_draw.H>
 #include <stdio.h>
 #include <assert.h>
 #include <vector>
