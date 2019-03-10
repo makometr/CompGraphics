@@ -10,14 +10,13 @@ stateScissor::stateScissor(AppWindow* ptr) : State(ptr) {
         Fl_Check_Button* t = dynamic_cast<Fl_Check_Button*>(w);
         stateScissor* state = static_cast<stateScissor*>(statePtr);
         assert(t != nullptr);
-        std::cout << "Set: " << (bool)t->value() << "\n"; 
         State::setScissorTest((bool)t->value());
         state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(toogle);
 
     // x
-    auto label_number_x = new Fl_Box(500 + 30, 95, 200, 30, "Начальный X:"); // было 70
+    auto label_number_x = new Fl_Box(500 + 30, 95, 200, 30, "Начальный X:");
     label_number_x->box(FL_NO_BOX);
     label_number_x->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_number_x->labelsize(16);

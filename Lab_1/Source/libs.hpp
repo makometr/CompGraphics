@@ -65,7 +65,7 @@ enum class LineLength : int {
     large = 2
 };
 
-enum class AlphaParametr : int {
+enum class AlphaParameter : int {
     NEVER    = 0,
     LESS     = 1,
     EQUAL    = 2,

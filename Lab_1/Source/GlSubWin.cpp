@@ -19,8 +19,8 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     painters.push_back(new PolygonPainter{});
     // tests
     painters.push_back(new ScissorPainter{});
-    painters.push_back(new BlendPainter{});
     painters.push_back(new AlphaPainter{});
+    painters.push_back(new BlendPainter{});
 }
 
 GlSubWin::~GlSubWin(){

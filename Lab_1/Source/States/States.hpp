@@ -282,21 +282,32 @@ public:
 
 class stateAlpha final : public State {
 private:
-    AlphaParametr param = AlphaParametr::ALWAYS; // 7
+    AlphaParameter param = AlphaParameter::ALWAYS; // 7 
+    int alpha = 100;
+    ElemColor upperColor = ElemColor::random;
+    ElemColor lowerColor = ElemColor::random;
+    int upperAlpha = 100;
+    int lowerAlpha = 50;
     Fl_Color bkgColor = FL_GRAY;
 
 public:
     stateAlpha(AppWindow* ptr);
 
-    void setX(int newX);
-    int getX() const;
+    void setParameter(AlphaParameter newParam);
+    AlphaParameter getParameter() const;
 
-    void setY(int newY);
-    int getY() const;
+    void setUpperColor(ElemColor newUpperColor);
+    ElemColor getUpperColor() const;
 
-    void setWidth(int newWidth);
-    int getWidth() const;
+    void setLowerColor(ElemColor newLowerColor);
+    ElemColor getLowerColor() const;
 
-    void setHeight(int newHeight);
-    int getHeight() const;
+    void setLowerAlpha(int newLowerAlpha);
+    int getLowerAlpha() const;
+
+    void setUpperAlpha(int newUpperAlpha);
+    int getUpperAlpha() const;
+
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
 };
