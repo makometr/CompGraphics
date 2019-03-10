@@ -74,3 +74,21 @@ public:
     PolygonPainter() = default;
     virtual void operator()(State* statePtr, int winWidth, int winHeight, bool redraw) override;
 };
+
+class ScissorPainter : public IPainter {
+public:
+    ScissorPainter() = default;
+    virtual void operator()(State* statePtr, int winWidth, int winHeight, bool redraw) override;
+};
+
+class AlphaPainter : public IPainter {
+public:
+    AlphaPainter() = default;
+    virtual void operator()(State* statePtr, int winWidth, int winHeight, bool redraw) override;
+};
+
+class BlendPainter : public IPainter {
+public:
+    BlendPainter() = default;
+    virtual void operator()(State* statePtr, int winWidth, int winHeight, bool redraw) override;
+};

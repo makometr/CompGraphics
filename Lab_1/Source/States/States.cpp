@@ -23,4 +23,26 @@ size_t State::getNeededParentBoxHeight(){
     return parentBoxHeight;
 }
 
+bool State::isScissorTestEnabled() const {
+    return isScissorTest;
+}
 
+bool State::setScissorTest(bool isNew){
+    isScissorTest = isNew;
+}
+
+bool State::isAlphaTestEnabled() const {
+    return isAlphaTest;
+}
+
+bool State::setAlphaTest(bool isNew){
+    isAlphaTest = isNew;
+}
+
+bool State::isBlendTestEnabled() const {
+    return isBlendTest;
+}
+
+bool State::setBlendTest(bool isNew){
+    isBlendTest = isNew;
+}

@@ -385,3 +385,15 @@ void PolygonPainter::operator()(State* statePtr, int winWidth, int winHeight, bo
     }
     glEnd();
 }
+
+void ScissorPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
+    std::cout << "Scissor!\n";
+}
+
+void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
+    std::cout << "Alpha!\n";
+}
+
+void BlendPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
+    std::cout << "Blend!\n";
+}

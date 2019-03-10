@@ -7,7 +7,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     primitiveTypeStates.reserve(PrimitivesNumber);
 
     box_upper = new Fl_Box(glSubWin->w() + 20, 10, 750-500-10-10-10, 300, "Primitive name:");
-    box_upper->box(FL_UP_BOX);
+    // box_upper->box(FL_UP_BOX); // for correct resizing this object should be owned by stateSmth below
     box_upper->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     box_upper->labelfont(FL_BOLD);
     box_upper->labelsize(22);
@@ -65,8 +65,8 @@ AppWindow::AppWindow(int W,int H,const char*L)
     // Create widgets for 9-state: POLYGON
     statePtr = new statePolygon(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
-    end();
 
+    end();
     changePrimitive(currentType);
 }
 

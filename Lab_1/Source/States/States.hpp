@@ -9,10 +9,21 @@ protected:
     std::vector<Fl_Widget*> widgets;
     size_t parentBoxHeight = 300; // default number, should be rewritten in derived classes
     AppWindow *appWinPtr = nullptr;
-    
+    bool isScissorTest = false;
+    bool isAlphaTest = false;
+    bool isBlendTest = false;
+
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
     size_t getNeededParentBoxHeight();
+
+    bool isScissorTestEnabled() const;
+    bool setScissorTest(bool);
+    bool isAlphaTestEnabled() const;
+    bool setAlphaTest(bool);
+    bool isBlendTestEnabled() const;
+    bool setBlendTest(bool);
+
     void callUpdateGraphics(bool);
     virtual void hideWidgets();
     virtual void showWidgets();
@@ -237,4 +248,53 @@ public:
 
     void setElemColor(ElemColor newColor);
     ElemColor getElemColor() const; 
+};
+
+class stateScissor final : public State {
+private:
+    int x = 0;
+    int y = 0;
+    int width;
+    int height;
+    Fl_Color bkgColor = FL_GRAY;
+
+public:
+    stateScissor(AppWindow* ptr);
+
+    void setX(int newX);
+    int getX() const;
+
+    void setY(int newY);
+    int getY() const;
+
+    void setWidth(int newWidth);
+    int getWidth() const;
+
+    void setHeight(int newHeight);
+    int getHeight() const;
+};
+
+
+class stateAlpha final : public State {
+private:
+    int x = 0;
+    int y = 0;
+    int width;
+    int height;
+    Fl_Color bkgColor = FL_GRAY;
+
+public:
+    stateAlpha(AppWindow* ptr);
+
+    void setX(int newX);
+    int getX() const;
+
+    void setY(int newY);
+    int getY() const;
+
+    void setWidth(int newWidth);
+    int getWidth() const;
+
+    void setHeight(int newHeight);
+    int getHeight() const;
 };
