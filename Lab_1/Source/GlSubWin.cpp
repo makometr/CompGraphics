@@ -35,6 +35,9 @@ void GlSubWin::draw() {
         FixViewport(w(), h());
     }
     glPolygonMode(GL_QUADS, GL_POINT);
+    State::isScissorTestEnabled() ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
+    State::isAlphaTestEnabled() ? glEnable(GL_ALPHA_TEST) : glDisable(GL_ALPHA_TEST);
+    State::isBlendTestEnabled() ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
     painters.at(static_cast<int>(type))->operator()(curStatePtr, w(), h(), shouldRedraw);
 }
 

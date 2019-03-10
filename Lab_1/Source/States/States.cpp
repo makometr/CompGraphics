@@ -1,6 +1,10 @@
 #include "States.hpp"
 #include "../AppWin.hpp"
 
+bool State::isScissorTest = false;
+bool State::isAlphaTest = false;
+bool State::isBlendTest = false;
+
 void State::hideWidgets(){
     for (auto &widget : widgets)
         widget->hide();
@@ -23,26 +27,26 @@ size_t State::getNeededParentBoxHeight(){
     return parentBoxHeight;
 }
 
-bool State::isScissorTestEnabled() const {
+bool State::isScissorTestEnabled() {
     return isScissorTest;
 }
 
-bool State::setScissorTest(bool isNew){
+void State::setScissorTest(bool isNew){
     isScissorTest = isNew;
 }
 
-bool State::isAlphaTestEnabled() const {
+bool State::isAlphaTestEnabled() {
     return isAlphaTest;
 }
 
-bool State::setAlphaTest(bool isNew){
+void State::setAlphaTest(bool isNew){
     isAlphaTest = isNew;
 }
 
-bool State::isBlendTestEnabled() const {
+bool State::isBlendTestEnabled() {
     return isBlendTest;
 }
 
-bool State::setBlendTest(bool isNew){
+void State::setBlendTest(bool isNew){
     isBlendTest = isNew;
 }

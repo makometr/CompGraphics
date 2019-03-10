@@ -9,20 +9,20 @@ protected:
     std::vector<Fl_Widget*> widgets;
     size_t parentBoxHeight = 300; // default number, should be rewritten in derived classes
     AppWindow *appWinPtr = nullptr;
-    bool isScissorTest = false;
-    bool isAlphaTest = false;
-    bool isBlendTest = false;
+    static bool isScissorTest;
+    static bool isAlphaTest;
+    static bool isBlendTest;
 
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
     size_t getNeededParentBoxHeight();
 
-    bool isScissorTestEnabled() const;
-    bool setScissorTest(bool);
-    bool isAlphaTestEnabled() const;
-    bool setAlphaTest(bool);
-    bool isBlendTestEnabled() const;
-    bool setBlendTest(bool);
+    static bool isScissorTestEnabled();
+    static void setScissorTest(bool);
+    static bool isAlphaTestEnabled();
+    static void setAlphaTest(bool);
+    static bool isBlendTestEnabled();
+    static void setBlendTest(bool);
 
     void callUpdateGraphics(bool);
     virtual void hideWidgets();
