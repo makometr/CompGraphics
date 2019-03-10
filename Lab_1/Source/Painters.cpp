@@ -25,7 +25,7 @@ void IPainter::applyColor(ElemColor color){
     }
 }
 
-void PointPainter::operator()(State* statePtr, bool redraw){
+void PointPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     statePoints* state = dynamic_cast<statePoints*>(statePtr);
     assert(state != nullptr);
 
@@ -35,16 +35,15 @@ void PointPainter::operator()(State* statePtr, bool redraw){
     glClear(GL_COLOR_BUFFER_BIT);
 
     size_t number = state->getPointsNumber();
-    GLdouble center_x = 500 / 2;
-    GLdouble center_y = 500 / 2;
+    GLdouble center_x = winWidth / 2;
+    GLdouble center_y = winHeight / 2;
     PointPlacement placement = state->getPlacementType();
     switch (placement){
         case PointPlacement::circle: {
-            GLdouble r = 200;
+            GLdouble r = std::min(winHeight, winWidth)/2 - 50;
             glBegin(GL_POINTS);
                 glColor3f(0.0f, 1.0f, 0.0f); 
                 for (size_t n = 0; n < number; ++n) {
-                    // GLdouble angle = dis(gen);
                     GLdouble angle = (std::rand() % 3600) / 10;
                     auto x = r * std::cos(angle) + center_x;
                     auto y = r * std::sin(angle) + center_y;
@@ -56,11 +55,12 @@ void PointPainter::operator()(State* statePtr, bool redraw){
         case PointPlacement::rect: {
             GLdouble edge = 200;
             glColor3f(0.0f, 1.0f, 0.0f);
+            glBegin(GL_POINTS);
             for (size_t i = 0; i < number; i++){
                 int side = rand() % 4;
                 GLdouble pos = (std::rand() % (int)edge) - edge / 2;
-                int y = center_x;
-                int x = center_y;
+                int x = center_x;
+                int y = center_y;
                 switch (side) {
                     case 0:
                         x += edge / 2;
@@ -81,10 +81,9 @@ void PointPainter::operator()(State* statePtr, bool redraw){
                     default:
                         break;
                 }
-                glBegin(GL_POINTS);
                     glVertex2d(x, y);
-                glEnd();
             }
+            glEnd();
         }
             break;
         case PointPlacement::normal: {
@@ -120,7 +119,7 @@ void PointPainter::operator()(State* statePtr, bool redraw){
 
 }
 
-void LinePainter::operator()(State* statePtr, bool redraw){
+void LinePainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateLines* state = dynamic_cast<stateLines*>(statePtr);
     assert(state != nullptr);
 
@@ -133,9 +132,9 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     LineLength choosedLength = state->getLength();
     int length = 0;
     switch (choosedLength){
-        case LineLength::small:  length = 200; break;
-        case LineLength::middle: length = 350; break;
-        case LineLength::large:  length = 500; break;
+        case LineLength::small:  length = 0.45 * std::min(winWidth, winHeight); break;
+        case LineLength::middle: length = 0.70 * std::min(winWidth, winHeight); break;
+        case LineLength::large:  length = 1.00 * std::min(winWidth, winHeight); break;
         default: assert("Invalid switch statement!\n" == nullptr);
     }
 
@@ -148,8 +147,8 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     while (number > 0){
         glBegin(GL_LINES);
             if (choosedColor == ElemColor::random) applyColor(choosedColor);
-            auto x_1 = 250;
-            auto y_1 = 250;
+            auto x_1 = winWidth / 2;
+            auto y_1 = winHeight / 2;
             glVertex2d(x_1, y_1);
             auto x_2 = (std::rand() % length) - length / 2 + x_1;
             auto y_2 = (std::rand() % length) - length / 2 + y_1;
@@ -159,7 +158,7 @@ void LinePainter::operator()(State* statePtr, bool redraw){
     }
 }
 
-void LineStripPainter::operator()(State* statePtr, bool redraw){
+void LineStripPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateLineStrips* state = dynamic_cast<stateLineStrips*>(statePtr);
     assert(state != nullptr);
 
@@ -172,9 +171,9 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
     LineLength choosedLength = state->getLength();
     int length = 0;
     switch (choosedLength){
-        case LineLength::small:  length = 150; break;
-        case LineLength::middle: length = 300; break;
-        case LineLength::large:  length = 400; break;
+        case LineLength::small:  length = 0.30 * std::min(winWidth, winHeight); break;
+        case LineLength::middle: length = 0.45 * std::min(winWidth, winHeight); break;
+        case LineLength::large:  length = 0.60 * std::min(winWidth, winHeight); break;
         default: assert("Invalid switch statement!\n" == nullptr);
     }
 
@@ -199,7 +198,7 @@ void LineStripPainter::operator()(State* statePtr, bool redraw){
 }
 
 
-void LineLoopPainter::operator()(State* statePtr, bool redraw){
+void LineLoopPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateLineLoop* state = dynamic_cast<stateLineLoop*>(statePtr);
     assert(state != nullptr);
 
@@ -212,9 +211,9 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
     LineLength choosedLength = state->getLength();
     int length = 0;
     switch (choosedLength){
-        case LineLength::small:  length = 150; break;
-        case LineLength::middle: length = 300; break;
-        case LineLength::large:  length = 400; break;
+        case LineLength::small:  length = 0.30 * std::min(winWidth, winHeight); break;
+        case LineLength::middle: length = 0.45 * std::min(winWidth, winHeight); break;
+        case LineLength::large:  length = 0.60 * std::min(winWidth, winHeight); break;
         default: assert("Invalid switch statement!\n" == nullptr);
     }
 
@@ -239,7 +238,7 @@ void LineLoopPainter::operator()(State* statePtr, bool redraw){
 }
 
 
-void TrianglesPainter::operator()(State* statePtr, bool redraw){
+void TrianglesPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateTriangles* state = dynamic_cast<stateTriangles*>(statePtr);
     assert(state != nullptr);  
 
@@ -256,14 +255,14 @@ void TrianglesPainter::operator()(State* statePtr, bool redraw){
         else if (i % 3 == 1) applyColor(color_2);
         else if (i % 3 == 2) applyColor(color_3);
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+        auto x = std::rand() % winWidth;
+        auto y = std::rand() % winHeight;
         glVertex2f(x,y);
     }
     glEnd();
 }
 
-void TriangleStripPainter::operator()(State* statePtr, bool redraw){
+void TriangleStripPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateTriangleStrip* state = dynamic_cast<stateTriangleStrip*>(statePtr);
     assert(state != nullptr);  
 
@@ -280,14 +279,14 @@ void TriangleStripPainter::operator()(State* statePtr, bool redraw){
         else if (i % 3 == 1) applyColor(color_2);
         else if (i % 3 == 2) applyColor(color_3);
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+        auto x = std::rand() % winWidth;
+        auto y = std::rand() % winHeight;
         glVertex2f(x,y);
     }
     glEnd();
 }
 
-void TriangleFanPainter::operator()(State* statePtr, bool redraw){
+void TriangleFanPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateTriangleFan* state = dynamic_cast<stateTriangleFan*>(statePtr);
     assert(state != nullptr);  
 
@@ -304,14 +303,14 @@ void TriangleFanPainter::operator()(State* statePtr, bool redraw){
         else if (i % 3 == 1) applyColor(color_2);
         else if (i % 3 == 2) applyColor(color_3);
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+        auto x = std::rand() % winWidth;
+        auto y = std::rand() % winHeight;
         glVertex2f(x,y);
     }
     glEnd();
 }
 
-void QuadsPainter::operator()(State* statePtr, bool redraw){
+void QuadsPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateQuads* state = dynamic_cast<stateQuads*>(statePtr);
     assert(state != nullptr);  
 
@@ -329,14 +328,14 @@ void QuadsPainter::operator()(State* statePtr, bool redraw){
         else if (i % 4 == 2) applyColor(color_3);
         else if (i % 4 == 3) applyColor(color_4);
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+        auto x = std::rand() % winWidth;
+        auto y = std::rand() % winHeight;
         glVertex2f(x,y);
     }
     glEnd();
 }
 
-void QuadStripPainter::operator()(State* statePtr, bool redraw){
+void QuadStripPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateQuadsStrip* state = dynamic_cast<stateQuadsStrip*>(statePtr);
     assert(state != nullptr);  
 
@@ -354,14 +353,14 @@ void QuadStripPainter::operator()(State* statePtr, bool redraw){
         else if (i % 4 == 2) applyColor(color_3);
         else if (i % 4 == 3) applyColor(color_4);
 
-        auto x = std::rand() % 500;
-        auto y = std::rand() % 500;
+        auto x = std::rand() % winWidth;
+        auto y = std::rand() % winHeight;
         glVertex2f(x,y);
     }
     glEnd();
 }
 
-void PolygonPainter::operator()(State* statePtr, bool redraw){
+void PolygonPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     statePolygon* state = dynamic_cast<statePolygon*>(statePtr);
     assert(state != nullptr);  
 
@@ -378,8 +377,8 @@ void PolygonPainter::operator()(State* statePtr, bool redraw){
     glBegin(GL_POLYGON);
     for (size_t i = 0; i < pointsNumber; i++){
         GLdouble angle = (GLdouble)(std::rand() % (int)circleInterval * 10) / 10 + begin;
-        GLdouble x = (GLdouble)(std::rand() % 200 + 50) * std::cos(angle) + 250;
-        GLdouble y = (GLdouble)(std::rand() % 200 + 50) * std::sin(angle) + 250;
+        GLdouble x = (GLdouble)(std::rand() % (winWidth / 2 - 50) + 50) * std::cos(angle) + winWidth / 2;
+        GLdouble y = (GLdouble)(std::rand() % (winHeight / 2 - 50) + 50) * std::sin(angle) + winWidth / 2;
         applyColor(color);
         glVertex2f(x,y);
         begin += circleInterval;

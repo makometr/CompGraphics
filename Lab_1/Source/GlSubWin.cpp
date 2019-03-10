@@ -35,7 +35,7 @@ void GlSubWin::draw() {
         FixViewport(w(), h());
     }
     glPolygonMode(GL_QUADS, GL_POINT);
-    painters.at(static_cast<int>(type))->operator()(curStatePtr, shouldRedraw);
+    painters.at(static_cast<int>(type))->operator()(curStatePtr, w(), h(), shouldRedraw);
 }
 
 void GlSubWin::resize(int X,int Y,int W,int H) {
