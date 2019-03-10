@@ -13,6 +13,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     box_upper->labelsize(22);
 
     choice = new Fl_Choice(glSubWin->w() + 40, 37, 180, 25);
+    // primitives
     choice->add("GL_POINTS",         "q", changePrimitive_CB, (void*)this);
     choice->add("GL_LINES",          "w", changePrimitive_CB, (void*)this);
     choice->add("GL_LINE_STRIP",     "e", changePrimitive_CB, (void*)this);
@@ -22,7 +23,11 @@ AppWindow::AppWindow(int W,int H,const char*L)
     choice->add("GL_TRIANGLE_FAN",   "s", changePrimitive_CB, (void*)this);
     choice->add("QUADS",             "d", changePrimitive_CB, (void*)this);
     choice->add("GL_QUAD_STRIP",     "f", changePrimitive_CB, (void*)this);
-    choice->add("GL_POLYGON",        "g", changePrimitive_CB, (void*)this);
+    choice->add("_GL_POLYGON",       "g", changePrimitive_CB, (void*)this);
+    // tests
+    choice->add("TEST - SCISSOR",    "z", changePrimitive_CB, (void*)this);
+    choice->add("TEST - ALPHA",      "x", changePrimitive_CB, (void*)this);
+    choice->add("TEST - BLEND",      "c", changePrimitive_CB, (void*)this);
     choice->value(0);
     State* statePtr = nullptr;
 
@@ -64,6 +69,10 @@ AppWindow::AppWindow(int W,int H,const char*L)
 
     // Create widgets for 9-state: POLYGON
     statePtr = new statePolygon(this);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+
+    // Create widgets for 0-test: SCISSOR
+    statePtr = new stateScissor(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     end();

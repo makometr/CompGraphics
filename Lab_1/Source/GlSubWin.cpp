@@ -5,6 +5,7 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     : Fl_Gl_Window(X,Y,W,H,L)
 {
     end();
+    // primitives
     painters.reserve(PrimitivesNumber);
     painters.push_back(new PointPainter{});
     painters.push_back(new LinePainter{});
@@ -16,6 +17,10 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
     painters.push_back(new QuadsPainter{});
     painters.push_back(new QuadStripPainter{});
     painters.push_back(new PolygonPainter{});
+    // tests
+    painters.push_back(new ScissorPainter{});
+    painters.push_back(new BlendPainter{});
+    painters.push_back(new AlphaPainter{});
 }
 
 GlSubWin::~GlSubWin(){
@@ -36,8 +41,12 @@ void GlSubWin::draw() {
     }
     glPolygonMode(GL_QUADS, GL_POINT);
     State::isScissorTestEnabled() ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
+    if (State::isAlphaTestEnabled() || State::isBlendTestEnabled){
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable( GL_BLEND );
+    }
+    // State::isBlendTestEnabled() ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
     State::isAlphaTestEnabled() ? glEnable(GL_ALPHA_TEST) : glDisable(GL_ALPHA_TEST);
-    State::isBlendTestEnabled() ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
     painters.at(static_cast<int>(type))->operator()(curStatePtr, w(), h(), shouldRedraw);
 }
 

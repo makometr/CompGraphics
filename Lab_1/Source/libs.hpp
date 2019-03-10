@@ -17,6 +17,7 @@
 #include <FL/Fl_Slider.H>
 #include <FL/fl_show_colormap.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Check_Button.H>
 #include <stdio.h>
 #include <assert.h>
 #include <vector>
@@ -64,3 +65,13 @@ enum class LineLength : int {
     large = 2
 };
 
+enum class AlphaParametr : int {
+    NEVER    = 0,
+    LESS     = 1,
+    EQUAL    = 2,
+    LEQUAL   = 3,
+    GREATER  = 4,
+    NOTEQUAL = 5,
+    GEQUAL   = 6,
+    ALWAYS   = 7,
+};

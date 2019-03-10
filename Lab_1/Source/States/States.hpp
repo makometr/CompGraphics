@@ -250,6 +250,8 @@ public:
     ElemColor getElemColor() const; 
 };
 
+
+
 class stateScissor final : public State {
 private:
     int x = 0;
@@ -272,15 +274,15 @@ public:
 
     void setHeight(int newHeight);
     int getHeight() const;
+
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
 };
 
 
 class stateAlpha final : public State {
 private:
-    int x = 0;
-    int y = 0;
-    int width;
-    int height;
+    AlphaParametr param = AlphaParametr::ALWAYS; // 7
     Fl_Color bkgColor = FL_GRAY;
 
 public:

@@ -387,11 +387,60 @@ void PolygonPainter::operator()(State* statePtr, int winWidth, int winHeight, bo
 }
 
 void ScissorPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
-    std::cout << "Scissor!\n";
+    stateScissor* state = dynamic_cast<stateScissor*>(statePtr);
+    assert(state != nullptr);
+    // if (State::isScissorTestEnabled() == false)
+    //     glEnable(GL_SCISSOR_TEST);
+    // State::setScissorTest(true);
+    
+
+    // bkg color
+    glClearColor(0, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glScissor(state->getX(),
+              state->getY(),
+              state->getWidth(),
+              state->getHeight()
+    );
+
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glLineWidth(6);
+    glBegin(GL_LINES);
+        glColor4f(0, 0, 1, 0.4);
+        glVertex2f(0, 0);
+        glColor4f(0, 0, 1, 1);
+        glVertex2f(500, 500);
+        glVertex2f(500, 0);
+        glColor4f(0, 0, 1, 0.4);
+        glVertex2f(0, 500);
+    glEnd();
 }
 
 void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
+    // // alp* state = dynamic_cast<alp*>(statePtr);
+    // // assert(state != nullptr);  
+
+    // bkg color
+    // auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    // glClearColor(r/255, g/255, b/255, 0.3);
+    // glClear(GL_COLOR_BUFFER_BIT);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable( GL_BLEND );
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.7f);
     std::cout << "Alpha!\n";
+    glBegin(GL_TRIANGLES);
+        glColor4f(1, 1, 0, 0.1);
+        glVertex2f(250, 450);
+        glColor4f(1, 1, 0, 1);
+        glVertex2f(150, 200);
+        glVertex2f(350, 200);
+    glEnd();
 }
 
 void BlendPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
