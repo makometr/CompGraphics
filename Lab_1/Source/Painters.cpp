@@ -440,10 +440,6 @@ void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
         default: assert("Invalid switch statement!\n" == nullptr);
     }
 
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // glEnable( GL_BLEND );
-    // glEnable(GL_ALPHA_TEST);
-    // glAlphaFunc(GL_GREATER, 0.7f);
     glBegin(GL_QUADS);
         IPainter::applyColor(state->getLowerColor(), alphaLower);
         glVertex2f(10, 10);
@@ -463,6 +459,39 @@ void BlendPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
     glClearColor(r/255, g/255, b/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    std::cout << (state->getSFactor() == GL_ZERO) << "\n";
+    // blend
+    glBlendFunc(state->getSFactor(), state->getDFactor());
 
+    // circles
+    GLdouble pi     = acos(-1.0);
+    GLdouble radius = 100.0; // радиус 
+    GLdouble step   = 0.01;
+    GLdouble theta;
+
+    // 1
+    glBegin(GL_TRIANGLE_FAN);
+    for (GLfloat a = 0.0; a < 360.0; a += step) {
+        theta = 2.0 * pi * a / 180.0;
+        IPainter::applyColor(ElemColor::red);
+        glVertex3f(radius * cos(theta) + 175, radius * sin(theta)+300, 0.0f);
+    }
+    glEnd();
+
+    // 2
+    glBegin(GL_TRIANGLE_FAN);
+    for (GLfloat a = 0.0; a < 360.0; a += step) {
+        theta = 2.0 * pi * a / 180.0;
+        IPainter::applyColor(ElemColor::green);
+        glVertex3f(radius * cos(theta) + 325, radius * sin(theta)+300, 0.0f);
+    }
+    glEnd();
+
+    // 3
+    glBegin(GL_TRIANGLE_FAN);
+    for (GLfloat a = 0.0; a < 360.0; a += step) {
+        theta = 2.0 * pi * a / 180.0;
+        IPainter::applyColor(ElemColor::blue);
+        glVertex3f(radius * cos(theta) + 250, radius * sin(theta)+175, 0.0f);
+    }
+    glEnd();
 }

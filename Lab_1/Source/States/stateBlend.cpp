@@ -10,7 +10,7 @@ stateBlend::stateBlend(AppWindow* ptr) : State(ptr) {
         Fl_Check_Button* t = dynamic_cast<Fl_Check_Button*>(w);
         stateBlend* state = static_cast<stateBlend*>(statePtr);
         assert(t != nullptr);
-        State::setAlphaTest((bool)t->value());
+        State::setBlendTest((bool)t->value());
         state->callUpdateGraphics(true);
     }, (void*)this);
     widgets.push_back(toogle);
