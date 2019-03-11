@@ -65,14 +65,3 @@ enum class LineLength : int {
     middle = 1,
     large = 2
 };
-
-// enum class AlphaParameter : int {
-//     NEVER    = 0,
-//     LESS     = 1,
-//     EQUAL    = 2,
-//     LEQUAL   = 3,
-//     GREATER  = 4,
-//     NOTEQUAL = 5,
-//     GEQUAL   = 6,
-//     ALWAYS   = 7,
-// };

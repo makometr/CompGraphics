@@ -142,6 +142,9 @@ void LinePainter::operator()(State* statePtr, int winWidth, int winHeight, bool 
     ElemColor choosedColor = state->getElemColor();
     applyColor(choosedColor);
 
+    // width
+    glLineWidth(2);
+
     size_t number = state->getPointsNumber();
     number % 2 == 1 ? number-- : number;
     while (number > 0){
@@ -386,6 +389,8 @@ void PolygonPainter::operator()(State* statePtr, int winWidth, int winHeight, bo
     glEnd();
 }
 
+
+
 void ScissorPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
     stateScissor* state = dynamic_cast<stateScissor*>(statePtr);
     assert(state != nullptr);
@@ -429,17 +434,6 @@ void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
     GLdouble alphaLower = (GLdouble)state->getLowerAlpha() / 100;
     GLdouble alphaUpper = (GLdouble)state->getUpperAlpha() / 100;
     glAlphaFunc(state->getParameter(), alpha);
-    // switch (state->getParameter()) {
-    //     case AlphaParameter::NEVER:    glAlphaFunc(GL_NEVER, alpha); break;
-    //     case AlphaParameter::LESS:     glAlphaFunc(GL_LESS, alpha); break;
-    //     case AlphaParameter::EQUAL:    glAlphaFunc(GL_EQUAL, alpha); break;
-    //     case AlphaParameter::LEQUAL:   glAlphaFunc(GL_LEQUAL, alpha); break;
-    //     case AlphaParameter::GREATER:  glAlphaFunc(GL_GREATER, alpha); break;
-    //     case AlphaParameter::NOTEQUAL: glAlphaFunc(GL_NOTEQUAL, alpha); break;
-    //     case AlphaParameter::GEQUAL:   glAlphaFunc(GL_GEQUAL, alpha); break;
-    //     case AlphaParameter::ALWAYS:   glAlphaFunc(GL_ALWAYS, alpha); break;
-    //     default: assert("Invalid switch statement!\n" == nullptr);
-    // }
 
     glBegin(GL_QUADS);
         IPainter::applyColor(state->getLowerColor(), alphaLower);
@@ -465,7 +459,7 @@ void BlendPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
 
     // circles
     GLdouble pi     = acos(-1.0);
-    GLdouble radius = 100.0; // радиус 
+    GLdouble radius = 100.0;
     GLdouble step   = 0.01;
     GLdouble theta;
 
