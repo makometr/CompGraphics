@@ -59,14 +59,14 @@ stateAlpha::stateAlpha(AppWindow* ptr) : State(ptr) {
         stateAlpha* state = static_cast<stateAlpha*>(statePtr);
         assert(ch != nullptr);
         switch (ch->value()){
-            case 0: state->setParameter(AlphaParameter::NEVER); break;
-            case 1: state->setParameter(AlphaParameter::LESS); break;
-            case 2: state->setParameter(AlphaParameter::EQUAL); break;
-            case 3: state->setParameter(AlphaParameter::LEQUAL); break;
-            case 4: state->setParameter(AlphaParameter::GREATER); break;
-            case 5: state->setParameter(AlphaParameter::NOTEQUAL); break;
-            case 6: state->setParameter(AlphaParameter::GEQUAL); break;
-            case 7: state->setParameter(AlphaParameter::ALWAYS); break;
+            case 0: state->setParameter(GL_NEVER); break;
+            case 1: state->setParameter(GL_LESS); break;
+            case 2: state->setParameter(GL_EQUAL); break;
+            case 3: state->setParameter(GL_LEQUAL); break;
+            case 4: state->setParameter(GL_GREATER); break;
+            case 5: state->setParameter(GL_NOTEQUAL); break;
+            case 6: state->setParameter(GL_GEQUAL); break;
+            case 7: state->setParameter(GL_ALWAYS); break;
             default: assert("Incorrect value in switch statement!\n" == nullptr); break;
         }
         state->callUpdateGraphics(true);
@@ -202,11 +202,11 @@ stateAlpha::stateAlpha(AppWindow* ptr) : State(ptr) {
     hideWidgets();
 }
 
-void stateAlpha::setParameter(AlphaParameter newParam){
+void stateAlpha::setParameter(GLuint newParam){
     param = newParam;
 }
 
-AlphaParameter stateAlpha::getParameter() const {
+GLuint stateAlpha::getParameter() const {
     return param;
 }
 

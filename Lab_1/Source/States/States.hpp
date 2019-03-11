@@ -282,7 +282,7 @@ public:
 
 class stateAlpha final : public State {
 private:
-    AlphaParameter param = AlphaParameter::ALWAYS; // 7 
+    GLuint param = GL_ALWAYS;
     int alpha = 100;
     ElemColor upperColor = ElemColor::random;
     ElemColor lowerColor = ElemColor::random;
@@ -293,8 +293,8 @@ private:
 public:
     stateAlpha(AppWindow* ptr);
 
-    void setParameter(AlphaParameter newParam);
-    AlphaParameter getParameter() const;
+    void setParameter(GLuint newParam);
+    GLuint getParameter() const;
 
     void setAlpha(int newAlpha);
     int getAlpha() const ;

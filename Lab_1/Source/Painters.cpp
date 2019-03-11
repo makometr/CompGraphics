@@ -428,17 +428,18 @@ void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
     GLdouble alpha = (GLdouble)state->getAlpha() / 100;
     GLdouble alphaLower = (GLdouble)state->getLowerAlpha() / 100;
     GLdouble alphaUpper = (GLdouble)state->getUpperAlpha() / 100;
-    switch (state->getParameter()) {
-        case AlphaParameter::NEVER:    glAlphaFunc(GL_NEVER, alpha); break;
-        case AlphaParameter::LESS:     glAlphaFunc(GL_LESS, alpha); break;
-        case AlphaParameter::EQUAL:    glAlphaFunc(GL_EQUAL, alpha); break;
-        case AlphaParameter::LEQUAL:   glAlphaFunc(GL_LEQUAL, alpha); break;
-        case AlphaParameter::GREATER:  glAlphaFunc(GL_GREATER, alpha); break;
-        case AlphaParameter::NOTEQUAL: glAlphaFunc(GL_NOTEQUAL, alpha); break;
-        case AlphaParameter::GEQUAL:   glAlphaFunc(GL_GEQUAL, alpha); break;
-        case AlphaParameter::ALWAYS:   glAlphaFunc(GL_ALWAYS, alpha); break;
-        default: assert("Invalid switch statement!\n" == nullptr);
-    }
+    glAlphaFunc(state->getParameter(), alpha);
+    // switch (state->getParameter()) {
+    //     case AlphaParameter::NEVER:    glAlphaFunc(GL_NEVER, alpha); break;
+    //     case AlphaParameter::LESS:     glAlphaFunc(GL_LESS, alpha); break;
+    //     case AlphaParameter::EQUAL:    glAlphaFunc(GL_EQUAL, alpha); break;
+    //     case AlphaParameter::LEQUAL:   glAlphaFunc(GL_LEQUAL, alpha); break;
+    //     case AlphaParameter::GREATER:  glAlphaFunc(GL_GREATER, alpha); break;
+    //     case AlphaParameter::NOTEQUAL: glAlphaFunc(GL_NOTEQUAL, alpha); break;
+    //     case AlphaParameter::GEQUAL:   glAlphaFunc(GL_GEQUAL, alpha); break;
+    //     case AlphaParameter::ALWAYS:   glAlphaFunc(GL_ALWAYS, alpha); break;
+    //     default: assert("Invalid switch statement!\n" == nullptr);
+    // }
 
     glBegin(GL_QUADS);
         IPainter::applyColor(state->getLowerColor(), alphaLower);
