@@ -314,3 +314,22 @@ public:
     void setBkgColor(Fl_Color color);
     Fl_Color getBkgColor() const;
 };
+
+class stateBlend final : public State {
+private:
+    GLuint sfactor = GL_ZERO;
+    GLuint dfactor = GL_ZERO;
+    Fl_Color bkgColor = FL_GRAY;
+
+public:
+    stateBlend(AppWindow* ptr);
+
+    void setSFactor(GLuint newFactor);
+    GLuint getSFactor() const;
+
+    void setDFactor(GLuint newFactor);
+    GLuint getDFactor() const;
+
+    void setBkgColor(Fl_Color color);
+    Fl_Color getBkgColor() const;
+};

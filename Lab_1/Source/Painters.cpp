@@ -455,5 +455,14 @@ void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
 }
 
 void BlendPainter::operator()(State* statePtr, int winWidth, int winHeight, bool redraw){
-    std::cout << "Blend!\n";
+    stateBlend* state = dynamic_cast<stateBlend*>(statePtr);
+    assert(state != nullptr);
+
+    // bkg color
+    auto [r,g,b] = IPainter::Fl_Color_To_RGB(state->getBkgColor());
+    glClearColor(r/255, g/255, b/255, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    std::cout << (state->getSFactor() == GL_ZERO) << "\n";
+
 }

@@ -78,6 +78,10 @@ AppWindow::AppWindow(int W,int H,const char*L)
     // Create widgets for 1-test: ALPHA
     statePtr = new stateAlpha(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+    
+    // Create widgets for 2-test: BLEND
+    statePtr = new stateBlend(this);
+    primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
 
     end();
     changePrimitive(currentType);
