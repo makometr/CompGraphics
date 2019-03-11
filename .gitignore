@@ -47,3 +47,5 @@ _deps
 
 materials
 .vscode
+*.doc
+*.docx

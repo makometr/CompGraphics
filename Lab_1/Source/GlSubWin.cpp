@@ -6,7 +6,7 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H,const char*L)
 {
     end();
     // primitives
-    painters.reserve(PrimitivesNumber);
+    painters.reserve(PrimitivesNumber + TestsNumber);
     painters.push_back(new PointPainter{});
     painters.push_back(new LinePainter{});
     painters.push_back(new LineStripPainter{});

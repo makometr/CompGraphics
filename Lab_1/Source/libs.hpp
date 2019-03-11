@@ -38,6 +38,7 @@ using TetradColors = std::tuple<ElemColor, ElemColor, ElemColor, ElemColor>;
 using Coord = std::pair<GLdouble, GLdouble>;
 
 constexpr size_t PrimitivesNumber = 10;
+constexpr size_t TestsNumber = 3;
 
 enum class PrimitiveType : int
 {
