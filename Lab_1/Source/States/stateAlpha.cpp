@@ -77,7 +77,7 @@ stateAlpha::stateAlpha(AppWindow* ptr) : State(ptr) {
 
 
     // color edge upper
-    auto label_color_u = new Fl_Box(500 + 30, 205, 200, 30, "Цвет верхней грани:");  // 95
+    auto label_color_u = new Fl_Box(500 + 30, 205, 200, 30, "Цвет верхней грани:");
     label_color_u->box(FL_NO_BOX);
     label_color_u->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     label_color_u->labelsize(16);
@@ -219,7 +219,7 @@ int stateAlpha::getAlpha() const {
 }
 
 void stateAlpha::setUpperColor(ElemColor newUpperColor){
-
+    upperColor = newUpperColor;
 }
 
 ElemColor stateAlpha::getUpperColor() const {
@@ -227,7 +227,7 @@ ElemColor stateAlpha::getUpperColor() const {
 }
 
 void stateAlpha::setLowerColor(ElemColor newLowerColor){
-
+    lowerColor = newLowerColor;
 }
 
 ElemColor stateAlpha::getLowerColor() const {

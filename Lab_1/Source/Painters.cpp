@@ -9,16 +9,16 @@ RGB IPainter::Fl_Color_To_RGB(Fl_Color color) {
     return {r,g,b};
 }
 
-void IPainter::applyColor(ElemColor color){
+void IPainter::applyColor(ElemColor color, double alpha){
     switch (color){
-        case ElemColor::red:    glColor3f(1.0f, 0.0f, 0.0f); break;
-        case ElemColor::green:  glColor3f(0.0f, 1.0f, 0.0f); break;
-        case ElemColor::blue:   glColor3f(0.0f, 0.0f, 1.0f); break;
+        case ElemColor::red:    glColor4f(1.0f, 0.0f, 0.0f, alpha); break;
+        case ElemColor::green:  glColor4f(0.0f, 1.0f, 0.0f, alpha); break;
+        case ElemColor::blue:   glColor4f(0.0f, 0.0f, 1.0f, alpha); break;
         case ElemColor::random: {
             auto r = static_cast<float>(std::rand() % 256) / 256;
             auto g = static_cast<float>(std::rand() % 256) / 256;
             auto b = static_cast<float>(std::rand() % 256) / 256;
-            glColor3f(r,g,b); 
+            glColor4f(r,g,b, alpha); 
             break;
         }
         default: assert("Invalid switch statement!\n" == nullptr);
@@ -425,17 +425,32 @@ void AlphaPainter::operator()(State* statePtr, int winWidth, int winHeight, bool
     glClearColor(r/255, g/255, b/255, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable( GL_BLEND );
-    glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.7f);
-    std::cout << "Alpha!\n";
-    glBegin(GL_TRIANGLES);
-        glColor4f(1, 1, 0, 0.1);
-        glVertex2f(250, 450);
-        glColor4f(1, 1, 0, 1);
-        glVertex2f(150, 200);
-        glVertex2f(350, 200);
+    GLdouble alpha = (GLdouble)state->getAlpha() / 100;
+    GLdouble alphaLower = (GLdouble)state->getLowerAlpha() / 100;
+    GLdouble alphaUpper = (GLdouble)state->getUpperAlpha() / 100;
+    switch (state->getParameter()) {
+        case AlphaParameter::NEVER:    glAlphaFunc(GL_NEVER, alpha); break;
+        case AlphaParameter::LESS:     glAlphaFunc(GL_LESS, alpha); break;
+        case AlphaParameter::EQUAL:    glAlphaFunc(GL_EQUAL, alpha); break;
+        case AlphaParameter::LEQUAL:   glAlphaFunc(GL_LEQUAL, alpha); break;
+        case AlphaParameter::GREATER:  glAlphaFunc(GL_GREATER, alpha); break;
+        case AlphaParameter::NOTEQUAL: glAlphaFunc(GL_NOTEQUAL, alpha); break;
+        case AlphaParameter::GEQUAL:   glAlphaFunc(GL_GEQUAL, alpha); break;
+        case AlphaParameter::ALWAYS:   glAlphaFunc(GL_ALWAYS, alpha); break;
+        default: assert("Invalid switch statement!\n" == nullptr);
+    }
+
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // glEnable( GL_BLEND );
+    // glEnable(GL_ALPHA_TEST);
+    // glAlphaFunc(GL_GREATER, 0.7f);
+    glBegin(GL_QUADS);
+        IPainter::applyColor(state->getLowerColor(), alphaLower);
+        glVertex2f(10, 10);
+        glVertex2f(400, 10);
+        IPainter::applyColor(state->getUpperColor(), alphaUpper);
+        glVertex2f(490, 490);
+        glVertex2f(100, 490);
     glEnd();
 }
 

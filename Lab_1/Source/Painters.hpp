@@ -12,7 +12,7 @@ public:
     virtual void operator()(State* statePtr, int winWidth, int winHeight, bool redraw) = 0;
 protected:
     static RGB Fl_Color_To_RGB(Fl_Color color);
-    static void applyColor(ElemColor color);
+    static void applyColor(ElemColor color, double alpha = 1.00);
 };
 
 class PointPainter : public IPainter {

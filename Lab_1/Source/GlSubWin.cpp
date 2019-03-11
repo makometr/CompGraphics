@@ -40,13 +40,13 @@ void GlSubWin::draw() {
         FixViewport(w(), h());
     }
     glPolygonMode(GL_QUADS, GL_POINT);
+    State::isBlendTestEnabled() ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
+    State::isAlphaTestEnabled() ? glEnable(GL_ALPHA_TEST) : glDisable(GL_ALPHA_TEST);
     State::isScissorTestEnabled() ? glEnable(GL_SCISSOR_TEST) : glDisable(GL_SCISSOR_TEST);
-    if (State::isAlphaTestEnabled() || State::isBlendTestEnabled){
+    if (State::isScissorTestEnabled() || State::isAlphaTestEnabled() || State::isBlendTestEnabled()){
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable( GL_BLEND );
     }
-    // State::isBlendTestEnabled() ? glEnable(GL_BLEND) : glDisable(GL_BLEND);
-    State::isAlphaTestEnabled() ? glEnable(GL_ALPHA_TEST) : glDisable(GL_ALPHA_TEST);
     painters.at(static_cast<int>(type))->operator()(curStatePtr, w(), h(), shouldRedraw);
 }
 
