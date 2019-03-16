@@ -29,7 +29,6 @@ GlSubWin::~GlSubWin(){
 }
 
 void GlSubWin::FixViewport(int W,int H) {
-    glLoadIdentity();
     glViewport(0,0,W,H);
     glOrtho(0,W,0,H,-1,1);
 }
