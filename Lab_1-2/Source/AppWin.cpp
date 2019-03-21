@@ -34,6 +34,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     // Create widgets for 0-state: POINT
     statePtr = new statePoints(this);
     primitiveTypeStates.push_back(std::unique_ptr<State>(statePtr));
+    // primitiveTypeStates.push_back(std::make_unique<State>(this);
 
     // Create widgets for 1-state: LINES
     statePtr = new stateLines(this);
