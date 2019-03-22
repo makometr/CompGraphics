@@ -1,6 +1,7 @@
 #pragma once
 #include "libs.hpp"
 #include "GlSubWin.hpp"
+#include "State.hpp"
 
 class GlSubWin;
 
@@ -10,8 +11,12 @@ private:
     Fl_Choice *choice = nullptr;
     Fl_Box *box_upper = nullptr;
 
+    State* state = nullptr;
+
 public:
     AppWindow(int W,int H,const char*L=0);
+
+    void update();
 
 private:
 };
