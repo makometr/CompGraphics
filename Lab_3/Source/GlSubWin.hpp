@@ -16,5 +16,7 @@ private:
     void draw(); // DRAW METHOD
     void resize(int X,int Y,int W,int H);// HANDLE WINDOW RESIZING
 
-    void Fractal();
+    void figureCenter(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
+    void figureLeft(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
+    void figureRight(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
 };
