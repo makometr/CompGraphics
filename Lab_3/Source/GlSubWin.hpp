@@ -5,6 +5,7 @@ class State;
 class GlSubWin : public Fl_Gl_Window {
 private:
     State* statePtr = nullptr;
+    const GLdouble sideLength = 100;
 public:
     GlSubWin(int X,int Y,int W,int H, State* state, const char*L=0);
     virtual ~GlSubWin();
@@ -16,7 +17,8 @@ private:
     void draw(); // DRAW METHOD
     void resize(int X,int Y,int W,int H);// HANDLE WINDOW RESIZING
 
-    void figureCenter(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
-    void figureLeft(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
-    void figureRight(std::vector<glm::vec2> &verteces, int deep, int cur = 0);
+    void Fractal(std::vector<glm::vec2> &verteces, int deep);
+    void figureCenter(std::vector<glm::vec2> &verteces);
+    void figureLeft(std::vector<glm::vec2> &verteces);
+    void figureRight(std::vector<glm::vec2> &verteces);
 };
