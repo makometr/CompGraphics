@@ -4,10 +4,31 @@ void State::callUpdateGraphics(){
     appWinPtr->update();
 }
 
-GLdouble State::getAngle() const { 
-    return angle;
+void State::badAllocTrigger(){
+    std::cout << "Bad alloc!\n";
 }
 
-void State::setAngle(GLdouble newAngle){
-    angle = newAngle;
+GLdouble State::getDeep() const { 
+    return deep;
+}
+
+void State::setDeep(GLdouble newDeep){
+    deep = newDeep;
+}
+
+int State::getLength() const {
+    return lenght;
+}
+
+void State::setLength(int newLength) {
+    lenght = newLength;
+}
+
+
+ElemColor State::getElemColor() const {
+    return color;
+}
+
+void State::setElemColor(ElemColor newColor) {
+    color = newColor;
 }

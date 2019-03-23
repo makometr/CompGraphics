@@ -16,6 +16,12 @@ void GlSubWin::FixViewport(int W,int H) {
     glOrtho(0,W,0,H,-1,1);
 }
 
+void GlSubWin::resize(int X,int Y,int W,int H) {
+    Fl_Gl_Window::resize(X,Y,W,H);
+    FixViewport(W,H);
+    redraw();
+}
+
 void GlSubWin::draw() {
     if (!valid()){ // first time? init
         valid(1);
@@ -23,8 +29,6 @@ void GlSubWin::draw() {
     }
     glClearColor(0,0,0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    
     glPolygonMode(GL_FRONT, GL_LINE);
 
     std::vector<glm::vec2> triangleVertices = {
@@ -32,16 +36,13 @@ void GlSubWin::draw() {
         {-sideLength, -sideLength},
         { sideLength, -sideLength}
     };
-
-    glMatrixMode(GL_MODELVIEW);
-
-    Fractal(triangleVertices, 3);
-}
-
-void GlSubWin::resize(int X,int Y,int W,int H) {
-    Fl_Gl_Window::resize(X,Y,W,H);
-    FixViewport(W,H);
-    redraw();
+    try {
+        Fractal(triangleVertices, statePtr->getDeep());
+    }
+    catch (const std::bad_alloc&) {
+        statePtr->badAllocTrigger();
+        return;
+    }
 }
 
 void GlSubWin::Fractal(std::vector<glm::vec2> &verteces, int deep){
@@ -58,8 +59,8 @@ void GlSubWin::Fractal(std::vector<glm::vec2> &verteces, int deep){
         return;
     }
 
-    std::vector <glm::vec2> left = verteces;
-    std::vector <glm::vec2> right = verteces;
+    auto left = verteces;
+    auto right = verteces;
 
     figureCenter(verteces); // instead of center
     figureLeft(left);

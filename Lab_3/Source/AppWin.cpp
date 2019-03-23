@@ -14,23 +14,44 @@ AppWindow::AppWindow(int W,int H,const char*L)
 
 
     // numbers
-    auto label_number = new Fl_Box(500 + 30, 70, 200, 30, "Количество точек:");
-    label_number->box(FL_NO_BOX);
-    label_number->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
-    label_number->labelsize(16);
+    auto label_deep = new Fl_Box(500 + 30, 70, 200, 30, "Количество повторений:");
+    label_deep->box(FL_NO_BOX);
+    label_deep->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    label_deep->labelsize(16);
     // +
-    auto slider_number = new Fl_Value_Slider(500 + 40, 90, 180, 25);
-    slider_number->step((int)1);
-    slider_number->align(FL_ALIGN_LEFT);
-    slider_number->type(FL_HOR_SLIDER);
-    slider_number->bounds(0, 360);
-    slider_number->value(0);
-    slider_number->callback([](Fl_Widget* w, void* statePtr){
+    auto slider_deep = new Fl_Value_Slider(500 + 40, 90, 180, 25);
+    slider_deep->step((int)1);
+    slider_deep->align(FL_ALIGN_LEFT);
+    slider_deep->type(FL_HOR_SLIDER);
+    slider_deep->bounds(0, 20);
+    slider_deep->value(0);
+    slider_deep->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
         State* state = static_cast<State*>(statePtr);
         assert(ch != nullptr);
         assert(state != nullptr);
-        state->setAngle((GLdouble)ch->value());
+        state->setDeep((GLdouble)ch->value());
+        state->callUpdateGraphics();
+    }, (void*)state);
+
+    // numbers
+    auto label_length = new Fl_Box(500 + 30, 122, 200, 30, "Длина");
+    label_length->box(FL_NO_BOX);
+    label_length->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    label_length->labelsize(16);
+    // +
+    auto slider_length = new Fl_Value_Slider(500 + 40, 140, 180, 25);
+    slider_length->step((int)1);
+    slider_length->align(FL_ALIGN_LEFT);
+    slider_length->type(FL_HOR_SLIDER);
+    slider_length->bounds(10, 200);
+    slider_length->value(0);
+    slider_length->callback([](Fl_Widget* w, void* statePtr){
+        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
+        State* state = static_cast<State*>(statePtr);
+        assert(ch != nullptr);
+        assert(state != nullptr);
+        state->setDeep((GLdouble)ch->value());
         state->callUpdateGraphics();
     }, (void*)state);
 }

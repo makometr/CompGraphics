@@ -6,13 +6,22 @@ class AppWindow;
 class State {
 private:
     AppWindow *appWinPtr = nullptr;
-    GLdouble angle = 0;
+    GLdouble deep = 0;
+    int lenght = 0;
+    ElemColor color = ElemColor::random;
 
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
 
-    GLdouble getAngle() const;
     void callUpdateGraphics();
+    void badAllocTrigger();
 
-    void setAngle(GLdouble newAngle);
+    GLdouble getDeep() const;
+    void setDeep(GLdouble newDeep);
+
+    int getLength() const;
+    void setLength(int newLength);
+
+    ElemColor getElemColor() const;
+    void setElemColor(ElemColor newColor);
 };
