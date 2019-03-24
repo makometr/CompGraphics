@@ -24,7 +24,6 @@ void State::setLength(int newLength) {
     lenght = newLength;
 }
 
-
 ElemColor State::getElemColor() const {
     return color;
 }

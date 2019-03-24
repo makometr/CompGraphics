@@ -33,4 +33,7 @@ enum class ElemColor : int {
     red = 1,
     green = 2,
     blue = 3,
+    magneta = 4,
+    cyan = 5,
+    yellow = 6, 
 };
