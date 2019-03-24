@@ -5,7 +5,6 @@ GlSubWin::GlSubWin(int X,int Y,int W,int H, State* state, const char*L)
     : Fl_Gl_Window(X,Y,W,H,L), statePtr(state)
 {
     end();
-    // primitives
 }
 
 GlSubWin::~GlSubWin(){
@@ -27,9 +26,10 @@ void GlSubWin::draw() {
         valid(1);
         FixViewport(w(), h());
     }
+    glPolygonMode(GL_FRONT, GL_LINE);
     glClearColor(0,0,0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-    glPolygonMode(GL_FRONT, GL_LINE);
+    applyColor(statePtr->getElemColor());
 
     std::vector<glm::vec2> triangleVertices = {
         { 0,  sideLength},
@@ -112,4 +112,23 @@ void GlSubWin::figureRight(std::vector<glm::vec2> &verteces){
 
 void GlSubWin::drawUpdated(){
     redraw();
+}
+
+void GlSubWin::applyColor(ElemColor color, double alpha){
+    switch (color){
+        case ElemColor::red:     glColor4f(1.0f, 0.0f, 0.0f, alpha); break;
+        case ElemColor::green:   glColor4f(0.0f, 1.0f, 0.0f, alpha); break;
+        case ElemColor::blue:    glColor4f(0.0f, 0.0f, 1.0f, alpha); break;
+        case ElemColor::magneta: glColor4f(1.0f, 0.0f, 1.0f, alpha); break;
+        case ElemColor::cyan :   glColor4f(0.0f, 1.0f, 1.0f, alpha); break;
+        case ElemColor::yellow:  glColor4f(1.0f, 1.0f, 0.0f, alpha); break;
+        case ElemColor::random: {
+            auto r = static_cast<float>(std::rand() % 256) / 256;
+            auto g = static_cast<float>(std::rand() % 256) / 256;
+            auto b = static_cast<float>(std::rand() % 256) / 256;
+            glColor4f(r,g,b, alpha); 
+            break;
+        }
+        default: assert("Invalid switch statement!\n" == nullptr); break;
+    }
 }
