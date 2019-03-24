@@ -31,6 +31,8 @@ void GlSubWin::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
     applyColor(statePtr->getElemColor());
 
+    sideLength = (GLdouble)statePtr->getLength();
+    std::cout << statePtr->getLength() << "\n";
     std::vector<glm::vec2> triangleVertices = {
         { 0,  sideLength},
         {-sideLength, -sideLength},

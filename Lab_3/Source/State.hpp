@@ -7,7 +7,7 @@ class State {
 private:
     AppWindow *appWinPtr = nullptr;
     GLdouble deep = 0;
-    int lenght = 0;
+    int lenght = 100;
     ElemColor color = ElemColor::random;
 
 public:

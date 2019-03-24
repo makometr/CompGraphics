@@ -5,7 +5,7 @@ class State;
 class GlSubWin : public Fl_Gl_Window {
 private:
     State* statePtr = nullptr;
-    const GLdouble sideLength = 100;
+    GLdouble sideLength = 100;
 public:
     GlSubWin(int X,int Y,int W,int H, State* state, const char*L=0);
     virtual ~GlSubWin();

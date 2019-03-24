@@ -21,7 +21,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     slider_deep->align(FL_ALIGN_LEFT);
     slider_deep->type(FL_HOR_SLIDER);
     slider_deep->bounds(0, 20);
-    slider_deep->value(0);
+    slider_deep->value(state->getDeep());
     slider_deep->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w); assert(ch != nullptr);
         State* state = static_cast<State*>(statePtr);
@@ -37,12 +37,12 @@ AppWindow::AppWindow(int W,int H,const char*L)
     slider_length->step((int)1);
     slider_length->align(FL_ALIGN_LEFT);
     slider_length->type(FL_HOR_SLIDER);
-    slider_length->bounds(10, 200);
-    slider_length->value(0);
+    slider_length->bounds(100, 250);
+    slider_length->value(state->getLength());
     slider_length->callback([](Fl_Widget* w, void* statePtr){
         Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w); assert(ch != nullptr);
         State* state = static_cast<State*>(statePtr);
-        state->setDeep((GLdouble)ch->value());
+        state->setLength(ch->value());
         state->callUpdateGraphics();
     }, (void*)state);
 
