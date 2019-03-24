@@ -14,9 +14,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
 
     // deep
     auto label_deep = new Fl_Box(500 + 30, 40, 200, 30, "Количество повторений:");
-    label_deep->box(FL_NO_BOX);
-    label_deep->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
-    label_deep->labelsize(16);
+    boxTextSettings(label_deep);
     // +
     auto slider_deep = new Fl_Value_Slider(500 + 40, 60, 180, 25);
     slider_deep->step((int)1);
@@ -25,19 +23,15 @@ AppWindow::AppWindow(int W,int H,const char*L)
     slider_deep->bounds(0, 20);
     slider_deep->value(0);
     slider_deep->callback([](Fl_Widget* w, void* statePtr){
-        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
+        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w); assert(ch != nullptr);
         State* state = static_cast<State*>(statePtr);
-        assert(ch != nullptr);
-        assert(state != nullptr);
         state->setDeep((GLdouble)ch->value());
         state->callUpdateGraphics();
     }, (void*)state);
 
     // length
     auto label_length = new Fl_Box(500 + 30, 92, 200, 30, "Длина");
-    label_length->box(FL_NO_BOX);
-    label_length->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
-    label_length->labelsize(16);
+    boxTextSettings(label_length);
     // +
     auto slider_length = new Fl_Value_Slider(500 + 40, 110, 180, 25);
     slider_length->step((int)1);
@@ -46,19 +40,15 @@ AppWindow::AppWindow(int W,int H,const char*L)
     slider_length->bounds(10, 200);
     slider_length->value(0);
     slider_length->callback([](Fl_Widget* w, void* statePtr){
-        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
+        Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w); assert(ch != nullptr);
         State* state = static_cast<State*>(statePtr);
-        assert(ch != nullptr);
-        assert(state != nullptr);
         state->setDeep((GLdouble)ch->value());
         state->callUpdateGraphics();
     }, (void*)state);
 
     // color
     auto label_color = new Fl_Box(500 + 30, 140, 200, 30, "Цвет:");
-    label_color->box(FL_NO_BOX);
-    label_color->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
-    label_color->labelsize(16);
+    boxTextSettings(label_color);
     // +
     auto choice_color = new Fl_Choice(500 + 40, 160, 180, 25);
     choice_color->add("Случайный");
@@ -90,4 +80,11 @@ AppWindow::AppWindow(int W,int H,const char*L)
 
 void AppWindow::update(){
     glSubWin->drawUpdated();
+}
+
+
+void AppWindow::boxTextSettings(Fl_Box* box) {
+    box->box(FL_NO_BOX);
+    box->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
+    box->labelsize(16);
 }

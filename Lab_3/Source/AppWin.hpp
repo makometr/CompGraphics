@@ -19,5 +19,6 @@ public:
     void update();
 
 private:
+    void boxTextSettings(Fl_Box* box);
 };
 
