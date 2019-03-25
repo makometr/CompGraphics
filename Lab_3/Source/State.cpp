@@ -4,8 +4,17 @@ void State::callUpdateGraphics(){
     appWinPtr->update();
 }
 
-void State::badAllocTrigger(){
-    std::cout << "Bad alloc!\n";
+void State::badAllocOn(){
+    appWinPtr->showBadAllocLabel();
+    badAlloc = true;
+}
+
+void State::badAllocOff(){
+    badAlloc = false; 
+}
+
+bool State::isBadAlloc(){
+    return badAlloc;
 }
 
 GLdouble State::getDeep() const { 

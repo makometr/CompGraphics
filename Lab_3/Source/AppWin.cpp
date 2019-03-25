@@ -76,9 +76,15 @@ AppWindow::AppWindow(int W,int H,const char*L)
         state->setElemColor(newColor);
         state->callUpdateGraphics();
     }, (void*)state);
+
+    label_error = new Fl_Box(500 + 30, 215, 200, 30, "Не хватает памяти!");
+    boxTextSettings(label_error);
+    label_error->hide();
+    // todo red color of msg
 }
 
 void AppWindow::update(){
+    label_error->hide();
     glSubWin->drawUpdated();
 }
 
@@ -87,4 +93,8 @@ void AppWindow::boxTextSettings(Fl_Box* box) {
     box->box(FL_NO_BOX);
     box->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
     box->labelsize(16);
+}
+
+void AppWindow::showBadAllocLabel(){
+    label_error->show();
 }

@@ -26,13 +26,13 @@ void GlSubWin::draw() {
         valid(1);
         FixViewport(w(), h());
     }
+    statePtr->badAllocOff();
     glPolygonMode(GL_FRONT, GL_LINE);
     glClearColor(0,0,0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     applyColor(statePtr->getElemColor());
 
     sideLength = (GLdouble)statePtr->getLength();
-    std::cout << statePtr->getLength() << "\n";
     std::vector<glm::vec2> triangleVertices = {
         { 0,  sideLength},
         {-sideLength, -sideLength},
@@ -42,7 +42,7 @@ void GlSubWin::draw() {
         Fractal(triangleVertices, statePtr->getDeep());
     }
     catch (const std::bad_alloc&) {
-        statePtr->badAllocTrigger();
+        statePtr->badAllocOn();
         return;
     }
 }
@@ -70,6 +70,10 @@ void GlSubWin::Fractal(std::vector<glm::vec2> &verteces, int deep){
 
     verteces.insert(std::end(verteces), std::begin(left), std::end(left));
     verteces.insert(std::end(verteces), std::begin(right), std::end(right));
+    left.clear();
+    left.shrink_to_fit();
+    right.clear();
+    right.shrink_to_fit();
     Fractal(verteces, deep-1);
 }
 
@@ -86,13 +90,13 @@ void GlSubWin::figureCenter(std::vector<glm::vec2> &verteces){
 }
 
 void GlSubWin::figureLeft(std::vector<glm::vec2> &verteces){
-    glm::mat4 transformMatrix = glm::mat4(1.0);
-    transformMatrix = glm::translate(transformMatrix, glm::vec3(-sideLength*2/3, 0, 0)); // Third
-    transformMatrix = glm::rotate(transformMatrix, glm::radians(90.0f), glm::vec3(0.0f,0.0f,1.0f)); // Second
-    transformMatrix = glm::scale(transformMatrix, glm::vec3(1.0, 1.0/3, 1.0)); // First
+    glm::mat4 transformMatrix = glm::mat4(1.0); // Единичная матрица.
+    transformMatrix = glm::translate(transformMatrix, glm::vec3(-sideLength*2/3, 0, 0)); // Третье
+    transformMatrix = glm::rotate(transformMatrix, glm::radians(90.0f), glm::vec3(0.0f,0.0f,1.0f)); // Второе
+    transformMatrix = glm::scale(transformMatrix, glm::vec3(1.0, 1.0/3, 1.0)); // Первое
 
     for (auto& i : verteces) {
-        auto tmp = (transformMatrix * glm::vec4(i, 0.0f, 1.0f));
+        auto tmp = (transformMatrix * glm::vec4(i, 0.0f, 1.0f)); // Умножаем
         i.x = tmp.x;
         i.y = tmp.y;
     }
