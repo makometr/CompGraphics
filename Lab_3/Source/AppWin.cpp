@@ -80,7 +80,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     label_error = new Fl_Box(500 + 30, 215, 200, 30, "Не хватает памяти!");
     boxTextSettings(label_error);
     label_error->hide();
-    // todo red color of msg
+    label_error->labelcolor(Fl_Color(1));
 }
 
 void AppWindow::update(){
