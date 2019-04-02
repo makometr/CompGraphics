@@ -23,7 +23,4 @@
 #include <assert.h>
 #include <vector>
 #include <memory>
-#include <cmath>
-#include <glm/glm.hpp>
-
-// using Coord = std::pair<GLdouble, GLdouble>;
+#include <tuple>
