@@ -118,8 +118,8 @@ void GlSubWin::draw() {
     glEnd();
     glColor3f(0.0, 0.0,0.0);
     std::cout << "**************************************************************************" << std::endl;
-    int p = statePtr->getDeep();
-    int i_i = statePtr->getLength();
+    int p = 3;
+    int i_i = 3;
     glBegin(GL_LINE_STRIP);
         for(size_t i = 0; i < pointsNum; ++i) {
             glVertex2d(1.0/pointsNum*i*w()/2+w()/4, N(i_i, p, 1.0/pointsNum*i)*h()/2); // TODO: Make i and p of N changable to see it's effect on result

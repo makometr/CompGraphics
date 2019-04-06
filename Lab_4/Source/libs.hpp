@@ -26,6 +26,8 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
+constexpr int numOfPoints = 4;
+
 enum class ElemColor : int {
     random = 0,
     red = 1,
@@ -35,3 +37,5 @@ enum class ElemColor : int {
     cyan = 5,
     yellow = 6, 
 };
+
+using Coord = std::pair<GLdouble, GLdouble>;

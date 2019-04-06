@@ -1,24 +1,42 @@
 #include "State.hpp"
 
+State::State(AppWindow* ptr) : appWinPtr(ptr){
+    points.reserve(numOfPoints);
+    for (int i = 0; i < numOfPoints; i++)
+        points.push_back({100,100});
+};
+
 void State::callUpdateGraphics(){
     appWinPtr->update();
 }
 
-int State::getDeep() const { 
-    return deep;
+int State::getCurrPoint() const{
+    return currentPoint;
 }
 
-void State::setDeep(int newDeep){
-    deep = newDeep;
+void State::setCurrPoint(int newPoint){
+    currentPoint = newPoint;
+    appWinPtr->updateXY(points.at(currentPoint));
 }
 
-int State::getLength() const {
-    return lenght;
+GLdouble State::getCurrPoint_X() const {
+    return points.at(currentPoint).first;
 }
 
-void State::setLength(int newLength) {
-    lenght = newLength;
+void State::setCurrPoint_X(GLdouble newX) {
+    points.at(currentPoint).first = newX;
+    // todo update graphics in x and y
+}   
+
+
+GLdouble State::getCurrPoint_Y() const {
+    return points.at(currentPoint).second;
 }
+
+void State::setCurrPoint_Y(GLdouble newY) {
+    points.at(currentPoint).second = newY;
+}
+
 
 // ElemColor State::getElemColor() const {
 //     return color;
