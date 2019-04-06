@@ -26,4 +26,12 @@
 #include <cmath>
 #include <glm/glm.hpp>
 
-// using Coord = std::pair<GLdouble, GLdouble>;
+enum class ElemColor : int {
+    random = 0,
+    red = 1,
+    green = 2,
+    blue = 3,
+    magneta = 4,
+    cyan = 5,
+    yellow = 6, 
+};
