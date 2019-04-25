@@ -1,10 +1,10 @@
 #pragma once
+#include <GL/glew.h>
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
-#include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Browser.H>
 #include <FL/Fl_Choice.H>
@@ -12,7 +12,6 @@
 #include <FL/Fl_Pixmap.H>
 #include <FL/Fl_Box.H>
 #include <iostream>
-#include <FL/Fl_Window.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Slider.H>
 #include <FL/fl_show_colormap.H>
@@ -25,6 +24,7 @@
 #include <memory>
 #include <cmath>
 #include <glm/glm.hpp>
+#include <stdarg.h>
 
 constexpr int numOfPoints = 4;
 
