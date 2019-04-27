@@ -3,6 +3,24 @@
 SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, y, w, h) {
     mode(FL_RGB8 | FL_DOUBLE | FL_OPENGL3);
     shaderProgram = 0;
+
+    outputText = new Fl_Text_Display(300,0,500, 280);
+    Fl_Light_Button *lb = new Fl_Light_Button(300, 280, 500, 20, "Double-Buffered");
+    lb->callback([](Fl_Widget *wid, void *data){
+        static bool doublebuff = true;
+        doublebuff = !doublebuff;
+        SimpleGL3Window *glwin = (SimpleGL3Window*)data;
+        int flags = glwin->mode();
+        if (doublebuff)
+            flags |= FL_DOUBLE;
+        else
+            flags &= ~FL_DOUBLE;
+        glwin->mode(flags);
+        glwin->reset();
+    });
+    lb->user_data(this);
+    lb->value(1);
+    outputText->buffer(new Fl_Text_Buffer());
 }
 
 void SimpleGL3Window::draw(void) {
