@@ -1,8 +1,6 @@
 #pragma once
 #include "libs.hpp"
 
-void add_output(const char *format, ...);
-
 class SimpleGL3Window : public Fl_Gl_Window {
     GLuint shaderProgram;
     GLuint vertexArrayObject;

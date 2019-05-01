@@ -5,6 +5,8 @@ SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, 
     shaderProgram = 0;
 
     outputText = new Fl_Text_Display(300,0,500, 280);
+    outputText->buffer(new Fl_Text_Buffer());
+    
     Fl_Light_Button *lb = new Fl_Light_Button(300, 280, 500, 20, "Double-Buffered");
     lb->callback([](Fl_Widget *wid, void *data){
         static bool doublebuff = true;
@@ -20,7 +22,6 @@ SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, 
     });
     lb->user_data(this);
     lb->value(1);
-    outputText->buffer(new Fl_Text_Buffer());
 }
 
 void SimpleGL3Window::draw(void) {
@@ -29,10 +30,12 @@ void SimpleGL3Window::draw(void) {
     if (!shaderProgram) {
         GLuint vs;
         GLuint fs;
+        
         int Mslv, mslv;  // major and minor version numbers of the shading language
         sscanf((char*)glGetString(GL_SHADING_LANGUAGE_VERSION), "%d.%d", &Mslv, &mslv);
         add_output("Shading Language Version=%d.%d\n", Mslv, mslv);
 
+        char vss_string[300];
         const char* vss_format =
             "#version %d%d\n\
             uniform vec2 p;\
@@ -43,10 +46,11 @@ void SimpleGL3Window::draw(void) {
                 colourV = colour;\
                 gl_Position = vec4(p, 0.0, 0.0) + position;\
             }";
-        
-        char vss_string[300];
         const char* vss = vss_string;
         sprintf(vss_string, vss_format, Mslv, mslv);
+
+
+        char fss_string[200];
         const char* fss_format =
             "#version %d%d\n\
             in vec4 colourV;\
@@ -54,10 +58,10 @@ void SimpleGL3Window::draw(void) {
             void main(void) {\
                 fragColour = colourV;\
             }";
-        
-        char fss_string[200];
         const char* fss = fss_string;
         sprintf(fss_string, fss_format, Mslv, mslv);
+
+
         GLint err;
         GLchar CLOG[1000];
         GLsizei length;
@@ -65,16 +69,15 @@ void SimpleGL3Window::draw(void) {
         glShaderSource(vs, 1, &vss, NULL);
         glCompileShader(vs);
         glGetShaderiv(vs, GL_COMPILE_STATUS, &err);
-
         if (err != GL_TRUE) {
             glGetShaderInfoLog(vs, sizeof(CLOG), &length, CLOG);
             add_output("vs ShaderInfoLog=%s\n", CLOG);
         }
+
         fs = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fs, 1, &fss, NULL);
         glCompileShader(fs);
         glGetShaderiv(fs, GL_COMPILE_STATUS, &err);
-
         if (err != GL_TRUE) {
             glGetShaderInfoLog(fs, sizeof(CLOG), &length, CLOG);
             add_output("fs ShaderInfoLog=%s\n", CLOG);
