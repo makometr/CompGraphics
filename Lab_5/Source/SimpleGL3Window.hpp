@@ -1,8 +1,10 @@
 #pragma once
 #include "libs.hpp"
+#include "Shader.hpp"
 
 class SimpleGL3Window : public Fl_Gl_Window {
-    GLuint shaderProgram;
+    Shader shaderProgram;
+    GLuint shaderProgram_2 = 0;
     GLuint vertexArrayObject;
     GLuint vertexBuffer;
     GLint positionUniform;
