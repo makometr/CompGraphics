@@ -18,7 +18,6 @@
 
 #include "SOIL/SOIL.h"
 
-
 inline Fl_Text_Display *outputText = nullptr; // shared between output_win() and add_output()
 
 void add_output(const char *format, ...);
