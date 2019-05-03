@@ -3,20 +3,22 @@
 #include "Shader.hpp"
 
 class SimpleGL3Window : public Fl_Gl_Window {
+private:
     Shader shaderProgram;
-    GLuint shaderProgram_2 = 0;
-    Fl_PNG_Image *texturePNG = nullptr;
+    unsigned char* image = nullptr;
+    GLuint texture;
+    int width;
+    int height;
+    GLuint  VAO;
 
-    GLuint vertexArrayObject;
-    GLuint vertexBuffer;
-    GLint positionUniform;
-    GLint colourAttribute;
-    GLint positionAttribute;
     int gl_version_major;
+    GLfloat fadeDistance = 40.0f;
 
 public:
     SimpleGL3Window(int x, int y, int w, int h);
 
+    void loadTexture(const char *file);
+    void loadBuffers();
     void draw(void);
     virtual int handle(int event);
     void reset(void);

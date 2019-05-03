@@ -6,9 +6,7 @@ out vec4 color;
 
 uniform vec2 mousePos;
 uniform sampler2D ourTexture;
-
-const float lightRadius  = 0.0f,
-            fadeDistance = 50.0f;
+uniform float fadeDistance;
 
 float getDistance(vec2 p1, vec2 p2) {
 	return sqrt(pow(p1.x-p2.x, 2) + pow(p1.y-p2.y, 2));
@@ -16,10 +14,7 @@ float getDistance(vec2 p1, vec2 p2) {
 
 float getLightIntensity() {
 	float dist = getDistance(gl_FragCoord.xy, mousePos);
-	if (dist <= lightRadius) {
-		return 1.0f;
-	}
-	return fadeDistance/(dist-lightRadius);
+	return fadeDistance / dist;
 }
 
 void main()
