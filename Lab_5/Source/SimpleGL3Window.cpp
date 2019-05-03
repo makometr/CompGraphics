@@ -11,81 +11,79 @@ SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, 
 void SimpleGL3Window::draw(void) {
     shaderProgram.readAndCompile("Shaders/vertex.shader", "Shaders/fragment.shader");
 
-    int width, height;
-    // unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texturePNG->w(), texturePNG->h(), 0, GL_RGB, GL_BYTE, texturePNG->data());
-    // glGenerateMipmap(GL_TEXTURE_2D);
-    // glBindTexture(GL_TEXTURE_2D, 0);
-
-
-
-
-
-    GLuint VBO_1, VBO_2, VAO_1, VAO_2;
-
     GLint nrAttributes;
     glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
     std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
-    GLfloat vertices_1[] = {
-        // Позиции         // Цвета
-        0.1f, 0.1f, 0.0f,  1.0f, 0.0f, 0.0f,   // Нижний правый угол
-        0.5f, 0.9f, 0.0f,  0.0f, 1.0f, 0.0f,   // Нижний левый угол
-        0.9f, 0.1f, 0.0f,  0.0f, 0.0f, 1.0f    // Верхний угол
+    GLfloat vertices[] = {
+        // Positions          // Colors           // Texture Coords
+         1.0f,  1.0f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // Top Right
+         1.0f, -1.0f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // Bottom Right
+        -1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
+        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // Top Left 
     };
-    GLfloat vertices_2[] = {
-        -0.1f, -0.1f, 0.0f, 1.0f, 1.0f, 0.0f,
-        -0.5f, -0.9f, 0.0f, 0.0f, 1.0f, 1.0f,
-        -0.9f, -0.1f, 0.0f, 1.0f, 0.0f, 1.0f,
-    }; 
-    glGenVertexArrays(1, &VAO_1);
-    glGenVertexArrays(1, &VAO_2);
+    GLuint indices[] = {  // Note that we start from 0!
+        0, 1, 3, // First Triangle
+        1, 2, 3  // Second Triangle
+    };
+    GLuint VBO, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    glGenBuffers(1, &VBO_1);
-    glGenBuffers(1, &VBO_2);
-    // Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
-    glBindVertexArray(VAO_1);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_1);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_1), vertices_1, GL_STATIC_DRAW);
-    // Атрибут с координатами
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
-    // Атрибут с цветом
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
-    glBindVertexArray(0);
+    // TexCoord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
 
-    glBindVertexArray(VAO_2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_2), vertices_2, GL_STATIC_DRAW);
-    // Атрибут с координатами
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-    // Атрибут с цветом
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
-    glBindVertexArray(0);
+    glBindVertexArray(0); // Unbind VAO
 
-    // Game loop
-        // Render
-        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // Load and create a texture 
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // Set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // Set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // Load image, create texture and generate mipmaps
+    int width, height;
+    unsigned char* image = SOIL_load_image("texture.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    add_output("Size of image: %d x %d\n", width, height);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Draw our first triangle
-        shaderProgram.Use();
-        glUniform1f(glGetUniformLocation(shaderProgram.Program, "delta"), 0.2f);
+        // Bind Texture
+        glBindTexture(GL_TEXTURE_2D, texture);
 
-        glBindVertexArray(VAO_1);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        // Activate shader
+        shaderProgram.Use();       
+        
+        // Draw container
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-
-        glBindVertexArray(VAO_2);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindVertexArray(0);
-        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // return SimpleGL3Window::draw();
 }
 
 int SimpleGL3Window::handle(int event) {
@@ -103,6 +101,13 @@ int SimpleGL3Window::handle(int event) {
         const uchar* glv = glGetString(GL_VERSION);
         add_output("GL_VERSION = %s\n", glv);
         sscanf((const char*)glv, "%d", &gl_version_major);
+    }
+
+    if (event == FL_MOVE){
+        auto x = Fl::event_x();
+        auto y = Fl::event_y();
+        glUniform2f(glGetUniformLocation(shaderProgram.Program, "mousePos"), x, y-1);
+        redraw();
     }
 
     if (event == FL_PUSH && gl_version_major >= 3) {
