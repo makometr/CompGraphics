@@ -12,6 +12,7 @@
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Text_Buffer.H>
+#include <FL/Fl_PNG_Image.H>
 #define GLEW_STATIC 1
 #include <GL/glew.h>
 

@@ -2,10 +2,28 @@
 
 SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, y, w, h) {
     mode(FL_RGB8 | FL_DOUBLE | FL_OPENGL3);
+    texturePNG = new Fl_PNG_Image("texture.png");
+    if (texturePNG->fail()){
+        std::cout << "ERROR::TEXTURE::LOAD_FROM_FILE\n";
+    }
 }
 
 void SimpleGL3Window::draw(void) {
     shaderProgram.readAndCompile("Shaders/vertex.shader", "Shaders/fragment.shader");
+
+    int width, height;
+    // unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+    GLuint texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texturePNG->w(), texturePNG->h(), 0, GL_RGB, GL_BYTE, texturePNG->data());
+    // glGenerateMipmap(GL_TEXTURE_2D);
+    // glBindTexture(GL_TEXTURE_2D, 0);
+
+
+
+
+
     GLuint VBO_1, VBO_2, VAO_1, VAO_2;
 
     GLint nrAttributes;

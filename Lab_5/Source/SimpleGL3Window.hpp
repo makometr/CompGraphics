@@ -5,6 +5,8 @@
 class SimpleGL3Window : public Fl_Gl_Window {
     Shader shaderProgram;
     GLuint shaderProgram_2 = 0;
+    Fl_PNG_Image *texturePNG = nullptr;
+
     GLuint vertexArrayObject;
     GLuint vertexBuffer;
     GLint positionUniform;
