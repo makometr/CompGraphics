@@ -19,5 +19,6 @@ float getLightIntensity() {
 
 void main()
 {
-    color = texture(ourTexture, TexCoord) * getLightIntensity();
+	color = vec4(ourColor, 1.0f);
+    // color = texture(ourTexture, TexCoord) * getLightIntensity();
 }
