@@ -47,8 +47,10 @@ void SimpleGL3Window::draw(void) {
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(VAO_cube);
+    glDrawElements(GL_LINES, 4*6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(VAO_octahedra);
+    glDrawElements(GL_LINES, 3*2*6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
@@ -187,64 +189,70 @@ void SimpleGL3Window::loadBuffers(){
     static bool isLoaded = false;
     if (isLoaded)
         return;
-    float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
+    float vertices_cube[] = {
+        // Coordinates
+        -0.5,  0.5, 0.5, // N-W
+         0.5,  0.5, 0.5, // N-E
+         0.5, -0.5, 0.5, // S-E
+        -0.5, -0.5, 0.5, // S-W
 
-        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f
+        -0.5,   0.5,  -0.5,   // N-W
+         0.5,   0.5,  -0.5,   // N-E
+         0.5,  -0.5,  -0.5,   // S-E
+        -0.5,  -0.5,  -0.5,   // S-W
     };
-    GLuint VBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    GLuint indices_cube[] = {
+        0,1, 1,2, 2,3, 3,0,
+        0,4, 4,5, 5,1,
+        4,7, 7,6, 6,5,
+        6,2, 7,3 
+    };
+    glGenVertexArrays(1, &VAO_cube);
+    glGenBuffers(1, &VBO_cube);
+    glGenBuffers(1, &EBO_cube);
+    glBindVertexArray(VAO_cube);
 
-    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_cube);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_cube), vertices_cube, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_cube);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_cube), indices_cube, GL_STATIC_DRAW);
 
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
-    // TexCoord attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
-    glBindVertexArray(0); // Unbind VAO
+
+
+
+    float vertices_octahedra[] = {
+        // Coordinates
+         0.0,  0.5,  0.0,
+         0.0, -0.5,  0.0,  
+         0.0,  0.0, -0.5,
+        -0.5,  0.0,  0.0,
+         0.0,  0.0,  0.5,
+         0.5,  0.0,  0.0,  
+    };
+    GLuint indices_octahedra[] = {
+        0,2, 0,3, 0,4, 0,5,
+        1,2, 1,3, 1,4, 1,5,
+        2,3, 3,4, 4,5, 5,2
+    };
+    glGenVertexArrays(1, &VAO_octahedra);
+    glGenBuffers(1, &VBO_octahedra);
+    glGenBuffers(1, &EBO_octahedra);
+    glBindVertexArray(VAO_octahedra);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_octahedra);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_octahedra), vertices_octahedra, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_octahedra);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_octahedra), indices_octahedra, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }

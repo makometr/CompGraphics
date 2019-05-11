@@ -13,7 +13,8 @@ private:
     GLuint texture;
     int width;
     int height;
-    GLuint  VAO;
+    GLuint VBO_cube, VAO_cube, EBO_cube;
+    GLuint VBO_octahedra, VAO_octahedra, EBO_octahedra;
 
     int gl_version_major;
     GLfloat fadeDistance = 40.0f;
