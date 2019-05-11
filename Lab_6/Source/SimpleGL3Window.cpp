@@ -25,9 +25,8 @@ void SimpleGL3Window::draw(void) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glBindTexture(GL_TEXTURE_2D, texture);
-
-    glPointSize(5.0f);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+    glPointSize(10.0f);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
     shaderProgram.Use();
 
     // Create transformations
@@ -42,16 +41,35 @@ void SimpleGL3Window::draw(void) {
     GLint modelLoc = glGetUniformLocation(shaderProgram.Program, "model");
     GLint viewLoc = glGetUniformLocation(shaderProgram.Program, "view");
     GLint projLoc = glGetUniformLocation(shaderProgram.Program, "projection");
+    GLint figureColorLoc = glGetUniformLocation(shaderProgram.Program, "figureColor");
     // Pass them to the shaders
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    glUniform3f(figureColorLoc, 1.0, 1.0f, 1.0f);
 
+    glLineWidth(2.0f); 
     glBindVertexArray(VAO_cube);
     glDrawElements(GL_LINES, 4*6, GL_UNSIGNED_INT, 0);
+
+    glLineWidth(2.0f);
     glBindVertexArray(VAO_octahedra);
     glDrawElements(GL_LINES, 3*2*6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+    
+    glEnable(GL_LINE_STIPPLE);
+    glLineWidth(5.0f);
+    glLineStipple(1, 0x00FF);
+    glUniform3f(figureColorLoc, 1.0, 0.0f, 0.0f);
+    glBindVertexArray(VAO_octahedra);
+    glDrawElements(GL_LINES, 3*2*6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    glDisable(GL_LINE_STIPPLE);
+
+    glUniform3f(figureColorLoc, 0.0, 0.0f, 1.0f);
+    glBindVertexArray(VAO_octahedra);
+    glDrawElements(GL_POINTS, 3*2*6, GL_UNSIGNED_INT, 0);
+
 }
 
 int SimpleGL3Window::handle(int event) {
