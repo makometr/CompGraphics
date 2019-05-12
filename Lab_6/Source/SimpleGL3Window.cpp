@@ -1,6 +1,8 @@
 #include "SimpleGL3Window.hpp"
+#include "State.hpp"
 
-SimpleGL3Window::SimpleGL3Window(int x, int y, int w, int h) :  Fl_Gl_Window(x, y, w, h) {
+SimpleGL3Window::SimpleGL3Window(State* ptr, int x, int y, int w, int h) :  Fl_Gl_Window(x, y, w, h) {
+    statePtr = ptr; 
     mode(FL_RGB8 | FL_DOUBLE | FL_OPENGL3);
     screenWidth = this->w();
     screenHeight = this->h();
@@ -22,6 +24,20 @@ void SimpleGL3Window::draw(void) {
     loadBuffers();
     Do_Movement();
 
+    switch (statePtr->getActionType()) {
+        case ActionType::translate:
+            std::cout << "Translate!\n";
+            break;
+        case ActionType::rotate:
+            std::cout << "Rotate!\n";
+            break;
+        case ActionType::scale:
+            std::cout << "Scale!\n";
+            break;
+        default:
+            break;
+    }
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glBindTexture(GL_TEXTURE_2D, texture);
@@ -36,7 +52,12 @@ void SimpleGL3Window::draw(void) {
     model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
     view = camera.GetViewMatrix();
 
-    projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    if (statePtr->getProjectionType() == ProjectionType::perspective){
+        projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    }
+    if (statePtr->getProjectionType() == ProjectionType::orthogonal){
+        projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f );
+    }
     // Get their uniform location
     GLint modelLoc = glGetUniformLocation(shaderProgram.Program, "model");
     GLint viewLoc = glGetUniformLocation(shaderProgram.Program, "view");
@@ -81,16 +102,15 @@ int SimpleGL3Window::handle(int event) {
         make_current();
         {
             GLenum err = glewInit();  // defines pters to functions of OpenGL V 1.2 and above
-            // glutSetCursor(GLUT_CURSOR_NONE);
             glViewport(0, 0, screenWidth, screenHeight);
             glEnable(GL_DEPTH_TEST);
             if (err)
                 Fl::warning("glewInit() failed returning %u", err);
             else
-                add_output("Using GLEW %s\n", glewGetString(GLEW_VERSION));
+                std::cout << "Using GLEW " << glewGetString(GLEW_VERSION) << "\n";
         }
         const uchar* glv = glGetString(GL_VERSION);
-        add_output("GL_VERSION = %s\n", glv);
+        std::cout << "GL_VERSION = " << glv << std::endl;
     }
 
     if (event == FL_LEAVE){
@@ -183,9 +203,9 @@ void SimpleGL3Window::loadTexture(const char *file){
     static bool isLoaded = false;
     if (isLoaded)
         return;
-    add_output("Loading file %s...\n", file);
+    std::cout << "Loading file " << file << "...\n";
     image = SOIL_load_image(file, &width, &height, 0, SOIL_LOAD_RGB);
-    add_output("Size of texture: %d x %d.\n", width, height);
+    std::cout << "Size of texture: " << width << " x " <<  height << "\n";
     // Load and create a texture 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -273,4 +293,8 @@ void SimpleGL3Window::loadBuffers(){
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void SimpleGL3Window::update() {
+    redraw();
 }

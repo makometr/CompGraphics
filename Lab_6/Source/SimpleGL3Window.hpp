@@ -2,9 +2,11 @@
 #include "libs.hpp"
 #include "Shader.hpp"
 #include "Camera.hpp"
+class State;
 
 class SimpleGL3Window : public Fl_Gl_Window {
 private:
+    State* statePtr = nullptr;
     Shader shaderProgram;
     unsigned char* image = nullptr;
     Camera camera;
@@ -24,7 +26,8 @@ private:
     GLfloat angle = 0.0f;
 
 public:
-    SimpleGL3Window(int x, int y, int w, int h);
+    SimpleGL3Window(State*, int x, int y, int w, int h);
+    void update();
 
     void loadTexture(const char *file);
     void loadBuffers();

@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <cmath>
+#include <array>
 #include <FL/Fl.H>
 #include <FL/x.H>
 #include <FL/Fl_Window.H>
@@ -13,6 +14,9 @@
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Box.H>
+#include <FL/Fl_Choice.H>
+#include <FL/Fl_Value_Slider.H>
 #define GLEW_STATIC 1
 #include <GL/glew.h>
 #include <Gl/glut.h>
@@ -23,6 +27,13 @@
 
 #include "SOIL/SOIL.h"
 
-inline Fl_Text_Display *outputText = nullptr; // shared between output_win() and add_output()
+enum class ProjectionType : int {
+    perspective = 0,
+    orthogonal = 1, 
+};
 
-void add_output(const char *format, ...);
+enum class ActionType : int {
+    translate = 0,
+    rotate = 1,
+    scale = 2,
+};
