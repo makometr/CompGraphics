@@ -23,7 +23,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     auto choice_projectionType = new Fl_Choice(leftBorder+15, 65, 200, 25);
     choice_projectionType->add("Перспективное");
     choice_projectionType->add("Ортогональное");
-    choice_projectionType->value(0);
+    choice_projectionType->value(static_cast<int>(statePtr->getProjectionType()));
     choice_projectionType->callback([](Fl_Widget* w, void* statePtr){
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         State* state = static_cast<State*>(statePtr);
@@ -60,9 +60,9 @@ AppWindow::AppWindow(int W,int H,const char*L)
         }
     }, statePtr.get());
     // +
-    initXYZ_widgets(ActionType::translate, leftBorder, -20, 20);
+    initXYZ_widgets(ActionType::translate, leftBorder, -10, 10);
     initXYZ_widgets(ActionType::rotate, leftBorder, 0, 360);
-    initXYZ_widgets(ActionType::scale, leftBorder, 0, 5);
+    initXYZ_widgets(ActionType::scale, leftBorder, 0, 10);
 
     makeVisibleXYZ_widget(static_cast<int>(statePtr->getActionType()));
 
@@ -84,6 +84,7 @@ void AppWindow::initXYZ_widgets(ActionType action, int leftBorder, int leftValue
     int beginY_Slider = 160;
     int indentBetweenLabelAndSlider = 5;
     int indentBetweenSliders = 30;
+    auto beginValues = statePtr->getXYZ(action);
     for (int i = 0; i < 3; i++){
         auto label = new Fl_Box(leftBorder+8, 
                                 beginY_Slider + indentBetweenLabelAndSlider + indentBetweenSliders*i,
@@ -100,7 +101,7 @@ void AppWindow::initXYZ_widgets(ActionType action, int leftBorder, int leftValue
         slider->align(FL_ALIGN_LEFT);
         slider->type(FL_HOR_SLIDER);
         slider->bounds(leftValue, rightValue);
-        slider->value(0);
+        slider->value(beginValues.at(i));
         callbackXYZInfo* dataPtr = new callbackXYZInfo {statePtr.get(), action, i};
         callbackData.push_back(dataPtr);
         slider->callback([](Fl_Widget* w, void* callbackData){

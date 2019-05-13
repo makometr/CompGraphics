@@ -24,34 +24,27 @@ void SimpleGL3Window::draw(void) {
     loadBuffers();
     Do_Movement();
 
-    switch (statePtr->getActionType()) {
-        case ActionType::translate:
-            std::cout << "Translate!\n";
-            break;
-        case ActionType::rotate:
-            std::cout << "Rotate!\n";
-            break;
-        case ActionType::scale:
-            std::cout << "Scale!\n";
-            break;
-        default:
-            break;
-    }
-
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // glBindTexture(GL_TEXTURE_2D, texture);
     glPointSize(10.0f);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
     shaderProgram.Use();
 
     // Create transformations
     glm::mat4 model = glm::mat4(1.0f);
+    auto [move_x, move_y, move_z] = statePtr->getXYZ(ActionType::translate);
+    auto [angle_x, angle_y, angle_z] = statePtr->getXYZ(ActionType::rotate);
+    auto [scale_x, scale_y, scale_z] = statePtr->getXYZ(ActionType::scale);
+    model = glm::translate(model, glm::vec3(move_x, move_y, move_z));
+    model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(angle_y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(angle_z), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::scale(model, glm::vec3(scale_x, scale_y, scale_z));
+
     glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
     view = camera.GetViewMatrix();
 
+    glm::mat4 projection = glm::mat4(1.0f);
     if (statePtr->getProjectionType() == ProjectionType::perspective){
         projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
     }
@@ -178,11 +171,6 @@ int SimpleGL3Window::handle(int event) {
         }
         std::cout << "Pressed down  " << Fl::event_key() << std::endl;
     }
-    if (event == FL_MOUSEWHEEL) {
-        auto scroll_size = Fl::event_dy();
-        angle -= static_cast<GLfloat>(scroll_size);
-        // glUniform1f(glGetUniformLocation(shaderProgram.Program, "fadeDistance"), fadeDistance);
-    }
     redraw();
     return Fl_Gl_Window::handle(event);
 }
@@ -197,30 +185,6 @@ void SimpleGL3Window::Do_Movement() {
         camera.ProcessKeyboard(LEFT);
     if(wasd[3])
         camera.ProcessKeyboard(RIGHT);
-}
-
-void SimpleGL3Window::loadTexture(const char *file){
-    static bool isLoaded = false;
-    if (isLoaded)
-        return;
-    std::cout << "Loading file " << file << "...\n";
-    image = SOIL_load_image(file, &width, &height, 0, SOIL_LOAD_RGB);
-    std::cout << "Size of texture: " << width << " x " <<  height << "\n";
-    // Load and create a texture 
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    // Set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // Set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // Load image, create texture and generate mipmaps
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    SOIL_free_image_data(image);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    isLoaded = true;
 }
 
 void SimpleGL3Window::loadBuffers(){

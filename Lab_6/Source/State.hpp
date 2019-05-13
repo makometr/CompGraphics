@@ -10,6 +10,7 @@ private:
     ActionType action = ActionType::translate;
     std::array<std::array<GLfloat, 3>, 3> XYZ =
         { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
+        // Translate        // Rotate         // Scale
 
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
