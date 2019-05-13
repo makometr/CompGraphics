@@ -18,8 +18,8 @@ void Shader::readAndCompile(const GLchar* vertexPath, const GLchar* fragmentPath
         std::stringstream vShaderStream, fShaderStream;
 
         // Read file's buffer contents into streams
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
+        vShaderStream << vShaderFile.rdbuf(); // ? mem free error
+        fShaderStream << fShaderFile.rdbuf(); // ? - || -
         // close file handlers
         vShaderFile.close();
         fShaderFile.close();

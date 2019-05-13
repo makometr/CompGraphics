@@ -3,8 +3,8 @@
 AppWindow::AppWindow(int W,int H,const char*L)
     : Fl_Window(W,H,L)
 {
-    statePtr = new State(this);
-    glSubWin = new SimpleGL3Window(statePtr, 0, 0, 600, 600);
+    statePtr = std::make_unique<State>(this);
+    glSubWin = new SimpleGL3Window(statePtr.get(), 0, 0, 600, 600);
 
     auto box_upper = new Fl_Box(glSubWin->w() + 10, 10, 230, 500, "Настройки");
     box_upper->box(FL_UP_BOX); // for correct resizing this object should be owned by stateSmth below
@@ -34,7 +34,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
                 assert("Incorrect value in switch-lambda statement!\n" == nullptr);
                 break;
         }
-    }, statePtr);
+    }, statePtr.get());
 
     // action
     auto label_action = new Fl_Box(leftBorder+15, 100, 80, 30, "Действие:");
@@ -46,7 +46,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     choice_action->add("Перемещение");
     choice_action->add("Вращение");
     choice_action->add("Масштабирование");
-    choice_action->value(0);
+    choice_action->value(static_cast<int>(statePtr->getActionType()));
     choice_action->callback([](Fl_Widget* w, void* statePtr){
         Fl_Choice* ch = dynamic_cast<Fl_Choice*>(w);
         State* state = static_cast<State*>(statePtr);
@@ -58,23 +58,27 @@ AppWindow::AppWindow(int W,int H,const char*L)
                 assert("Incorrect value in switch-lambda statement!\n" == nullptr);
                 break;
         }
-    }, statePtr);
+    }, statePtr.get());
     // +
-    initXYZ_widgets(static_cast<int>(ActionType::translate), leftBorder, -20, 20);
-    initXYZ_widgets(static_cast<int>(ActionType::rotate), leftBorder, 0, 360);
-    initXYZ_widgets(static_cast<int>(ActionType::scale), leftBorder, 0, 5);
+    initXYZ_widgets(ActionType::translate, leftBorder, -20, 20);
+    initXYZ_widgets(ActionType::rotate, leftBorder, 0, 360);
+    initXYZ_widgets(ActionType::scale, leftBorder, 0, 5);
 
-    makeVisibleXYZ_widget(2);
+    makeVisibleXYZ_widget(static_cast<int>(statePtr->getActionType()));
 
 
     glSubWin->end();
+}
+
+void AppWindow::makeVisibleActionWidgets(ActionType type){
+    makeVisibleXYZ_widget(static_cast<int>(type));
 }
 
 void AppWindow::updateGraphicsWindow(){
     glSubWin->update();
 }
 
-void AppWindow::initXYZ_widgets(int XYZ_widgets_index, int leftBorder, int leftValue, int rightValue){
+void AppWindow::initXYZ_widgets(ActionType action, int leftBorder, int leftValue, int rightValue){
     assert(leftValue <= rightValue);
     static std::array<std::string, 3> labels = {"X:", "Y:", "Z:"};
     int beginY_Slider = 160;
@@ -87,7 +91,7 @@ void AppWindow::initXYZ_widgets(int XYZ_widgets_index, int leftBorder, int leftV
                                 labels[i].c_str());
         label->align(FL_ALIGN_INSIDE | FL_ALIGN_TOP);
         label->labelsize(13);
-        XYZ_widgets.at(XYZ_widgets_index).push_back(label);
+        XYZ_widgets.at(static_cast<int>(action)).push_back(label);
 
         auto slider = new Fl_Value_Slider(leftBorder+32,
                                           beginY_Slider + indentBetweenSliders*i,
@@ -97,7 +101,16 @@ void AppWindow::initXYZ_widgets(int XYZ_widgets_index, int leftBorder, int leftV
         slider->type(FL_HOR_SLIDER);
         slider->bounds(leftValue, rightValue);
         slider->value(0);
-        XYZ_widgets.at(XYZ_widgets_index).push_back(slider);
+        callbackXYZInfo* dataPtr = new callbackXYZInfo {statePtr.get(), action, i};
+        callbackData.push_back(dataPtr);
+        slider->callback([](Fl_Widget* w, void* callbackData){
+            Fl_Value_Slider* ch = dynamic_cast<Fl_Value_Slider*>(w);
+            callbackXYZInfo* data = static_cast<callbackXYZInfo*>(callbackData);
+            auto xyz = data->statePtr->getXYZ(data->action);
+            xyz.at(data->coordinateNumber) = ch->value();
+            data->statePtr->setXYZ(xyz, data->action);
+        }, (void*)dataPtr);
+        XYZ_widgets.at(static_cast<int>(action)).push_back(slider);
     }
 }
 

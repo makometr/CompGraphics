@@ -19,5 +19,14 @@ ActionType State::getActionType() const {
 
 void State::setActionType(ActionType newActionType){
     action = newActionType;
+    appWinPtr->makeVisibleActionWidgets(newActionType);
+}
+
+XYZArray State::getXYZ(ActionType action) const {
+    return XYZ.at(static_cast<int>(action));
+}
+
+void State::setXYZ(XYZArray newXYZ, ActionType action){
+    XYZ.at(static_cast<int>(action)) = newXYZ;
     updateGraphics();
 }

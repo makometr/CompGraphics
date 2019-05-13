@@ -8,9 +8,8 @@ private:
     AppWindow *appWinPtr = nullptr;
     ProjectionType proj = ProjectionType::perspective;
     ActionType action = ActionType::translate;
-    std::array<GLfloat, 3> translateXYZ = { 0.0f, 0.0f, 0.0f };
-    std::array<GLfloat, 3> roatateXYZ = { 0.0f, 0.0f, 0.0f };
-    std::array<GLfloat, 3> scaleXYZ = { 0.0f, 0.0f, 0.0f };
+    std::array<std::array<GLfloat, 3>, 3> XYZ =
+        { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
 
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
@@ -20,6 +19,9 @@ public:
 
     ActionType getActionType() const;
     void setActionType(ActionType newActionType);
+
+    XYZArray getXYZ(ActionType actionType) const;
+    void setXYZ(XYZArray newXYZ, ActionType actionType);
 
 private:
     void updateGraphics();

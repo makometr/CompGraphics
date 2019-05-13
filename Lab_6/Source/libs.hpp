@@ -6,6 +6,8 @@
 #include <iostream>
 #include <cmath>
 #include <array>
+#include <memory>
+#include <functional>
 #include <FL/Fl.H>
 #include <FL/x.H>
 #include <FL/Fl_Window.H>
@@ -26,6 +28,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "SOIL/SOIL.h"
+
+using XYZArray = std::array<float, 3>;
 
 enum class ProjectionType : int {
     perspective = 0,
