@@ -20,7 +20,8 @@ SimpleGL3Window::SimpleGL3Window(State* ptr, int x, int y, int w, int h) :  Fl_G
 }
 
 void SimpleGL3Window::draw(void) {
-    shaderProgram.readAndCompile("Shaders/vertex.shader", "Shaders/fragment.shader");
+    shaderProgramFigures.readAndCompile("Shaders/vertex_figures.shader", "Shaders/fragment.shader");
+    shaderProgramAxes.readAndCompile("Shaders/vertex_axes.shader", "Shaders/fragment.shader");
     loadBuffers();
     Do_Movement();
 
@@ -28,7 +29,7 @@ void SimpleGL3Window::draw(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glPointSize(10.0f);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-    shaderProgram.Use();
+    shaderProgramFigures.Use();
 
     // Create transformations
     glm::mat4 model = glm::mat4(1.0f);
@@ -51,16 +52,11 @@ void SimpleGL3Window::draw(void) {
     if (statePtr->getProjectionType() == ProjectionType::orthogonal){
         projection = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f );
     }
-    // Get their uniform location
-    GLint modelLoc = glGetUniformLocation(shaderProgram.Program, "model");
-    GLint viewLoc = glGetUniformLocation(shaderProgram.Program, "view");
-    GLint projLoc = glGetUniformLocation(shaderProgram.Program, "projection");
-    GLint figureColorLoc = glGetUniformLocation(shaderProgram.Program, "figureColor");
-    // Pass them to the shaders
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    glUniform3f(figureColorLoc, 1.0, 1.0f, 1.0f);
+    // Get their uniform location ans Pass them to the shaders
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniform3f(glGetUniformLocation(shaderProgramFigures.Program, "figureColor"), 1.0, 1.0f, 1.0f);
 
     glLineWidth(2.0f); 
     glBindVertexArray(VAO_cube);
@@ -74,16 +70,39 @@ void SimpleGL3Window::draw(void) {
     glEnable(GL_LINE_STIPPLE);
     glLineWidth(5.0f);
     glLineStipple(1, 0x00FF);
-    glUniform3f(figureColorLoc, 1.0, 0.0f, 0.0f);
+    glUniform3f(glGetUniformLocation(shaderProgramFigures.Program, "figureColor"), 1.0, 0.0f, 0.0f);
     glBindVertexArray(VAO_octahedra);
     glDrawElements(GL_LINES, 3*2*6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     glDisable(GL_LINE_STIPPLE);
 
-    glUniform3f(figureColorLoc, 0.0, 0.0f, 1.0f);
+    glUniform3f(glGetUniformLocation(shaderProgramFigures.Program, "figureColor"), 0.0, 0.0f, 1.0f);
     glBindVertexArray(VAO_octahedra);
     glDrawElements(GL_POINTS, 3*2*6, GL_UNSIGNED_INT, 0);
 
+    shaderProgramAxes.Use();
+    glm::mat4 modelAxe = glm::mat4(1.0f);
+    modelAxe = glm::scale(modelAxe, glm::vec3(100, 100, 100));
+
+    glm::mat4 viewAxe = glm::mat4(1.0f);
+    viewAxe = camera.GetViewMatrix();
+
+    glm::mat4 projectionAxe = glm::mat4(1.0f);
+    if (statePtr->getProjectionType() == ProjectionType::perspective){
+        projectionAxe = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    }
+    if (statePtr->getProjectionType() == ProjectionType::orthogonal){
+        projectionAxe = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f );
+    }
+    // Get their uniform location ans Pass them to the shaders
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "model"), 1, GL_FALSE, glm::value_ptr(modelAxe));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "view"), 1, GL_FALSE, glm::value_ptr(viewAxe));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projectionAxe));
+
+    glBindVertexArray(VAO_axes);
+    glLineWidth(2.0f);
+    glDrawArrays(GL_LINES, 0, 6*3);
+    glBindVertexArray(0);
 }
 
 int SimpleGL3Window::handle(int event) {
@@ -255,6 +274,26 @@ void SimpleGL3Window::loadBuffers(){
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    float vertices_axes[] = {
+        -1.0,  0.0,  0.0, 1.0,  0.0,  0.0,
+         1.0,  0.0,  0.0, 1.0,  0.0,  0.0,
+         0.0, -1.0,  0.0, 0.0,  1.0,  0.0,
+         0.0,  1.0,  0.0, 0.0,  1.0,  0.0,
+         0.0,  0.0, -1.0, 0.0,  0.0,  1.0,
+         0.0,  0.0,  1.0, 0.0,  0.0,  1.0,
+    };
+    glGenVertexArrays(1, &VAO_axes);
+    glBindVertexArray(VAO_axes);
+    glGenBuffers(1, &VBO_axes);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_axes);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_axes), vertices_axes, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3* sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }

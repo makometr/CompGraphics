@@ -7,11 +7,13 @@ class State;
 class SimpleGL3Window : public Fl_Gl_Window {
 private:
     State* statePtr = nullptr;
-    Shader shaderProgram;
+    Shader shaderProgramFigures;
+    Shader shaderProgramAxes;
     Camera camera;
 
     GLuint VBO_cube, VAO_cube, EBO_cube;
     GLuint VBO_octahedra, VAO_octahedra, EBO_octahedra;
+    GLuint VBO_axes, VAO_axes;
 
 
     bool wasd[4] { false };
@@ -19,7 +21,7 @@ private:
     int screenHeight;
     int gl_version_major;
     GLfloat fadeDistance = 40.0f;
-    
+
 public:
     SimpleGL3Window(State*, int x, int y, int w, int h);
     void update();
