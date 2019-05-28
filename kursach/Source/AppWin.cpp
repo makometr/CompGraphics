@@ -4,7 +4,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
     : Fl_Window(W,H,L)
 {
     statePtr = std::make_unique<State>(this);
-    glSubWin = new SimpleGL3Window(statePtr.get(), 0, 0, 600, 600);
+    glSubWin = new SimpleGL3Window(statePtr.get(), 0, 0, 1030, 720);
 
     auto box_upper = new Fl_Box(glSubWin->w() + 10, 10, 230, 500, "Настройки");
     box_upper->box(FL_UP_BOX); // for correct resizing this object should be owned by stateSmth below
