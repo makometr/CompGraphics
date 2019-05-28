@@ -34,9 +34,9 @@ void Cylinder::loadBuffer(){
         vertices_cone[i*3+1 + pointsCircleNum*3] = centerUp.y;  // y
         vertices_cone[i*3+2 + pointsCircleNum*3] = radiusUp * glm::sin(glm::radians(angle)); // z
     }
-    for (int i = 0; i < pointsCircleNum * 2; i++){
-        std::cout << i << ": " << vertices_cone[i*3+0] << " " << vertices_cone[i*3+1] << " " << vertices_cone[i*3+2] << std::endl;
-    }
+    // for (int i = 0; i < pointsCircleNum * 2; i++){
+    //     std::cout << i << ": " << vertices_cone[i*3+0] << " " << vertices_cone[i*3+1] << " " << vertices_cone[i*3+2] << std::endl;
+    // }
     GLuint indices_cone[(trianglesNum + 2)];
     for (int i = 0; i < trianglesNum + 2; i++){
         indices_cone[i] = i;
@@ -53,9 +53,9 @@ void Cylinder::loadBuffer(){
     indices_facet[trianglesNum*2] = indices_facet[0];
     indices_facet[trianglesNum*2+1] = indices_facet[1];
 
-    for (int i = 0; i < trianglesNum*2 + 2; i++)
-        std::cout << indices_facet[i] << " ";
-    std::cout << std::endl;
+    // for (int i = 0; i < trianglesNum*2 + 2; i++)
+    //     std::cout << indices_facet[i] << " ";
+    // std::cout << std::endl;
 
 
     glGenVertexArrays(3, VAO_cone);
