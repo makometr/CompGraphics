@@ -14,6 +14,7 @@ private:
     Shader shaderProgramAxes;
     Shader shaderProgramSkyBox;
     GLuint cubemapTexture;
+    GLuint figureTexture;
     Camera camera {glm::vec3{0.0f, 0.0f, 3.0f}};
 
     SceneShape shape_1 {glm::vec3{0.0f, -1.0f, 0.0f}, 0.1f};
@@ -33,6 +34,7 @@ public:
     void update();
 
     unsigned int loadCubemap(std::vector<std::string> faces);
+    unsigned int loadTexture(const char *path);
 
     void loadBuffers();
     void draw(void);

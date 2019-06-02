@@ -7,13 +7,13 @@ private:
     GLfloat radiusDown = 1.0f;
     GLfloat radiusUp = 1.0f;
     GLuint VBO_cone[3], VAO_cone[3], EBO_cone[3];
-    const int trianglesNum = 60;
+    const int trianglesNum = 8;
 
 public:
     Cylinder() = default;
-    setParams(glm::vec3 o_1, GLfloat c_1, glm::vec3 o_2, GLfloat c_2);
+    void setParams(glm::vec3 o_1, GLfloat c_1, glm::vec3 o_2, GLfloat c_2);
     void loadBuffer();
-    void draw();
+    void draw(GLuint figureTexture);
     GLuint getVAO();
 };
 
@@ -27,5 +27,5 @@ private:
 public:
     SceneShape(glm::vec3 center, GLfloat scale);
     void loadBuffer();
-    void draw();
+    void draw(GLuint figureTexture);
 };

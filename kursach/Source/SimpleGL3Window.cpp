@@ -10,11 +10,13 @@ SimpleGL3Window::SimpleGL3Window(State* ptr, int x, int y, int w, int h) :  Fl_G
 
 void SimpleGL3Window::draw(void) {
     glEnable(GL_DEPTH_TEST);
-    shaderProgramFigures.readAndCompile("Shaders/vertex_figures.shader", "Shaders/fragment.shader");
+    shaderProgramFigures.readAndCompile("Shaders/vertex_figures.shader", "Shaders/fragment_figures.shader");
     shaderProgramAxes.readAndCompile("Shaders/vertex_axes.shader", "Shaders/fragment.shader");
     shaderProgramSkyBox.readAndCompile("Shaders/vertex_map.shader", "Shaders/fragment_map.shader");
     shaderProgramSkyBox.Use();
     shaderProgramSkyBox.setInt("skybox", 0);
+    shaderProgramFigures.Use();
+    shaderProgramFigures.setInt("texture1", 0);
     loadBuffers();
     Do_Movement();
 
@@ -48,25 +50,25 @@ void SimpleGL3Window::draw(void) {
     glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
     glUniform3f(glGetUniformLocation(shaderProgramFigures.Program, "figureColor"), 1.0, 1.0f, 1.0f);
-    shape_1.draw();
+    shape_1.draw(figureTexture);
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_2.draw();
+    shape_2.draw(figureTexture);
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_3.draw();
+    shape_3.draw(figureTexture);
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(0.0f, 1.0f, 2.6f));
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_4.draw();
+    shape_4.draw(figureTexture);
     
 
     // axes
@@ -220,6 +222,7 @@ void SimpleGL3Window::loadBuffers(){
         "Resources/back.jpg"
     };
     cubemapTexture = loadCubemap(faces);
+    figureTexture = loadTexture("Resources/test.jpg");
     isLoaded = true;
 }
 
@@ -339,6 +342,42 @@ unsigned int SimpleGL3Window::loadCubemap(std::vector<std::string> faces) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    return textureID;
+}
+
+unsigned int SimpleGL3Window::loadTexture(const char *path){
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char *data = SOIL_load_image(path, &width, &height, &nrComponents, 0);
+    if (data)
+    {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        SOIL_free_image_data(data);
+    }
+    else
+    {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        SOIL_free_image_data(data);
+    }
 
     return textureID;
 }
