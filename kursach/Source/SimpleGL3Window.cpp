@@ -13,10 +13,12 @@ void SimpleGL3Window::draw(void) {
     shaderProgramFigures.readAndCompile("Shaders/vertex_figures.shader", "Shaders/fragment_figures.shader");
     shaderProgramAxes.readAndCompile("Shaders/vertex_axes.shader", "Shaders/fragment.shader");
     shaderProgramSkyBox.readAndCompile("Shaders/vertex_map.shader", "Shaders/fragment_map.shader");
+    shaderNormals.readAndCompile("Shaders/vertex_normal.shader", "Shaders/fragment_normal.shader", "Shaders/geometry_normal.shader");
     shaderProgramSkyBox.Use();
     shaderProgramSkyBox.setInt("skybox", 0);
     shaderProgramFigures.Use();
-    shaderProgramFigures.setInt("texture1", 0);
+    // shaderProgramFigures.setInt("texture1", 0);
+    shaderProgramFigures.setInt("skybox", 0);
     loadBuffers();
     Do_Movement();
 
@@ -46,29 +48,36 @@ void SimpleGL3Window::draw(void) {
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
     shaderProgramFigures.Use();
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    glUniform3f(glGetUniformLocation(shaderProgramFigures.Program, "figureColor"), 1.0, 1.0f, 1.0f);
-    shape_1.draw(figureTexture);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    // glUniform3f(glGetUniformLocation(shaderProgramFigures.ProgramID, "figureColor"), 1.0, 1.0f, 1.0f);
+    shaderProgramFigures.setVec3("cameraPos", camera.Position);
+    shape_1.draw(cubemapTexture);
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(2.1f, 0.7f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_2.draw(figureTexture);
+    shaderNormals.Use();
+    shaderNormals.setMat4("projection", projection);
+    shaderNormals.setMat4("view", view);
+    shaderNormals.setMat4("model", model);
+    shape_1.draw(cubemapTexture);
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(-2.1f, 0.7f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_3.draw(figureTexture);
+    // model = glm::mat4(1.0f);
+    // model = glm::translate(model, glm::vec3(2.1f, 0.7f, 0.0f));
+    // model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    // shape_2.draw(figureTexture);
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 1.0f, 2.6f));
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    shape_4.draw(figureTexture);
+    // model = glm::mat4(1.0f);
+    // model = glm::translate(model, glm::vec3(-2.1f, 0.7f, 0.0f));
+    // model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    // shape_3.draw(figureTexture);
+
+    // model = glm::mat4(1.0f);
+    // model = glm::translate(model, glm::vec3(0.0f, 1.0f, 2.6f));
+    // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    // shape_4.draw(figureTexture);
     
 
     // axes
@@ -87,9 +96,9 @@ void SimpleGL3Window::draw(void) {
         projectionAxe = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f );
     }
     // Get their uniform location ans Pass them to the shaders
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "model"), 1, GL_FALSE, glm::value_ptr(modelAxe));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "view"), 1, GL_FALSE, glm::value_ptr(viewAxe));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projectionAxe));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(modelAxe));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "view"), 1, GL_FALSE, glm::value_ptr(viewAxe));
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "projection"), 1, GL_FALSE, glm::value_ptr(projectionAxe));
 
     glBindVertexArray(VAO_axes);
     glLineWidth(2.0f);
