@@ -15,7 +15,6 @@ private:
     Shader shaderProgramSkyBox;
     Shader shaderNormals;
     GLuint cubemapTexture;
-    GLuint figureTexture;
     Camera camera {glm::vec3{0.0f, 0.0f, 3.0f}};
 
     SceneShape shape_1 {glm::vec3{0.0f, -1.0f, 0.0f}, 0.1f};
