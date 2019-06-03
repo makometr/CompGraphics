@@ -3,8 +3,6 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "Cylinder.hpp"
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "stb_image.h"
 class State;
 
 class SimpleGL3Window : public Fl_Gl_Window {
@@ -34,12 +32,14 @@ private:
 public:
     SimpleGL3Window(State*, int x, int y, int w, int h);
     void update();
-
-    unsigned int loadCubemap(std::vector<std::string> faces);
-    unsigned int loadTexture(const char *path);
-
-    void loadBuffers();
     void draw(void);
     virtual int handle(int event);
+
+private:
     void Do_Movement();
+    void loadBuffers();
+    unsigned int loadCubemap(const std::vector<std::string> &faces);
+    void drawFigure(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPos);
+    void drawContour(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection);
+    void drawNormals(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection);
 };

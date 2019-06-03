@@ -18,28 +18,14 @@ void SimpleGL3Window::draw(void) {
     shaderProgramSkyBox.Use();
     shaderProgramSkyBox.setInt("skybox", 0);
     shaderProgramFigures.Use();
-    // shaderProgramFigures.setInt("texture1", 0);
     shaderProgramFigures.setInt("skybox", 0);
     loadBuffers();
     Do_Movement();
 
-    // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // glPointSize(10.0f);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // Create transformations
-    // auto [move_x, move_y, move_z] = statePtr->getXYZ(ActionType::translate);
-    // auto [angle_x, angle_y, angle_z] = statePtr->getXYZ(ActionType::rotate);
-    // auto [scale_x, scale_y, scale_z] = statePtr->getXYZ(ActionType::scale);
-    // model = glm::translate(model, glm::vec3(move_x, move_y, move_z));
-    // model = glm::rotate(model, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
-    // model = glm::rotate(model, glm::radians(angle_y), glm::vec3(0.0f, 1.0f, 0.0f));
-    // model = glm::rotate(model, glm::radians(angle_z), glm::vec3(0.0f, 0.0f, 1.0f));
-    // model = glm::scale(model, glm::vec3(scale_x, scale_y, scale_z));
-
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(0.0f, 1.4f, 0.0f));
@@ -48,50 +34,27 @@ void SimpleGL3Window::draw(void) {
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
     
-    shaderProgramFigures.Use();
-    shaderProgramFigures.setMat4("model", model);
-    shaderProgramFigures.setMat4("view", view);
-    shaderProgramFigures.setMat4("projection", projection);
-    shaderProgramFigures.setVec3("cameraPos", camera.Position);
-    shape_1.draw(cubemapTexture);
-    // +
-    shaderContour.Use();
-    shaderContour.setMat4("projection", projection);
-    shaderContour.setMat4("view", view);
-    shaderContour.setMat4("model", model);
-    shape_1.drawContour();
+    drawFigure(shape_1, model, view, projection, camera.Position);
+    drawContour(shape_1, model, view, projection);
+    drawNormals(shape_1, model, view, projection);
 
-
-    shaderProgramFigures.Use();
     model = glm::translate(glm::mat4(1.0f), glm::vec3(2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    shaderProgramFigures.setMat4("model", model);
-    shape_2.draw(cubemapTexture);
-    // +
-    shaderContour.Use();
-    shaderContour.setMat4("model", model);
-    shape_2.drawContour();
+    drawFigure(shape_2, model, view, projection, camera.Position);
+    drawContour(shape_2, model, view, projection);
+    drawNormals(shape_2, model, view, projection);
 
-    shaderProgramFigures.Use();
     model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    shaderProgramFigures.setMat4("model", model);
-    shape_3.draw(cubemapTexture);
-    // +
-    shaderContour.Use();
-    shaderContour.setMat4("model", model);
-    shape_3.drawContour();
+    drawFigure(shape_3, model, view, projection, camera.Position);
+    drawContour(shape_3, model, view, projection);
+    drawNormals(shape_3, model, view, projection);
 
-    shaderProgramFigures.Use();
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, 2.6f));
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    shaderProgramFigures.setMat4("model", model);
-    shape_4.draw(cubemapTexture);
-    // +
-    shaderContour.Use();
-    shaderContour.setMat4("model", model);
-    shape_4.drawContour();
-    
+    drawFigure(shape_4, model, view, projection, camera.Position);
+    drawContour(shape_4, model, view, projection);
+    drawNormals(shape_4, model, view, projection);
 
     // axes
     shaderProgramAxes.Use();
@@ -101,17 +64,10 @@ void SimpleGL3Window::draw(void) {
     glm::mat4 viewAxe = glm::mat4(1.0f);
     viewAxe = camera.GetViewMatrix();
 
-    glm::mat4 projectionAxe = glm::mat4(1.0f);
-    if (statePtr->getProjectionType() == ProjectionType::perspective){
-        projectionAxe = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
-    }
-    if (statePtr->getProjectionType() == ProjectionType::orthogonal){
-        projectionAxe = glm::ortho(-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.0f );
-    }
-    // Get their uniform location ans Pass them to the shaders
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(modelAxe));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "view"), 1, GL_FALSE, glm::value_ptr(viewAxe));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramAxes.ProgramID, "projection"), 1, GL_FALSE, glm::value_ptr(projectionAxe));
+    glm::mat4 projectionAxe = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    shaderProgramAxes.setMat4("model", modelAxe);
+    shaderProgramAxes.setMat4("view", viewAxe);
+    shaderProgramAxes.setMat4("projection", projectionAxe);
 
     glBindVertexArray(VAO_axes);
     glLineWidth(2.0f);
@@ -135,10 +91,32 @@ void SimpleGL3Window::draw(void) {
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
     glDepthFunc(GL_LESS); // set depth function back to default
-
 }
 
+void SimpleGL3Window::drawNormals(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection){
+    shaderNormals.Use();
+    shaderNormals.setMat4("projection", projection);
+    shaderNormals.setMat4("view", view);
+    shaderNormals.setMat4("model", model);
+    shape.draw(cubemapTexture);
+}
 
+void SimpleGL3Window::drawContour(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection){
+    shaderContour.Use();
+    shaderContour.setMat4("projection", projection);
+    shaderContour.setMat4("view", view);
+    shaderContour.setMat4("model", model);
+    shape.drawContour();
+}
+
+void SimpleGL3Window::drawFigure(SceneShape &shape, const glm::mat4 &model, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPos){
+    shaderProgramFigures.Use();
+    shaderProgramFigures.setMat4("model", model);
+    shaderProgramFigures.setMat4("view", view);
+    shaderProgramFigures.setMat4("projection", projection);
+    shaderProgramFigures.setVec3("cameraPos", camera.Position);
+    shape.draw(cubemapTexture);
+}
 
 void SimpleGL3Window::Do_Movement() {
     // Camera controls
@@ -270,20 +248,14 @@ int SimpleGL3Window::handle(int event) {
         std::cout << "GL_VERSION = " << glv << std::endl;
     }
 
-    if (event == FL_LEAVE){
-        std::cout << "Leave! " << Fl::event_x() << " " << Fl::event_y() << std::endl;
-    }
-
     if (event == FL_MOVE){
         static bool firstMouse = true;
         static int lastX = 0;
         static int lastY = 0;
         auto xpos = Fl::event_x();
         auto ypos = Fl::event_y();
-        // std::cout << "Mouse move change: " << xpos << " " << ypos << std::endl;
 
-        if(firstMouse)
-        {
+        if(firstMouse){
             lastX = xpos;
             lastY = ypos;
             firstMouse = false;
@@ -291,16 +263,13 @@ int SimpleGL3Window::handle(int event) {
 
         GLfloat xoffset = xpos - lastX;
         GLfloat yoffset = lastY - ypos;  // Reversed since y-coordinates go from bottom to left
-        
         lastX = xpos;
         lastY = ypos;
-
         camera.ProcessMouseMovement(xoffset, yoffset);
         firstMouse = false;
     } 
 
     if (event == FL_KEYUP){
-        // std::cout << "Up!\n";
         if (Fl::event_key() == 119){ // w
             wasd[0] = false;
         }
@@ -315,38 +284,31 @@ int SimpleGL3Window::handle(int event) {
         }
     }
 
-    // std::cout << "Event: " << event << std::endl;
     if (event == FL_SHORTCUT){
         if (Fl::event_key() == 119){ // w
-            // camera.ProcessKeyboard(FORWARD);
             wasd[0] = true;
         }
         if (Fl::event_key() == 115){ // s
-            // camera.ProcessKeyboard(BACKWARD);
             wasd[2] = true;
         }
         if (Fl::event_key() == 97){ // a
-            // camera.ProcessKeyboard(LEFT);
             wasd[1] = true;
         }
         if (Fl::event_key() == 100){ // d
-            // camera.ProcessKeyboard(RIGHT);
             wasd[3] = true;
         }
-        // std::cout << "Pressed down  " << Fl::event_key() << std::endl;
     }
     redraw();
     return Fl_Gl_Window::handle(event);
 }
 
-unsigned int SimpleGL3Window::loadCubemap(std::vector<std::string> faces) {
+unsigned int SimpleGL3Window::loadCubemap(const std::vector<std::string> &faces) {
     unsigned int textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
     int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++)
-    {
+    for (unsigned int i = 0; i < faces.size(); i++){
         unsigned char *data = SOIL_load_image(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if (data) {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 
@@ -363,6 +325,5 @@ unsigned int SimpleGL3Window::loadCubemap(std::vector<std::string> faces) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
     return textureID;
 }
