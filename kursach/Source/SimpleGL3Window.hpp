@@ -14,6 +14,8 @@ private:
     Shader shaderProgramAxes;
     Shader shaderProgramSkyBox;
     Shader shaderNormals;
+    Shader shaderContour;
+
     GLuint cubemapTexture;
     Camera camera {glm::vec3{0.0f, 0.0f, 3.0f}};
 

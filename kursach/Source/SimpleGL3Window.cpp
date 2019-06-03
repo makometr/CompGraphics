@@ -14,6 +14,7 @@ void SimpleGL3Window::draw(void) {
     shaderProgramAxes.readAndCompile("Shaders/vertex_axes.shader", "Shaders/fragment.shader");
     shaderProgramSkyBox.readAndCompile("Shaders/vertex_map.shader", "Shaders/fragment_map.shader");
     shaderNormals.readAndCompile("Shaders/vertex_normal.shader", "Shaders/fragment_normal.shader", "Shaders/geometry_normal.shader");
+    shaderContour.readAndCompile("Shaders/vertex_contour.shader", "Shaders/fragment_contour.shader");
     shaderProgramSkyBox.Use();
     shaderProgramSkyBox.setInt("skybox", 0);
     shaderProgramFigures.Use();
@@ -43,41 +44,53 @@ void SimpleGL3Window::draw(void) {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(0.0f, 1.4f, 0.0f));
     model = glm::scale(model, glm::vec3(1.4f, 1.4f, 1.4f));
-    glm::mat4 view = glm::mat4(1.0f);
-    view = camera.GetViewMatrix();
+    glm::mat4 view = camera.GetViewMatrix();
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    
     shaderProgramFigures.Use();
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    // glUniform3f(glGetUniformLocation(shaderProgramFigures.ProgramID, "figureColor"), 1.0, 1.0f, 1.0f);
+    shaderProgramFigures.setMat4("model", model);
+    shaderProgramFigures.setMat4("view", view);
+    shaderProgramFigures.setMat4("projection", projection);
     shaderProgramFigures.setVec3("cameraPos", camera.Position);
     shape_1.draw(cubemapTexture);
+    // +
+    shaderContour.Use();
+    shaderContour.setMat4("projection", projection);
+    shaderContour.setMat4("view", view);
+    shaderContour.setMat4("model", model);
+    shape_1.drawContour();
 
-    shaderNormals.Use();
-    shaderNormals.setMat4("projection", projection);
-    shaderNormals.setMat4("view", view);
-    shaderNormals.setMat4("model", model);
-    shape_1.draw(cubemapTexture);
 
-    // model = glm::mat4(1.0f);
-    // model = glm::translate(model, glm::vec3(2.1f, 0.7f, 0.0f));
-    // model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    // shape_2.draw(figureTexture);
+    shaderProgramFigures.Use();
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(2.1f, 0.7f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+    shaderProgramFigures.setMat4("model", model);
+    shape_2.draw(cubemapTexture);
+    // +
+    shaderContour.Use();
+    shaderContour.setMat4("model", model);
+    shape_2.drawContour();
 
-    // model = glm::mat4(1.0f);
-    // model = glm::translate(model, glm::vec3(-2.1f, 0.7f, 0.0f));
-    // model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    // shape_3.draw(figureTexture);
+    shaderProgramFigures.Use();
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.1f, 0.7f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+    shaderProgramFigures.setMat4("model", model);
+    shape_3.draw(cubemapTexture);
+    // +
+    shaderContour.Use();
+    shaderContour.setMat4("model", model);
+    shape_3.drawContour();
 
-    // model = glm::mat4(1.0f);
-    // model = glm::translate(model, glm::vec3(0.0f, 1.0f, 2.6f));
-    // model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    // glUniformMatrix4fv(glGetUniformLocation(shaderProgramFigures.ProgramID, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    // shape_4.draw(figureTexture);
+    shaderProgramFigures.Use();
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, 2.6f));
+    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+    shaderProgramFigures.setMat4("model", model);
+    shape_4.draw(cubemapTexture);
+    // +
+    shaderContour.Use();
+    shaderContour.setMat4("model", model);
+    shape_4.drawContour();
     
 
     // axes
@@ -258,7 +271,7 @@ int SimpleGL3Window::handle(int event) {
     }
 
     if (event == FL_LEAVE){
-        // std::cout << "Leave! " << Fl::event_x() << " " << Fl::event_y() << std::endl;
+        std::cout << "Leave! " << Fl::event_x() << " " << Fl::event_y() << std::endl;
     }
 
     if (event == FL_MOVE){

@@ -95,14 +95,20 @@ void Cylinder::loadBuffer(){
     indices_facet[trianglesNum*2] = indices_facet[0];
     indices_facet[trianglesNum*2+1] = indices_facet[1];
 
-    // for (int i = 0; i < trianglesNum*2 + 2; i++)
-    //     std::cout << indices_facet[i] << " ";
+    GLuint indices_contour[trianglesNum*2] = {};
+    for (int i = 0; i < trianglesNum; i++){
+        indices_contour[i*2] = i + 1;
+        indices_contour[i*2 + 1] = i + 2;
+    }
+    indices_contour[trianglesNum*2-1] = indices_contour[0];
+    // for (int i = 0; i < trianglesNum*2; i++)
+    //     std::cout << indices_contour[i] << " ";
     // std::cout << std::endl;
 
 
-    glGenVertexArrays(3, VAO_cone);
-    glGenBuffers(3, VBO_cone);
-    glGenBuffers(3, EBO_cone);
+    glGenVertexArrays(5, VAO_cone);
+    glGenBuffers(5, VBO_cone);
+    glGenBuffers(5, EBO_cone);
 
     glBindVertexArray(VAO_cone[0]);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_cone[0]);
@@ -145,24 +151,60 @@ void Cylinder::loadBuffer(){
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)(5 * sizeof(float)));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    glBindVertexArray(VAO_cone[3]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_cone[3]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_cone), vertices_cone, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_cone[3]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_contour), indices_contour, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)(5 * sizeof(float)));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    glBindVertexArray(VAO_cone[4]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_cone[4]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_cone), vertices_cone + pointsCircleNum * elementsPerVert, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_cone[4]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices_contour), indices_contour, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, elementsPerVert * sizeof(GLfloat), (GLvoid*)(5 * sizeof(float)));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void Cylinder::draw(GLuint figureTexture){
     glBindVertexArray(VAO_cone[0]);
-    //    glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
     glDrawElements(GL_TRIANGLE_FAN, trianglesNum + 2, GL_UNSIGNED_INT, 0);
+
     glBindVertexArray(VAO_cone[1]);
-        //    glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
     glDrawElements(GL_TRIANGLE_FAN, trianglesNum + 2, GL_UNSIGNED_INT, 0);
+
     glBindVertexArray(VAO_cone[2]);
-        //    glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, figureTexture);
     glDrawElements(GL_TRIANGLE_STRIP, trianglesNum*2+2, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
+void Cylinder::drawContour(){
+    glBindVertexArray(VAO_cone[3]);
+    glDrawElements(GL_LINES, trianglesNum * 2, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(VAO_cone[4]);
+    glDrawElements(GL_LINES, trianglesNum * 2, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+}
 
 SceneShape::SceneShape(glm::vec3 center, GLfloat scale):
    downCenter(center), scaleFactor(scale)
@@ -180,6 +222,12 @@ void SceneShape::loadBuffer(){
 
 void SceneShape::draw(GLuint figureTexture){
     c_1.draw(figureTexture);
-    // c_2.draw(figureTexture);
-    // c_3.draw(figureTexture);
+    c_2.draw(figureTexture);
+    c_3.draw(figureTexture);
+}
+
+void SceneShape::drawContour(){
+    c_1.drawContour();
+    c_2.drawContour();
+    c_3.drawContour();
 }
