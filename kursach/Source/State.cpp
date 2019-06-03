@@ -4,29 +4,29 @@ void State::updateGraphics(){
     appWinPtr->updateGraphicsWindow();
 }
 
-ProjectionType State::getProjectionType() const {
-    return proj;
+bool State::getIsAxesDrawn() const {
+    return isAxesDrawing;
 }
 
-void State::setProjectionType(ProjectionType newProj) {
-    proj = newProj;
+void State::setIsAxesDrawn(bool newBool) {
+    isAxesDrawing = newBool;
     updateGraphics();
 }
 
-ActionType State::getActionType() const {
-    return action;
+bool State::getIsNormalsDrawn() const {
+    return isNormalsDrawing;
 }
 
-void State::setActionType(ActionType newActionType){
-    action = newActionType;
-    appWinPtr->makeVisibleActionWidgets(newActionType);
+void State::setIsNormalsDrawn(bool newBool){
+    isNormalsDrawing = newBool;
+    updateGraphics();
 }
 
-XYZArray State::getXYZ(ActionType action) const {
-    return XYZ.at(static_cast<int>(action));
+RGBArray State::getRGB() const {
+    return rgbArray;
 }
 
-void State::setXYZ(XYZArray newXYZ, ActionType action){
-    XYZ.at(static_cast<int>(action)) = newXYZ;
+void State::setRGB(RGBArray newRGB){
+    rgbArray = newRGB;
     updateGraphics();
 }

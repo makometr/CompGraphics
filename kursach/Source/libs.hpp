@@ -16,6 +16,7 @@
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Text_Buffer.H>
 #include <FL/Fl_PNG_Image.H>
+#include <FL/Fl_Check_Button.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Choice.H>
 #include <FL/Fl_Value_Slider.H>
@@ -29,15 +30,4 @@
 
 #include "SOIL/SOIL.h"
 
-using XYZArray = std::array<float, 3>;
-
-enum class ProjectionType : int {
-    perspective = 0,
-    orthogonal = 1, 
-};
-
-enum class ActionType : int {
-    translate = 0,
-    rotate = 1,
-    scale = 2,
-};
+using RGBArray = std::array<int, 3>;

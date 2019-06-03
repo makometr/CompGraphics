@@ -6,23 +6,21 @@ class AppWindow;
 class State {
 private:
     AppWindow *appWinPtr = nullptr;
-    ProjectionType proj = ProjectionType::perspective;
-    ActionType action = ActionType::translate;
-    std::array<std::array<GLfloat, 3>, 3> XYZ =
-        { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f };
-        // Translate        // Rotate         // Scale
+    bool isAxesDrawing = false;
+    bool isNormalsDrawing = false;
+    RGBArray rgbArray {0, 0, 0};
 
 public:
     State(AppWindow* ptr) : appWinPtr(ptr) { };
 
-    ProjectionType getProjectionType() const;
-    void setProjectionType(ProjectionType newProjectionType);
+    bool getIsAxesDrawn() const;
+    void setIsAxesDrawn(bool newProjectionType);
 
-    ActionType getActionType() const;
-    void setActionType(ActionType newActionType);
+    bool getIsNormalsDrawn() const;
+    void setIsNormalsDrawn(bool newActionType);
 
-    XYZArray getXYZ(ActionType actionType) const;
-    void setXYZ(XYZArray newXYZ, ActionType actionType);
+    RGBArray getRGB() const;
+    void setRGB(RGBArray newRGB);
 
 private:
     void updateGraphics();
