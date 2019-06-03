@@ -13,6 +13,6 @@ void main()
 {
     Normal = mat3(transpose(inverse(model))) * aNormal;
     Position = vec3(model * vec4(aPos, 1.0));
-    Position = vec3(Position.x, 1.0 - Position.y, Position.z);
+    Position = vec3(Position.x, Position.y, Position.z);
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
