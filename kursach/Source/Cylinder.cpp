@@ -51,8 +51,6 @@ void Cylinder::loadBuffer(){
         vertices_cone[i*elementsPerVert+2] = newZBottom; // z
         vertices_cone[i*elementsPerVert+3] = stepTextureCoord * i; // x texture coord;
         vertices_cone[i*elementsPerVert+4] = 0.0f; // y texture coord
-        // current point - circle center point + (0,-1,0)
-        // glm::vec3 normalVec {newXBottom-centerDown.x, 0, newZBottom-centerDown.z};
         glm::vec3 normalVec {0,-1,0};
         normalVec = glm::normalize(normalVec);
         vertices_cone[i*elementsPerVert+5] = normalVec.x;
@@ -65,8 +63,6 @@ void Cylinder::loadBuffer(){
         vertices_cone[i*elementsPerVert+2 + pointsCircleNum*elementsPerVert] = newZTop; // z
         vertices_cone[i*elementsPerVert+3 + pointsCircleNum*elementsPerVert] = stepTextureCoord * i; // x texture coord;
         vertices_cone[i*elementsPerVert+4 + pointsCircleNum*elementsPerVert] = 1.0f; // y texture coord
-        // current point - circle center point + (0,1,0)
-        // normalVec = {newXBottom-centerUp.x, 0, newZBottom-centerUp.z};
         normalVec =  {0,1,0};
         normalVec = glm::normalize(normalVec);
         vertices_cone[i*elementsPerVert+5 + pointsCircleNum*elementsPerVert] = normalVec.x;
@@ -105,7 +101,7 @@ void Cylinder::loadBuffer(){
     //     std::cout << indices_contour[i] << " ";
     // std::cout << std::endl;
 
-
+    // down cirlce + up circle + facet + contour down + contour up  
     glGenVertexArrays(5, VAO_cone);
     glGenBuffers(5, VBO_cone);
     glGenBuffers(5, EBO_cone);
@@ -166,7 +162,7 @@ void Cylinder::loadBuffer(){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glBindVertexArray(VAO_cone[4]);
+    glBindVertexArray(VAO_cone[4]); 
     glBindBuffer(GL_ARRAY_BUFFER, VBO_cone[4]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices_cone), vertices_cone + pointsCircleNum * elementsPerVert, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_cone[4]);
