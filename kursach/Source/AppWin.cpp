@@ -49,6 +49,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
         State* state = static_cast<State*>(statePtr);
         auto rgb = state->getRGB();
         rgb.at(0) = ch->value();
+        state->setRGB(rgb);
     }, statePtr.get());
 
     auto slider_g = new Fl_Value_Slider(leftBorder+32,125 + 30*1, 180, 25, "G");
@@ -62,6 +63,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
         State* state = static_cast<State*>(statePtr);
         auto rgb = state->getRGB();
         rgb.at(1) = ch->value();
+        state->setRGB(rgb);
     }, statePtr.get());
 
     auto slider_b = new Fl_Value_Slider(leftBorder+32,125 + 30*2, 180, 25, "B");
@@ -75,6 +77,7 @@ AppWindow::AppWindow(int W,int H,const char*L)
         State* state = static_cast<State*>(statePtr);
         auto rgb = state->getRGB();
         rgb.at(2) = ch->value();
+        state->setRGB(rgb);
     }, statePtr.get());
     glSubWin->end();
 }

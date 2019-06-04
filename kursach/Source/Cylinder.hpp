@@ -7,7 +7,7 @@ private:
     GLfloat radiusDown = 1.0f;
     GLfloat radiusUp = 1.0f;
     GLuint VBO_cone[5], VAO_cone[5], EBO_cone[5];
-    const int trianglesNum = 8;
+    const int trianglesNum = 60;
 
 public:
     Cylinder() = default;

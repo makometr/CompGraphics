@@ -22,7 +22,6 @@ void SimpleGL3Window::draw(void) {
     loadBuffers();
     Do_Movement();
 
-    // glPointSize(10.0f);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -33,47 +32,51 @@ void SimpleGL3Window::draw(void) {
     glm::mat4 view = camera.GetViewMatrix();
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
+    auto color = statePtr->getRGB();
+    shaderProgramFigures.setVec3("aColor", glm::vec3{color[0], color[1], color[2]});
     
     drawFigure(shape_1, model, view, projection, camera.Position);
     drawContour(shape_1, model, view, projection);
-    drawNormals(shape_1, model, view, projection);
+    if (statePtr->getIsNormalsDrawn())
+        drawNormals(shape_1, model, view, projection);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
     drawFigure(shape_2, model, view, projection, camera.Position);
     drawContour(shape_2, model, view, projection);
-    drawNormals(shape_2, model, view, projection);
+    if (statePtr->getIsNormalsDrawn())
+        drawNormals(shape_2, model, view, projection);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(-2.1f, 0.7f, 0.0f));
     model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
     drawFigure(shape_3, model, view, projection, camera.Position);
     drawContour(shape_3, model, view, projection);
-    drawNormals(shape_3, model, view, projection);
+    if (statePtr->getIsNormalsDrawn())
+        drawNormals(shape_3, model, view, projection);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, 2.6f));
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
     drawFigure(shape_4, model, view, projection, camera.Position);
     drawContour(shape_4, model, view, projection);
-    drawNormals(shape_4, model, view, projection);
+    if (statePtr->getIsNormalsDrawn())
+        drawNormals(shape_4, model, view, projection);
 
     // axes
-    shaderProgramAxes.Use();
-    glm::mat4 modelAxe = glm::mat4(1.0f);
-    modelAxe = glm::scale(modelAxe, glm::vec3(100, 100, 100));
+    if (statePtr->getIsAxesDrawn()){
+        shaderProgramAxes.Use();
+        glm::mat4 modelAxe = glm::scale(glm::mat4(1.0f), glm::vec3(100, 100, 100));
+        glm::mat4 viewAxe = camera.GetViewMatrix();
+        glm::mat4 projectionAxe = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
 
-    glm::mat4 viewAxe = glm::mat4(1.0f);
-    viewAxe = camera.GetViewMatrix();
+        shaderProgramAxes.setMat4("model", modelAxe);
+        shaderProgramAxes.setMat4("view", viewAxe);
+        shaderProgramAxes.setMat4("projection", projectionAxe);
 
-    glm::mat4 projectionAxe = glm::perspective(camera.Zoom, (GLfloat)screenWidth / (GLfloat)screenHeight, 0.1f, 50.0f);
-    shaderProgramAxes.setMat4("model", modelAxe);
-    shaderProgramAxes.setMat4("view", viewAxe);
-    shaderProgramAxes.setMat4("projection", projectionAxe);
-
-    glBindVertexArray(VAO_axes);
-    glLineWidth(2.0f);
-    glDrawArrays(GL_LINES, 0, 6*3);
-    glBindVertexArray(0);
-
+        glBindVertexArray(VAO_axes);
+        glLineWidth(2.0f);
+        glDrawArrays(GL_LINES, 0, 6*3);
+        glBindVertexArray(0);
+    }
 
     // draw skybox as last
     glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
